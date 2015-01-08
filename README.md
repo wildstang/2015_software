@@ -1,6 +1,6 @@
 # Team 111's Prototype Robot Simulation and Base Code
 
-This repository contains the Team 111's 2014 robot source. This code is private until the 2014 season is complete!
+This repository contains the Team 111's 2015 robot source. This code is private until the 2015 season is complete!
 
 ## Intro
 
@@ -49,5 +49,3 @@ The logger and config manager on the cRio with sqwuak "calls" had to be reimplem
 * No way to simualate "practice" (Disabled->Autonomous->Disabled->Teleop->Disabled) Currently either Autononomous or Teleop is chosen as a compile time flag 
 * UI didn't scale/Too many individual windows (Before the smartdashboard was working, these windows were all there was. The entire UI will need to be rethought for next year heavily utilizing SmartDashboard.)
 * USB controllers are not assigned to driver/manipulator and can switch roles between simulation runs
-
-
