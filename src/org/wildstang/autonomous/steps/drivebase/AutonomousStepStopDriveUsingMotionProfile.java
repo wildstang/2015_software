@@ -5,7 +5,6 @@
 package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.pid.controller.base.PidStateType;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
@@ -22,7 +21,9 @@ public class AutonomousStepStopDriveUsingMotionProfile extends AutonomousStep {
 	}
 
 	public void update() {
-		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).stopStraightMoveWithMotionProfile();
+		((DriveBase) SubsystemContainer.getInstance().getSubsystem(
+				SubsystemContainer.DRIVE_BASE_INDEX))
+				.stopStraightMoveWithMotionProfile();
 		finished = true;
 	}
 

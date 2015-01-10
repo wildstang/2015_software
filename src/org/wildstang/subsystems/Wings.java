@@ -1,14 +1,12 @@
 package org.wildstang.subsystems;
 
-import org.wildstang.inputmanager.base.InputManager;
-import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
-import org.wildstang.outputmanager.base.IOutputEnum;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -35,7 +33,9 @@ public class Wings extends Subsystem implements IObserver {
 		} else {
 			wingsValue = DoubleSolenoid.Value.kForward_val;
 		}
-		(OutputManager.getInstance().getOutput(OutputManager.WINGS_SOLENOID_INDEX)).set(new Integer(wingsValue));
+		(OutputManager.getInstance()
+				.getOutput(OutputManager.WINGS_SOLENOID_INDEX))
+				.set(new Integer(wingsValue));
 		SmartDashboard.putBoolean("Wing State", currentState);
 	}
 

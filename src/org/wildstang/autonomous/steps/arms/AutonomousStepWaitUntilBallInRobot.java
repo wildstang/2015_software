@@ -22,7 +22,10 @@ public class AutonomousStepWaitUntilBallInRobot extends AutonomousStep {
 	}
 
 	public void update() {
-		boolean ballInSwitchState = ((BooleanSubject) InputManager.getInstance().getSensorInput(InputManager.BALL_DETECT_SWITCH_INDEX).getSubject((ISubjectEnum) null)).getValue();
+		boolean ballInSwitchState = ((BooleanSubject) InputManager
+				.getInstance()
+				.getSensorInput(InputManager.BALL_DETECT_SWITCH_INDEX)
+				.getSubject((ISubjectEnum) null)).getValue();
 		if (true == ballInSwitchState) {
 			finished = true;
 		}

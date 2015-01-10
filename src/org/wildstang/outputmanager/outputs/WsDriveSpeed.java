@@ -5,6 +5,7 @@ import org.wildstang.outputmanager.base.IOutputEnum;
 import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.ISubjectEnum;
 import org.wildstang.subjects.base.Subject;
+
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,7 +31,8 @@ public class WsDriveSpeed implements IOutput {
 
 	public void set(IOutputEnum key, Object value) {
 		motorSpeed.setValue(((Double) value).doubleValue());
-		SmartDashboard.putNumber(motorSpeed.getName() + "value: ", ((Double) value).doubleValue());
+		SmartDashboard.putNumber(motorSpeed.getName() + "value: ",
+				((Double) value).doubleValue());
 
 	}
 

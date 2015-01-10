@@ -22,21 +22,43 @@ import org.wildstang.config.DoubleConfigFileParameter;
  */
 public class AutonomousProgramDrivePatterns extends AutonomousProgram {
 
-	private DoubleConfigFileParameter firstAngle, secondAngle, firstDriveDistance, firstDriveVelocity, secondDriveDistance, secondDriveVelocity;
+	private DoubleConfigFileParameter firstAngle, secondAngle,
+			firstDriveDistance, firstDriveVelocity, secondDriveDistance,
+			secondDriveVelocity;
 
 	public void defineSteps() {
-		firstAngle = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".FirstRelativeAngle", 45);
-		secondAngle = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".SecondRelativeAngle", 45);
-		firstDriveDistance = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".FirstDriveDistance", -100);
-		firstDriveVelocity = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".FirstDriveVelocity", 0.0);
-		secondDriveDistance = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".SecondDriveDistance", -30);
-		secondDriveVelocity = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".SecondDriveVelocity", 0.0);
+		firstAngle = new DoubleConfigFileParameter(this.getClass().getName(),
+				AutonomousManager.getInstance().getStartPosition()
+						.toConfigString()
+						+ ".FirstRelativeAngle", 45);
+		secondAngle = new DoubleConfigFileParameter(this.getClass().getName(),
+				AutonomousManager.getInstance().getStartPosition()
+						.toConfigString()
+						+ ".SecondRelativeAngle", 45);
+		firstDriveDistance = new DoubleConfigFileParameter(this.getClass()
+				.getName(), AutonomousManager.getInstance().getStartPosition()
+				.toConfigString()
+				+ ".FirstDriveDistance", -100);
+		firstDriveVelocity = new DoubleConfigFileParameter(this.getClass()
+				.getName(), AutonomousManager.getInstance().getStartPosition()
+				.toConfigString()
+				+ ".FirstDriveVelocity", 0.0);
+		secondDriveDistance = new DoubleConfigFileParameter(this.getClass()
+				.getName(), AutonomousManager.getInstance().getStartPosition()
+				.toConfigString()
+				+ ".SecondDriveDistance", -30);
+		secondDriveVelocity = new DoubleConfigFileParameter(this.getClass()
+				.getName(), AutonomousManager.getInstance().getStartPosition()
+				.toConfigString()
+				+ ".SecondDriveVelocity", 0.0);
 
-		addStep(new AutonomousStepStartDriveUsingMotionProfile(firstDriveDistance.getValue(), firstDriveVelocity.getValue()));
+		addStep(new AutonomousStepStartDriveUsingMotionProfile(
+				firstDriveDistance.getValue(), firstDriveVelocity.getValue()));
 		addStep(new AutonomousStepWaitForDriveMotionProfile());
 		addStep(new AutonomousStepStopDriveUsingMotionProfile());
 		addStep(new AutonomousStepQuickTurn(firstAngle.getValue()));
-		addStep(new AutonomousStepStartDriveUsingMotionProfile(secondDriveDistance.getValue(), secondDriveVelocity.getValue()));
+		addStep(new AutonomousStepStartDriveUsingMotionProfile(
+				secondDriveDistance.getValue(), secondDriveVelocity.getValue()));
 		addStep(new AutonomousStepWaitForDriveMotionProfile());
 		addStep(new AutonomousStepStopDriveUsingMotionProfile());
 		addStep(new AutonomousStepQuickTurn(secondAngle.getValue()));

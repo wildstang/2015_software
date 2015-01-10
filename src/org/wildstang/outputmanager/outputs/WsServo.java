@@ -9,6 +9,7 @@ import org.wildstang.outputmanager.base.IServo;
 import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.ISubjectEnum;
 import org.wildstang.subjects.base.Subject;
+
 import edu.wpi.first.wpilibj.Servo;
 
 /**

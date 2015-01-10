@@ -9,8 +9,6 @@ import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.Subject;
-import org.wildstang.subsystems.Catapult;
-import org.wildstang.subsystems.base.SubsystemContainer;
 
 /**
  *
@@ -20,7 +18,9 @@ public class AutonomousStepCatapultClearOverride extends AutonomousStep {
 	BooleanSubject button = null;
 
 	public void initialize() {
-		Subject subject = InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX).getSubject(JoystickButtonEnum.MANIPULATOR_BUTTON_10);
+		Subject subject = InputManager.getInstance()
+				.getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX)
+				.getSubject(JoystickButtonEnum.MANIPULATOR_BUTTON_10);
 		button = (BooleanSubject) subject;
 		button.setValue(false);
 		this.finished = true;

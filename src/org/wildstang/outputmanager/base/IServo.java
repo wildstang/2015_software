@@ -4,9 +4,6 @@
  */
 package org.wildstang.outputmanager.base;
 
-import org.wildstang.outputmanager.base.IOutput;
-import org.wildstang.outputmanager.base.IOutputEnum;
-
 /**
  *
  * @author chadschmidt

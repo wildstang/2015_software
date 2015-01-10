@@ -32,7 +32,8 @@ public abstract class AutonomousProgram {
 		finishedPreviousStep = false;
 		finished = false;
 		((AutonomousStep) programSteps.get(0)).initialize();
-		Logger.getLogger().debug("Auton", "Step Starting", programSteps.get(0).toString());
+		Logger.getLogger().debug("Auton", "Step Starting",
+				programSteps.get(0).toString());
 	}
 
 	public void cleanup() {
@@ -50,7 +51,8 @@ public abstract class AutonomousProgram {
 				finished = true;
 				return;
 			} else {
-				Logger.getLogger().debug("Auton", "Step Start", programSteps.get(currentStep).toString());
+				Logger.getLogger().debug("Auton", "Step Start",
+						programSteps.get(currentStep).toString());
 				((AutonomousStep) programSteps.get(currentStep)).initialize();
 			}
 		}
@@ -79,14 +81,20 @@ public abstract class AutonomousProgram {
 	}
 
 	protected void loadStopPosition() {
-		IntegerConfigFileParameter forceStopAtStep = new IntegerConfigFileParameter(this.getClass().getName(), "ForceStopAtStep", 0);
+		IntegerConfigFileParameter forceStopAtStep = new IntegerConfigFileParameter(
+				this.getClass().getName(), "ForceStopAtStep", 0);
 		if (forceStopAtStep.getValue() != 0) {
 			int forceStop = forceStopAtStep.getValue();
 			if ((forceStop <= programSteps.size()) && (forceStop > 0)) {
 				programSteps.set(forceStop, new AutonomousStepStopAutonomous());
-				Logger.getLogger().always("Auton", "Force Stop", "Program is forced to stop at Step " + forceStop);
+				Logger.getLogger().always("Auton", "Force Stop",
+						"Program is forced to stop at Step " + forceStop);
 			} else {
-				Logger.getLogger().error("Auton", "Force Stop", "Force stop value is outside of bounds. (0 to " + (programSteps.size() - 1));
+				Logger.getLogger().error(
+						"Auton",
+						"Force Stop",
+						"Force stop value is outside of bounds. (0 to "
+								+ (programSteps.size() - 1));
 			}
 		}
 	}

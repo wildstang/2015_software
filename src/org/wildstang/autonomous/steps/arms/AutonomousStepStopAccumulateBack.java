@@ -19,7 +19,9 @@ import org.wildstang.subjects.base.Subject;
 public class AutonomousStepStopAccumulateBack extends AutonomousStep {
 
 	public void initialize() {
-		Subject subject = InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX).getSubject(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
+		Subject subject = InputManager.getInstance()
+				.getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX)
+				.getSubject(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 		((BooleanSubject) subject).setValue(false);
 		finished = true;
 	}

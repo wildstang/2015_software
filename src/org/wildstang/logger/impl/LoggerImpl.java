@@ -28,7 +28,8 @@ public class LoggerImpl {
 			// conn = (StreamConnection) Connector.open(address);
 			// outStream = new OutputStreamWriter(conn.openDataOutputStream());
 		} catch (Throwable e) {
-			System.out.println("Logger connection open exception: " + e.toString() + " to: " + address);
+			System.out.println("Logger connection open exception: "
+					+ e.toString() + " to: " + address);
 			return false;
 		}
 		return true;
@@ -72,7 +73,8 @@ public class LoggerImpl {
 			// conn.close();
 			// }
 		} catch (Throwable e) {
-			System.out.println("Can not close logger connection: " + e.toString());
+			System.out.println("Can not close logger connection: "
+					+ e.toString());
 		}
 	}
 }

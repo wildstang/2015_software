@@ -24,10 +24,14 @@ public class WsDSAnalogInputEnum implements IInputEnum {
 	/**
 	 * The 4 analog inputs.
 	 */
-	public static final WsDSAnalogInputEnum INPUT1 = new WsDSAnalogInputEnum(1, "Input1");
-	public static final WsDSAnalogInputEnum INPUT2 = new WsDSAnalogInputEnum(2, "Input2");
-	public static final WsDSAnalogInputEnum INPUT3 = new WsDSAnalogInputEnum(3, "Input3");
-	public static final WsDSAnalogInputEnum INPUT4 = new WsDSAnalogInputEnum(4, "Input4");
+	public static final WsDSAnalogInputEnum INPUT1 = new WsDSAnalogInputEnum(1,
+			"Input1");
+	public static final WsDSAnalogInputEnum INPUT2 = new WsDSAnalogInputEnum(2,
+			"Input2");
+	public static final WsDSAnalogInputEnum INPUT3 = new WsDSAnalogInputEnum(3,
+			"Input3");
+	public static final WsDSAnalogInputEnum INPUT4 = new WsDSAnalogInputEnum(4,
+			"Input4");
 
 	/**
 	 * Converts the enum type to a String.

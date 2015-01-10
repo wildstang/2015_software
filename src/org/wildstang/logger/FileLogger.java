@@ -1,9 +1,8 @@
 package org.wildstang.logger;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -82,7 +81,8 @@ public class FileLogger {
 				logFile = new DataOutputStream(new FileOutputStream(file));
 				bw = new BufferedWriter(new OutputStreamWriter(logFile));
 			} catch (IOException e) {
-				System.out.println("Unable to open output file." + e.toString());
+				System.out
+						.println("Unable to open output file." + e.toString());
 			}
 		}
 
@@ -100,7 +100,8 @@ public class FileLogger {
 						}
 
 					} catch (Exception e) {
-						System.out.println("Error writing data " + e.toString());
+						System.out
+								.println("Error writing data " + e.toString());
 					}
 				}
 			}
@@ -124,7 +125,8 @@ public class FileLogger {
 			try {
 				bw.flush();
 			} catch (IOException e) {
-				System.out.println("Unable to flush buffered writer: " + e.toString());
+				System.out.println("Unable to flush buffered writer: "
+						+ e.toString());
 			}
 		}
 	}

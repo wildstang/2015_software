@@ -28,7 +28,8 @@ public class Debouncer extends Subject {
 
 	public void update(Object currentValue) {
 		// The second check is just to reset the cuclesOnCurrentValue
-		if (currentDebouncedValue.equals(lastValue) && lastValue.equals(currentValue)) {
+		if (currentDebouncedValue.equals(lastValue)
+				&& lastValue.equals(currentValue)) {
 			return;
 		}
 

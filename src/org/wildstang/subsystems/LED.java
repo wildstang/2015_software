@@ -89,7 +89,8 @@ public class LED extends Subsystem implements IObserver {
 		boolean isRobotEnabled = DriverStation.getInstance().isEnabled();
 		boolean isRobotTeleop = DriverStation.getInstance().isOperatorControl();
 		boolean isRobotAuton = DriverStation.getInstance().isAutonomous();
-		DriverStation.Alliance alliance = DriverStation.getInstance().getAlliance();
+		DriverStation.Alliance alliance = DriverStation.getInstance()
+				.getAlliance();
 
 		if (isRobotEnabled) {
 			if (isRobotTeleop) {

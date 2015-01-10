@@ -5,7 +5,6 @@
 package org.wildstang.config;
 
 import org.wildstang.configmanager.ConfigManager;
-import org.wildstang.logger.Logger;
 
 /**
  *
@@ -25,7 +24,8 @@ public class BooleanConfigFileParameter extends ConfigFileParameter {
 	 * @param defValue
 	 *            a default value to use.
 	 */
-	public BooleanConfigFileParameter(String cName, String pName, boolean defValue) {
+	public BooleanConfigFileParameter(String cName, String pName,
+			boolean defValue) {
 		super(cName, pName);
 		defaultValue = defValue;
 	}
@@ -46,7 +46,8 @@ public class BooleanConfigFileParameter extends ConfigFileParameter {
 				return false;
 			}
 		} catch (Throwable e) {
-			//Logger.getLogger().error(this.getClass().getName(), "getValue", fullName + " parameter not found. Using default value.");
+			// Logger.getLogger().error(this.getClass().getName(), "getValue",
+			// fullName + " parameter not found. Using default value.");
 			return defaultValue;
 		}
 	}

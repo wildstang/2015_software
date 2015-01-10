@@ -18,7 +18,9 @@ import org.wildstang.subsystems.base.SubsystemContainer;
 public class AutonomousStepAccumulateFront extends AutonomousStep {
 
 	public void initialize() {
-		((BallHandler) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BALL_HANDLER_INDEX)).setFrontArmAccumulator(ArmRollerEnum.OUTPUT);
+		((BallHandler) SubsystemContainer.getInstance().getSubsystem(
+				SubsystemContainer.BALL_HANDLER_INDEX))
+				.setFrontArmAccumulator(ArmRollerEnum.OUTPUT);
 		finished = true;
 	}
 

@@ -4,7 +4,6 @@
  */
 package org.wildstang.pid.inputs;
 
-import org.wildstang.inputmanager.base.IInputEnum;
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.pid.inputs.base.IPidInput;
 
@@ -17,7 +16,8 @@ public class ArmPotPidInput implements IPidInput {
 	protected double upperVoltage, lowerVoltage;
 	protected double lowAngle, highAngle;
 
-	public ArmPotPidInput(int potIndex, double upperVoltage, double lowerVoltage, double lowAngle, double highAngle) {
+	public ArmPotPidInput(int potIndex, double upperVoltage,
+			double lowerVoltage, double lowAngle, double highAngle) {
 		this.potIndex = potIndex;
 		this.upperVoltage = upperVoltage;
 		this.lowerVoltage = lowerVoltage;
@@ -26,11 +26,14 @@ public class ArmPotPidInput implements IPidInput {
 	}
 
 	public double pidRead() {
-		double currentVoltage = ((Double) InputManager.getInstance().getSensorInput(potIndex).get()).doubleValue();
-		return ((highAngle - lowAngle) * ((currentVoltage - lowerVoltage) / (upperVoltage - lowerVoltage))) + lowAngle;
+		double currentVoltage = ((Double) InputManager.getInstance()
+				.getSensorInput(potIndex).get()).doubleValue();
+		return ((highAngle - lowAngle) * ((currentVoltage - lowerVoltage) / (upperVoltage - lowerVoltage)))
+				+ lowAngle;
 	}
 
-	public void setVoltageValues(double upperVoltageValue, double lowerVoltageValue) {
+	public void setVoltageValues(double upperVoltageValue,
+			double lowerVoltageValue) {
 		this.upperVoltage = upperVoltageValue;
 		this.lowerVoltage = lowerVoltageValue;
 	}

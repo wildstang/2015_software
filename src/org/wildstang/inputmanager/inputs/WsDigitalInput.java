@@ -1,11 +1,11 @@
 package org.wildstang.inputmanager.inputs;
 
-import org.wildstang.config.BooleanConfigFileParameter;
 import org.wildstang.inputmanager.base.IInput;
 import org.wildstang.inputmanager.base.IInputEnum;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.ISubjectEnum;
 import org.wildstang.subjects.base.Subject;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**

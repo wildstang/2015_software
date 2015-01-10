@@ -6,7 +6,6 @@ package org.wildstang.subsystems.automovements;
 
 import org.wildstang.autonomous.steps.arms.AutonomousStepSetArmPresets;
 import org.wildstang.subsystems.BallHandler;
-import org.wildstang.subsystems.arm.ArmPreset;
 import org.wildstang.subsystems.base.AutoMovement;
 
 /**
@@ -19,7 +18,8 @@ public class AutoMovementArmsToTension extends AutoMovement {
 	}
 
 	protected void defineSteps() {
-		addStep(new AutonomousStepSetArmPresets(BallHandler.CATAPULT_TENSION_PRESET));
+		addStep(new AutonomousStepSetArmPresets(
+				BallHandler.CATAPULT_TENSION_PRESET));
 	}
 
 	public String toString() {

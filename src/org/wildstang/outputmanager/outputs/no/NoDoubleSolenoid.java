@@ -1,11 +1,11 @@
 package org.wildstang.outputmanager.outputs.no;
 
-import org.wildstang.outputmanager.outputs.*;
 import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.IOutputEnum;
 import org.wildstang.subjects.base.ISubjectEnum;
 import org.wildstang.subjects.base.IntegerSubject;
 import org.wildstang.subjects.base.Subject;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**

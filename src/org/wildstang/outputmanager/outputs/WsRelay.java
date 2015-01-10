@@ -2,6 +2,7 @@ package org.wildstang.outputmanager.outputs;
 
 import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.IOutputEnum;
+
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Relay.Value;

@@ -83,7 +83,7 @@ public class SubsystemContainer {
 	public static final String LIGHT_CANNON = "LightCannon";
 	public static final String BALL_HANDLER = "BallHandler";
 	public static final String CATAPULT = "Catapult";
-	//public static final String HOT_GOAL_DETECTOR = "HotGoalsDetector";
+	// public static final String HOT_GOAL_DETECTOR = "HotGoalsDetector";
 	public static final String WINGS = "Wings";
 
 	public static final String LANDING_GEAR = "LandingGear";
@@ -94,7 +94,7 @@ public class SubsystemContainer {
 	public static final int BALL_HANDLER_INDEX = 4;
 	public static final int CATAPULT_INDEX = 5;
 	public static final int LANDING_GEAR_INDEX = 6;
-	 //public static final int HOT_GOAL_DETECTOR_INDEX = 7;
+	// public static final int HOT_GOAL_DETECTOR_INDEX = 7;
 	public static final int WINGS_INDEX = 7;
 	public static final int EAR_INDEX = 8;
 	public static final int AUTO_MOVEMENT_CONTROLLER = 9;
@@ -107,15 +107,18 @@ public class SubsystemContainer {
 	 */
 	protected SubsystemContainer() {
 		subsystem.add(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		subsystem.add(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
+		subsystem.add(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1,
+				1, 1, 1));
 		subsystem.add(LED_INDEX, new LED(LED));
 		subsystem.add(LIGHT_CANNON_INDEX, new LightCannon(LIGHT_CANNON));
 		subsystem.add(BALL_HANDLER_INDEX, new BallHandler(BALL_HANDLER));
 		subsystem.add(CATAPULT_INDEX, new Catapult(CATAPULT));
 		subsystem.add(LANDING_GEAR_INDEX, new LandingGear(LANDING_GEAR));
-		//subsystem.add(HOT_GOAL_DETECTOR_INDEX, new HotGoalDetector(HOT_GOAL_DETECTOR));
+		// subsystem.add(HOT_GOAL_DETECTOR_INDEX, new
+		// HotGoalDetector(HOT_GOAL_DETECTOR));
 		subsystem.add(WINGS_INDEX, new Wings(WINGS));
-		 subsystem.add(EAR_INDEX, new Ears("EARS"));
-		subsystem.add(AUTO_MOVEMENT_CONTROLLER, new AutoMovementControl("Auto Movement Control"));
+		subsystem.add(EAR_INDEX, new Ears("EARS"));
+		subsystem.add(AUTO_MOVEMENT_CONTROLLER, new AutoMovementControl(
+				"Auto Movement Control"));
 	}
 }

@@ -15,9 +15,12 @@ import org.wildstang.subsystems.base.AutoMovement;
  * @author Alex
  */
 public class AutoMovementPassBackToFront extends AutoMovement {
-	protected IntegerConfigFileParameter delayTime = new IntegerConfigFileParameter(this.getClass().getName(), "DelayTime", 500);
-	protected ArmPreset startPositionForBackPasser = new ArmPreset(90, 20, "AutoMovementPassBackToFront.StartPosition");
-	protected ArmPreset endPositionForBackPasser = new ArmPreset(90, -20, "AutoMovementPassBackToFront.EndPosition");
+	protected IntegerConfigFileParameter delayTime = new IntegerConfigFileParameter(
+			this.getClass().getName(), "DelayTime", 500);
+	protected ArmPreset startPositionForBackPasser = new ArmPreset(90, 20,
+			"AutoMovementPassBackToFront.StartPosition");
+	protected ArmPreset endPositionForBackPasser = new ArmPreset(90, -20,
+			"AutoMovementPassBackToFront.EndPosition");
 
 	public void abort() {
 	}

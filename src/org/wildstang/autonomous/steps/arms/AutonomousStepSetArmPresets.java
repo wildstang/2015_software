@@ -22,11 +22,14 @@ public class AutonomousStepSetArmPresets extends AutonomousStep {
 	}
 
 	public void initialize() {
-		((BallHandler) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BALL_HANDLER_INDEX)).setArmPreset(preset);
+		((BallHandler) SubsystemContainer.getInstance().getSubsystem(
+				SubsystemContainer.BALL_HANDLER_INDEX)).setArmPreset(preset);
 	}
 
 	public void update() {
-		if (!((BallHandler) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BALL_HANDLER_INDEX)).areArmsUsingPidControl()) {
+		if (!((BallHandler) SubsystemContainer.getInstance().getSubsystem(
+				SubsystemContainer.BALL_HANDLER_INDEX))
+				.areArmsUsingPidControl()) {
 			finished = true;
 		}
 	}

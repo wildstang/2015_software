@@ -7,8 +7,8 @@ import org.wildstang.inputmanager.inputs.WsAnalogInput;
 import org.wildstang.inputmanager.inputs.WsDigitalInput;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSAnalogInput;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSDigitalInput;
-import org.wildstang.inputmanager.inputs.joystick.driver.DriverJoystick;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.inputmanager.inputs.joystick.driver.DriverJoystick;
 import org.wildstang.inputmanager.inputs.joystick.manipulator.ManipulatorJoystick;
 import org.wildstang.inputmanager.inputs.no.NoInput;
 import org.wildstang.logger.Logger;
@@ -126,10 +126,17 @@ public class InputManager {
 
 	final public void attachJoystickButton(IInputEnum button, IObserver observer) {
 		if (button instanceof JoystickButtonEnum) {
-			Subject subject = InputManager.getInstance().getOiInput(((JoystickButtonEnum) button).isDriver() ? InputManager.DRIVER_JOYSTICK_INDEX : InputManager.MANIPULATOR_JOYSTICK_INDEX).getSubject(button);
+			Subject subject = InputManager
+					.getInstance()
+					.getOiInput(
+							((JoystickButtonEnum) button).isDriver() ? InputManager.DRIVER_JOYSTICK_INDEX
+									: InputManager.MANIPULATOR_JOYSTICK_INDEX)
+					.getSubject(button);
 			subject.attach(observer);
 		} else {
-			Logger.getLogger().debug(this.getClass().getName(), "attachJoystickButton", "Oops! Check that the inputs implement the required interfaces.");
+			Logger.getLogger()
+					.debug(this.getClass().getName(), "attachJoystickButton",
+							"Oops! Check that the inputs implement the required interfaces.");
 		}
 	}
 
@@ -146,10 +153,10 @@ public class InputManager {
 	public static final int PRESSURE_TRANSDUCER_INDEX = 1;
 	public static final int FRONT_ARM_POT_INDEX = 2;
 	public static final int BACK_ARM_POT_INDEX = 3;
-	//public static final int LEFT_ENCODER_A_INDEX = 4;
-	//public static final int LEFT_ENCODER_B_INDEX = 5;
-	//public static final int RIGHT_ENCODER_A_INDEX = 6;
-	//public static final int RIGHT_ENCODER_B_INDEX = 7;
+	// public static final int LEFT_ENCODER_A_INDEX = 4;
+	// public static final int LEFT_ENCODER_B_INDEX = 5;
+	// public static final int RIGHT_ENCODER_A_INDEX = 6;
+	// public static final int RIGHT_ENCODER_B_INDEX = 7;
 	public static final int TENSION_LIMIT_SWITCH_INDEX = 4;
 	public static final int BALL_DETECT_SWITCH_INDEX = 5;
 	public static final int LATCH_POSITION_SWITCH_INDEX = 6;
@@ -169,16 +176,18 @@ public class InputManager {
 		sensorInputs.add(PRESSURE_TRANSDUCER_INDEX, new WsAnalogInput(4));
 		sensorInputs.add(FRONT_ARM_POT_INDEX, new WsAnalogInput(2));
 		sensorInputs.add(BACK_ARM_POT_INDEX, new WsAnalogInput(3));
-		 //sensorInputs.add(LEFT_ENCODER_A_INDEX, new WsDigitalInput(2));
-		 //sensorInputs.add(LEFT_ENCODER_B_INDEX, new WsDigitalInput(3));
-		 //sensorInputs.add(RIGHT_ENCODER_A_INDEX, new WsDigitalInput(4));
-		 //sensorInputs.add(RIGHT_ENCODER_B_INDEX, new WsDigitalInput(5));
+		// sensorInputs.add(LEFT_ENCODER_A_INDEX, new WsDigitalInput(2));
+		// sensorInputs.add(LEFT_ENCODER_B_INDEX, new WsDigitalInput(3));
+		// sensorInputs.add(RIGHT_ENCODER_A_INDEX, new WsDigitalInput(4));
+		// sensorInputs.add(RIGHT_ENCODER_B_INDEX, new WsDigitalInput(5));
 		sensorInputs.add(TENSION_LIMIT_SWITCH_INDEX, new WsDigitalInput(4));
 		sensorInputs.add(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
 		sensorInputs.add(LATCH_POSITION_SWITCH_INDEX, new WsDigitalInput(6));
 		sensorInputs.add(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
-		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
-		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
+		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX,
+				new WsDigitalInput(8));
+		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(
+				9));
 
 		oiInputs.add(UNKNOWN_INDEX, new NoInput());
 		oiInputs.add(DRIVER_JOYSTICK_INDEX, new DriverJoystick());

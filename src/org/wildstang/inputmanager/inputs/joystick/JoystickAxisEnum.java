@@ -37,23 +37,36 @@ public class JoystickAxisEnum implements IInputEnum {
 	public static final int DPAD_Y = 5;
 
 	// Driver Enums
-	public static final JoystickAxisEnum DRIVER_THROTTLE = new JoystickAxisEnum(true, LEFT_JOYSTICK_Y, "DRIVER_THROTTLE");
-	public static final JoystickAxisEnum DRIVER_HEADING = new JoystickAxisEnum(true, RIGHT_JOYSTICK_X, "DRIVER_HEADING");
-	public static final JoystickAxisEnum DRIVER_RIGHT_JOYSTICK_Y = new JoystickAxisEnum(true, RIGHT_JOYSTICK_Y, "DRIVER_RIGHT_JOYSTICK_Y");
-	public static final JoystickAxisEnum DRIVER_LEFT_JOYSTICK_X = new JoystickAxisEnum(true, LEFT_JOYSTICK_X, "DRIVER_LEFT_JOYSTICK_X");
-	public static final JoystickAxisEnum DRIVER_DPAD_Y = new JoystickAxisEnum(true, DPAD_Y, "DRIVER_DPAD_Y");
-	public static final JoystickAxisEnum DRIVER_DPAD_X = new JoystickAxisEnum(true, DPAD_X, "DRIVER_DPAD_X");
+	public static final JoystickAxisEnum DRIVER_THROTTLE = new JoystickAxisEnum(
+			true, LEFT_JOYSTICK_Y, "DRIVER_THROTTLE");
+	public static final JoystickAxisEnum DRIVER_HEADING = new JoystickAxisEnum(
+			true, RIGHT_JOYSTICK_X, "DRIVER_HEADING");
+	public static final JoystickAxisEnum DRIVER_RIGHT_JOYSTICK_Y = new JoystickAxisEnum(
+			true, RIGHT_JOYSTICK_Y, "DRIVER_RIGHT_JOYSTICK_Y");
+	public static final JoystickAxisEnum DRIVER_LEFT_JOYSTICK_X = new JoystickAxisEnum(
+			true, LEFT_JOYSTICK_X, "DRIVER_LEFT_JOYSTICK_X");
+	public static final JoystickAxisEnum DRIVER_DPAD_Y = new JoystickAxisEnum(
+			true, DPAD_Y, "DRIVER_DPAD_Y");
+	public static final JoystickAxisEnum DRIVER_DPAD_X = new JoystickAxisEnum(
+			true, DPAD_X, "DRIVER_DPAD_X");
 
 	// Manipulator Enums
-	public static final JoystickAxisEnum MANIPULATOR_FRONT_ARM_CONTROL = new JoystickAxisEnum(false, LEFT_JOYSTICK_Y, "MANIPULATOR_FRONT_ARM_CONTROL");
-	public static final JoystickAxisEnum MANIPULATOR_BACK_ARM_CONTROL = new JoystickAxisEnum(false, RIGHT_JOYSTICK_Y, "MANIPULATOR_BACK_ARM_CONTROL");
-	public static final JoystickAxisEnum MANIPULATOR_RIGHT_JOYSTICK_X = new JoystickAxisEnum(false, RIGHT_JOYSTICK_X, "MANIPULATOR_RIGHT_JOYSTICK_X");
-	public static final JoystickAxisEnum MANIPULATOR_LEFT_JOYSTICK_X = new JoystickAxisEnum(false, LEFT_JOYSTICK_X, "MANIPULATOR_LEFT_JOYSTICK_X");
-	public static final JoystickAxisEnum MANIPULATOR_DPAD_Y = new JoystickAxisEnum(false, DPAD_Y, "MANIPULATOR_DPAD_Y");
-	public static final JoystickAxisEnum MANIPULATOR_DPAD_X = new JoystickAxisEnum(false, DPAD_X, "MANIPULATOR_DPAD_X");
+	public static final JoystickAxisEnum MANIPULATOR_FRONT_ARM_CONTROL = new JoystickAxisEnum(
+			false, LEFT_JOYSTICK_Y, "MANIPULATOR_FRONT_ARM_CONTROL");
+	public static final JoystickAxisEnum MANIPULATOR_BACK_ARM_CONTROL = new JoystickAxisEnum(
+			false, RIGHT_JOYSTICK_Y, "MANIPULATOR_BACK_ARM_CONTROL");
+	public static final JoystickAxisEnum MANIPULATOR_RIGHT_JOYSTICK_X = new JoystickAxisEnum(
+			false, RIGHT_JOYSTICK_X, "MANIPULATOR_RIGHT_JOYSTICK_X");
+	public static final JoystickAxisEnum MANIPULATOR_LEFT_JOYSTICK_X = new JoystickAxisEnum(
+			false, LEFT_JOYSTICK_X, "MANIPULATOR_LEFT_JOYSTICK_X");
+	public static final JoystickAxisEnum MANIPULATOR_DPAD_Y = new JoystickAxisEnum(
+			false, DPAD_Y, "MANIPULATOR_DPAD_Y");
+	public static final JoystickAxisEnum MANIPULATOR_DPAD_X = new JoystickAxisEnum(
+			false, DPAD_X, "MANIPULATOR_DPAD_X");
 
 	public static JoystickAxisEnum getEnumFromIndex(boolean driver, int index) {
-		if (index >= 0 && index < (driver ? driverAxes.length : manipulatorAxes.length)) {
+		if (index >= 0
+				&& index < (driver ? driverAxes.length : manipulatorAxes.length)) {
 			return (driver ? driverAxes[index] : manipulatorAxes[index]);
 		}
 		return null;

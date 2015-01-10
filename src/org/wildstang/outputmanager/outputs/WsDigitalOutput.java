@@ -6,6 +6,7 @@ import org.wildstang.outputmanager.base.IOutputEnum;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.ISubjectEnum;
 import org.wildstang.subjects.base.Subject;
+
 import edu.wpi.first.wpilibj.DigitalOutput;
 
 /**
@@ -22,8 +23,10 @@ public class WsDigitalOutput implements IOutput {
 	// for all digital outputs
 
 	public WsDigitalOutput(String name, int channel) {
-		this.digitalValue = new BooleanSubject(name + ":DigitalOutput" + channel);
-		startState = new BooleanConfigFileParameter(this.getClass().getName() + "." + name, "startState", false);
+		this.digitalValue = new BooleanSubject(name + ":DigitalOutput"
+				+ channel);
+		startState = new BooleanConfigFileParameter(this.getClass().getName()
+				+ "." + name, "startState", false);
 
 		this.output = new DigitalOutput(channel);
 

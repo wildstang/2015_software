@@ -1,9 +1,9 @@
 package org.wildstang.logger;
 
-import org.wildstang.types.Level;
 import org.wildstang.config.BooleanConfigFileParameter;
 import org.wildstang.config.StringConfigFileParameter;
 import org.wildstang.logger.impl.LoggerImpl;
+import org.wildstang.types.Level;
 
 /**
  *
@@ -19,11 +19,16 @@ public class Logger {
 	boolean remoteLoggingEnabled;
 	boolean stdoutLoggingEnabled;
 	double startupTime = System.currentTimeMillis();
-	BooleanConfigFileParameter logToStdout = new BooleanConfigFileParameter(this.getClass().getName(), "logToStdout", true);
-	BooleanConfigFileParameter logToServer = new BooleanConfigFileParameter(this.getClass().getName(), "logToServer", false);
-	StringConfigFileParameter configLogLevel = new StringConfigFileParameter(this.getClass().getName(), "logLevel", "OFF");
-	StringConfigFileParameter logIp = new StringConfigFileParameter(this.getClass().getName(), "logIp", "10.1.11.22");
-	StringConfigFileParameter logPort = new StringConfigFileParameter(this.getClass().getName(), "port", "17654");
+	BooleanConfigFileParameter logToStdout = new BooleanConfigFileParameter(
+			this.getClass().getName(), "logToStdout", true);
+	BooleanConfigFileParameter logToServer = new BooleanConfigFileParameter(
+			this.getClass().getName(), "logToServer", false);
+	StringConfigFileParameter configLogLevel = new StringConfigFileParameter(
+			this.getClass().getName(), "logLevel", "OFF");
+	StringConfigFileParameter logIp = new StringConfigFileParameter(this
+			.getClass().getName(), "logIp", "10.1.11.22");
+	StringConfigFileParameter logPort = new StringConfigFileParameter(this
+			.getClass().getName(), "port", "17654");
 
 	/**
 	 * Gets the instance of the Logger Singleton.
@@ -48,7 +53,8 @@ public class Logger {
 			}
 		}
 
-		logLevel = (Level.toLevel(configLogLevel.getValue(), Level.toLevel(logLevel))).toInt();
+		logLevel = (Level.toLevel(configLogLevel.getValue(),
+				Level.toLevel(logLevel))).toInt();
 	}
 
 	/**
@@ -78,7 +84,8 @@ public class Logger {
 			}
 		}
 		stdoutLoggingEnabled = logToStdout.getValue();
-		logLevel = (Level.toLevel(configLogLevel.getValue(), Level.toLevel(logLevel))).toInt();
+		logLevel = (Level.toLevel(configLogLevel.getValue(),
+				Level.toLevel(logLevel))).toInt();
 	}
 
 	/**
@@ -241,7 +248,8 @@ public class Logger {
 		// subtract the startup time to get a sane number here and divide by
 		// 1000 to get seconds.
 		double currentTime = ((System.currentTimeMillis() - startupTime) / 1000);
-		builtString = ++numEventsPosted + "|" + currentTime + "|" + l.toString() + "|" + c + "|" + id + "|" + message.toString();
+		builtString = ++numEventsPosted + "|" + currentTime + "|"
+				+ l.toString() + "|" + c + "|" + id + "|" + message.toString();
 
 		builtStringLen = builtString.length();
 

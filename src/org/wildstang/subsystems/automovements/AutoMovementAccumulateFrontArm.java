@@ -17,9 +17,12 @@ import org.wildstang.subsystems.base.AutoMovement;
  * @author Alex
  */
 public class AutoMovementAccumulateFrontArm extends AutoMovement {
-	protected IntegerConfigFileParameter delayTime = new IntegerConfigFileParameter(this.getClass().getName(), "AccumulateDelayTime", 2000);
-	protected ArmPreset startPositionFrontAccumulate = new ArmPreset(90, 0, "AutoMovementAccumulateFrontArm.StartPosition");
-	protected ArmPreset endPositionFrontAccumulate = new ArmPreset(0, 0, "AutoMovementAccumulateFrontArm.EndPosition");
+	protected IntegerConfigFileParameter delayTime = new IntegerConfigFileParameter(
+			this.getClass().getName(), "AccumulateDelayTime", 2000);
+	protected ArmPreset startPositionFrontAccumulate = new ArmPreset(90, 0,
+			"AutoMovementAccumulateFrontArm.StartPosition");
+	protected ArmPreset endPositionFrontAccumulate = new ArmPreset(0, 0,
+			"AutoMovementAccumulateFrontArm.EndPosition");
 
 	public void abort() {
 		// not sure what to put here.

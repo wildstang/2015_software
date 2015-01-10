@@ -7,7 +7,6 @@ package org.wildstang.autonomous.steps.control;
 import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.logger.Logger;
 import org.wildstang.timer.WsTimer;
-import edu.wpi.first.wpilibj.Utility;
 
 /**
  *
@@ -33,7 +32,8 @@ public class AutonomousStepDelay extends AutonomousStep /*
 		this.delay = msDelay / 1000.0;
 		this.timer = new WsTimer();
 		if (msDelay < 0) {
-			Logger.getLogger().debug(this.getClass().getName(), "AutonomousStepDelay", "Delay must be greater than 0");
+			Logger.getLogger().debug(this.getClass().getName(),
+					"AutonomousStepDelay", "Delay must be greater than 0");
 		}
 	}
 

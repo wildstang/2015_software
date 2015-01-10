@@ -10,7 +10,8 @@ import org.wildstang.config.DoubleConfigFileParameter;
  *
  * @author chadschmidt
  */
-public class AutonomousDoubleConfigFileParameter extends DoubleConfigFileParameter {
+public class AutonomousDoubleConfigFileParameter extends
+		DoubleConfigFileParameter {
 
 	public AutonomousDoubleConfigFileParameter(String pName, double defValue) {
 		super("org.wildstang.autonomous.parameters", pName, defValue);

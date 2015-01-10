@@ -6,7 +6,6 @@ package org.wildstang.pid.outputs;
 
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.pid.outputs.base.IPidOutput;
-import org.wildstang.subsystems.arm.Arm;
 
 /**
  *
@@ -20,7 +19,8 @@ public class ArmVictorPidOutput implements IPidOutput {
 	}
 
 	public void pidWrite(double output) {
-		OutputManager.getInstance().getOutput(victorIndex).set(new Double(output));
+		OutputManager.getInstance().getOutput(victorIndex)
+				.set(new Double(output));
 	}
 
 }

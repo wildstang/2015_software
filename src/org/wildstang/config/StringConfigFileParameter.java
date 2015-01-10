@@ -5,7 +5,6 @@
 package org.wildstang.config;
 
 import org.wildstang.configmanager.ConfigManager;
-import org.wildstang.logger.Logger;
 
 /**
  *
@@ -40,7 +39,8 @@ public class StringConfigFileParameter extends ConfigFileParameter {
 		try {
 			return ConfigManager.getInstance().getConfigParamByName(fullName);
 		} catch (Throwable e) {
-			//Logger.getLogger().error(this.getClass().getName(), "getValue", fullName + " parameter not found. Using default value.");
+			// Logger.getLogger().error(this.getClass().getName(), "getValue",
+			// fullName + " parameter not found. Using default value.");
 			return defaultValue;
 		}
 	}

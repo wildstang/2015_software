@@ -10,10 +10,15 @@ import org.wildstang.autonomous.AutonomousManager;
  *
  * @author chadschmidt
  */
-public class AutonomousDoubleStartPositionConfigFileParameter extends AutonomousDoubleConfigFileParameter {
+public class AutonomousDoubleStartPositionConfigFileParameter extends
+		AutonomousDoubleConfigFileParameter {
 
-	public AutonomousDoubleStartPositionConfigFileParameter(String pName, double defValue) {
-		super(pName + "." + AutonomousManager.getInstance().getStartPosition().toConfigString(), defValue);
+	public AutonomousDoubleStartPositionConfigFileParameter(String pName,
+			double defValue) {
+		super(pName
+				+ "."
+				+ AutonomousManager.getInstance().getStartPosition()
+						.toConfigString(), defValue);
 	}
 
 }

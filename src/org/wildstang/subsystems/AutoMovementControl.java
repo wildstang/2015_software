@@ -1,19 +1,11 @@
 package org.wildstang.subsystems;
 
-import org.wildstang.inputmanager.base.InputManager;
-import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
-import org.wildstang.inputmanager.inputs.joystick.JoystickDPadButtonEnum;
-import org.wildstang.subsystems.base.AutoMovement;
 import org.wildstang.logger.Logger;
-import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
-import org.wildstang.subsystems.automovements.AutoMovementAccumulateBackArm;
-import org.wildstang.subsystems.automovements.AutoMovementAccumulateFrontArm;
-import org.wildstang.subsystems.automovements.AutoMovementArmsToTension;
-import org.wildstang.subsystems.automovements.AutoMovementPassBackToFront;
-import org.wildstang.subsystems.automovements.AutoMovementPassFrontToBack;
+import org.wildstang.subsystems.base.AutoMovement;
 import org.wildstang.subsystems.base.Subsystem;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -47,7 +39,8 @@ public class AutoMovementControl extends Subsystem implements IObserver {
 
 	protected void startProgram() {
 		runningProgram = programToRun;
-		Logger.getLogger().always("AutoMovementCtrl", "Running Auto Movement", runningProgram.toString());
+		Logger.getLogger().always("AutoMovementCtrl", "Running Auto Movement",
+				runningProgram.toString());
 		runningProgram.initialize();
 		SmartDashboard.putString("Auto Movement:", runningProgram.toString());
 	}
@@ -75,7 +68,8 @@ public class AutoMovementControl extends Subsystem implements IObserver {
 	}
 
 	private void cancelProgram() {
-		Logger.getLogger().always("AutoMovementCtrl", "Abort Auto Movement", runningProgram.toString());
+		Logger.getLogger().always("AutoMovementCtrl", "Abort Auto Movement",
+				runningProgram.toString());
 		runningProgram.abort();
 		cleanUpRunningProgram();
 	}
