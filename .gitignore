@@ -1,15 +1,17 @@
-/WsRobotFramework/nbproject/private/
-/WsSimulation/nbproject/private/
-/WsRobotFramework/build/
-/WsRobotFramework/nbproject/build-impl.xml
-/WsRobotFramework/nbproject/genfiles.properties
-/WsSimulation/nbproject/genfiles.properties
-/WsSimulation/nbproject/build-impl.xml
-/WsRobotFramework/dist/
-/WsSimulation/dist/
-/WsSimulation/build/
-/cRioTarget/build/
-/cRioTarget/nbproject/project.bak.xml
-/cRioTarget/nbproject/private/
-/WsSimulation/snapshot-log.txt
-/bin/
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# FRC Specific
+sysProps.xml
+.classpath
+*.properties
