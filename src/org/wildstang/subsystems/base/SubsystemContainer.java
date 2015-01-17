@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.DriveBase;
+import org.wildstang.subsystems.JoystickTest;
 import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.WsCompressor;
 
@@ -79,6 +80,7 @@ public class SubsystemContainer {
 	public static final int WS_COMPRESSOR_INDEX = 1;
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
+	public static final int JOYSTICK_TEST_INDEX = 4;
 
 	/**
 	 * Constructor for the subsystem container.
@@ -90,6 +92,8 @@ public class SubsystemContainer {
 		subsystem.add(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
 		subsystem.add(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
 		subsystem.add(LED_INDEX, new LED(LED));
-		subsystem.add(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
+		subsystem.add(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
+				AUTO_MOVEMENT_CONTROLLER));
+		subsystem.add(JOYSTICK_TEST_INDEX, new JoystickTest());
 	}
 }

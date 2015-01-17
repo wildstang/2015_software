@@ -31,7 +31,7 @@ public class DriverJoystick implements IInput {
 	protected Joystick driverJoystick = null;
 
 	public DriverJoystick() {
-		driverJoystick = (Joystick) new Joystick(1);
+		driverJoystick = (Joystick) new Joystick(0);
 
 		axes = new DoubleSubject[numberOfAxes];
 		for (int i = 0; i < axes.length; i++) {
@@ -111,9 +111,9 @@ public class DriverJoystick implements IInput {
 		for (int i = 0; i < axes.length; i++) {
 			// Invert the vertical axes so that full up is 1
 			if (i % 2 != 0) {
-				axes[i].setValue(driverJoystick.getRawAxis(i + 1) * -1);
+				axes[i].setValue(driverJoystick.getRawAxis(i) * -1);
 			} else {
-				axes[i].setValue(driverJoystick.getRawAxis(i + 1));
+				axes[i].setValue(driverJoystick.getRawAxis(i));
 			}
 		}
 		for (int i = 0; i < buttons.length; i++) {

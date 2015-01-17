@@ -22,7 +22,7 @@ public class JoystickAxisEnum implements IInputEnum {
 	protected int index;
 	protected String name;
 
-	protected JoystickAxisEnum(boolean isDriver, int index, String desc) {
+	public JoystickAxisEnum(boolean isDriver, int index, String desc) {
 		this.isDriver = isDriver;
 		this.index = index;
 		this.name = desc;
