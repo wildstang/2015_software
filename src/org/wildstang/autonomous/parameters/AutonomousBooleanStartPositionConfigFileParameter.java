@@ -10,15 +10,10 @@ import org.wildstang.autonomous.AutonomousManager;
  *
  * @author chadschmidt
  */
-public class AutonomousBooleanStartPositionConfigFileParameter extends
-		AutonomousBooleanConfigFileParameter {
+public class AutonomousBooleanStartPositionConfigFileParameter extends AutonomousBooleanConfigFileParameter {
 
-	public AutonomousBooleanStartPositionConfigFileParameter(String pName,
-			boolean defValue) {
-		super(pName
-				+ "."
-				+ AutonomousManager.getInstance().getStartPosition()
-						.toConfigString(), defValue);
+	public AutonomousBooleanStartPositionConfigFileParameter(String pName, boolean defValue) {
+		super(pName + "." + AutonomousManager.getInstance().getStartPosition().toConfigString(), defValue);
 	}
 
 }

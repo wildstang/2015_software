@@ -23,10 +23,8 @@ public class WsDigitalOutput implements IOutput {
 	// for all digital outputs
 
 	public WsDigitalOutput(String name, int channel) {
-		this.digitalValue = new BooleanSubject(name + ":DigitalOutput"
-				+ channel);
-		startState = new BooleanConfigFileParameter(this.getClass().getName()
-				+ "." + name, "startState", false);
+		this.digitalValue = new BooleanSubject(name + ":DigitalOutput" + channel);
+		startState = new BooleanConfigFileParameter(this.getClass().getName() + "." + name, "startState", false);
 
 		this.output = new DigitalOutput(channel);
 

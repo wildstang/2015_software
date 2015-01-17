@@ -18,9 +18,7 @@ public class DriveBaseSpeedPidInput implements IPidInput {
 		double /* left_encoder_value, */right_encoder_value, final_encoder_value;
 		// left_encoder_value = ((DriveBase)
 		// SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE)).getLeftDistance();
-		double currentVelocity = ((DriveBase) SubsystemContainer.getInstance()
-				.getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX))
-				.getVelocity();
+		double currentVelocity = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).getVelocity();
 		return currentVelocity;
 	}
 }

@@ -52,9 +52,7 @@ abstract public class Subject {
 	}
 
 	public void setValue(Object value) {
-		System.out
-				.println(name
-						+ " does not currently support this object for use with setValue.");
+		System.out.println(name + " does not currently support this object for use with setValue.");
 	}
 
 	abstract public Object getValueAsObject();

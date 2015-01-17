@@ -22,24 +22,16 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
  */
-public class AutonomousProgramDriveDistanceMotionProfile extends
-		AutonomousProgram {
+public class AutonomousProgramDriveDistanceMotionProfile extends AutonomousProgram {
 
 	private DoubleConfigFileParameter distance;
 	private DoubleConfigFileParameter heading;
 
 	public void defineSteps() {
-		distance = new DoubleConfigFileParameter(this.getClass().getName(),
-				AutonomousManager.getInstance().getStartPosition()
-						.toConfigString()
-						+ ".distance", 10.0);
-		heading = new DoubleConfigFileParameter(this.getClass().getName(),
-				AutonomousManager.getInstance().getStartPosition()
-						.toConfigString()
-						+ ".heading", 0.0);
+		distance = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".distance", 10.0);
+		heading = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".heading", 0.0);
 		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
-		addStep(new AutonomousStepStartDriveUsingMotionProfileAndHeading(
-				distance.getValue(), 0.0, heading.getValue()));
+		addStep(new AutonomousStepStartDriveUsingMotionProfileAndHeading(distance.getValue(), 0.0, heading.getValue()));
 		addStep(new AutonomousStepWaitForDriveMotionProfile());
 		addStep(new AutonomousStepStopDriveUsingMotionProfile());
 

@@ -10,8 +10,7 @@ import org.wildstang.config.IntegerConfigFileParameter;
  *
  * @author chadschmidt
  */
-public class AutonomousIntegerConfigFileParameter extends
-		IntegerConfigFileParameter {
+public class AutonomousIntegerConfigFileParameter extends IntegerConfigFileParameter {
 
 	public AutonomousIntegerConfigFileParameter(String pName, int defValue) {
 		super("org.wildstang.autonomous.parameters", pName, defValue);

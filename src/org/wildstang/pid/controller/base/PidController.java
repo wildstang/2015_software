@@ -55,8 +55,7 @@ public class PidController implements IPidController {
 	DoubleConfigFileParameter minInput_config;
 	DoubleConfigFileParameter minOnTargetTime_config;
 
-	public PidController(IPidInput source, IPidOutput output,
-			String pidControllerName) {
+	public PidController(IPidInput source, IPidOutput output, String pidControllerName) {
 		p = 1.0;
 		i = 0.0;
 		d = 0.0;
@@ -82,36 +81,20 @@ public class PidController implements IPidController {
 		pidOutput = output;
 		controllerName = pidControllerName;
 
-		p_config = new DoubleConfigFileParameter(this.getClass().getName()
-				+ "." + pidControllerName, "p", 0.0);
-		i_config = new DoubleConfigFileParameter(this.getClass().getName()
-				+ "." + pidControllerName, "i", 0.0);
-		d_config = new DoubleConfigFileParameter(this.getClass().getName()
-				+ "." + pidControllerName, "d", 0.0);
-		errorIncrement_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "errorIncrement", 0.0);
-		errorEpsilon_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "errorEpsilon", 0.0);
-		staticEpsilon_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "staticEpsilon", 0.0);
-		maxIntegral_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "maxIntegral", 0.0);
-		integralErrorThresh_config = new DoubleConfigFileParameter(this
-				.getClass().getName() + "." + pidControllerName,
-				"integralErrorThresh", 0.0);
-		differentiatorBandLimit_config = new DoubleConfigFileParameter(this
-				.getClass().getName() + "." + pidControllerName,
-				"differentiatorBandLimit", 0.0);
-		maxOutput_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "maxOutput", 0.0);
-		minOutput_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "minOutput", 0.0);
-		maxInput_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "maxInput", 0.0);
-		minInput_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "minInput", 0.0);
-		minOnTargetTime_config = new DoubleConfigFileParameter(this.getClass()
-				.getName() + "." + pidControllerName, "minOnTargetTime", 0.0);
+		p_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "p", 0.0);
+		i_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "i", 0.0);
+		d_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "d", 0.0);
+		errorIncrement_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "errorIncrement", 0.0);
+		errorEpsilon_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "errorEpsilon", 0.0);
+		staticEpsilon_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "staticEpsilon", 0.0);
+		maxIntegral_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "maxIntegral", 0.0);
+		integralErrorThresh_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "integralErrorThresh", 0.0);
+		differentiatorBandLimit_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "differentiatorBandLimit", 0.0);
+		maxOutput_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "maxOutput", 0.0);
+		minOutput_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "minOutput", 0.0);
+		maxInput_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "maxInput", 0.0);
+		minInput_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "minInput", 0.0);
+		minOnTargetTime_config = new DoubleConfigFileParameter(this.getClass().getName() + "." + pidControllerName, "minOnTargetTime", 0.0);
 
 		this.setErrorIncrementPercentage(errorIncrement);
 	}
@@ -249,8 +232,7 @@ public class PidController implements IPidController {
 				// Positive Errors mean we are below our setpoint
 				//
 				new_state = PidStateType.PID_BELOW_TARGET_STATE;
-			} else if ((currentError >= (-1 * errorEpsilon))
-					&& (currentError <= errorEpsilon)) {
+			} else if ((currentError >= (-1 * errorEpsilon)) && (currentError <= errorEpsilon)) {
 				new_state = PidStateType.PID_ON_TARGET_STATE;
 				stabilizationTimer.reset();
 				stabilizationTimer.start();
@@ -282,8 +264,7 @@ public class PidController implements IPidController {
 
 			// Find the next state
 			// Error is inside the epsilon band.
-			if ((currentError >= (-1 * errorEpsilon))
-					&& (currentError <= errorEpsilon)) {
+			if ((currentError >= (-1 * errorEpsilon)) && (currentError <= errorEpsilon)) {
 				new_state = PidStateType.PID_ON_TARGET_STATE;
 				stabilizationTimer.reset();
 				stabilizationTimer.start();
@@ -361,8 +342,7 @@ public class PidController implements IPidController {
 
 			// Find the next state
 			// Error is inside the epsilon band.
-			if ((currentError >= (-1 * errorEpsilon))
-					&& (currentError <= errorEpsilon)) {
+			if ((currentError >= (-1 * errorEpsilon)) && (currentError <= errorEpsilon)) {
 				new_state = PidStateType.PID_ON_TARGET_STATE;
 				stabilizationTimer.reset();
 				stabilizationTimer.start();
@@ -386,8 +366,7 @@ public class PidController implements IPidController {
 		currentState = new_state;
 
 		// Finally, calculate the PID output
-		double output = this.calcProportionalTerm() + this.calcIntegralTerm()
-				+ this.calcDerivativeTerm();
+		double output = this.calcProportionalTerm() + this.calcIntegralTerm() + this.calcDerivativeTerm();
 		// System.out.println(this.controllerName + " p-term,: " +
 		// this.calcProportionalTerm());
 		// System.out.println(this.controllerName + " i-term: " +
@@ -397,8 +376,7 @@ public class PidController implements IPidController {
 		// System.out.println(this.controllerName + " output: " + output);
 
 		// Handle Static Epsilon
-		if ((allowStaticEpsilon == true)
-				&& Math.abs(currentError) < staticEpsilon) {
+		if ((allowStaticEpsilon == true) && Math.abs(currentError) < staticEpsilon) {
 			output = 0;
 			errorSum = 0;
 		}
@@ -464,8 +442,7 @@ public class PidController implements IPidController {
 	private double calcIntegralTerm() {
 		// Prevent Integral Wind Up.
 		if (integralErrorThresh != -1) {
-			if (currentError > integralErrorThresh
-					|| currentError < -integralErrorThresh) {
+			if (currentError > integralErrorThresh || currentError < -integralErrorThresh) {
 				this.resetErrorSum();
 			}
 		}
@@ -486,8 +463,7 @@ public class PidController implements IPidController {
 
 		// Band-limit the differential term
 		if (Math.abs(d_term) > differentiatorBandLimit) {
-			d_term = (d_term > 0.0f) ? differentiatorBandLimit
-					: -differentiatorBandLimit;
+			d_term = (d_term > 0.0f) ? differentiatorBandLimit : -differentiatorBandLimit;
 		}
 		return d_term;
 	}

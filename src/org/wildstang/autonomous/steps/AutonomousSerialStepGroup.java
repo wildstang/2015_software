@@ -29,8 +29,7 @@ public class AutonomousSerialStepGroup extends AutonomousStep {
 		currentStep = 0;
 		if (!steps.isEmpty()) {
 			steps.get(currentStep).initialize();
-			System.out.println("Starting step "
-					+ steps.get(currentStep).toString());
+			System.out.println("Starting step " + steps.get(currentStep).toString());
 		}
 		initialized = true;
 	}
@@ -48,8 +47,7 @@ public class AutonomousSerialStepGroup extends AutonomousStep {
 				return;
 			} else {
 				steps.get(currentStep).initialize();
-				System.out.println("Starting step "
-						+ ((AutonomousStep) steps.get(currentStep)).toString());
+				System.out.println("Starting step " + ((AutonomousStep) steps.get(currentStep)).toString());
 			}
 		}
 		AutonomousStep step = steps.get(currentStep);

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.wildstang.autonomous.programs.AutonomousProgramSleeper;
-import org.wildstang.autonomous.programs.AutonomousProgramYMCA;
 import org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile;
 import org.wildstang.autonomous.programs.test.AutonomousProgramDrivePatterns;
 import org.wildstang.autonomous.programs.test.AutonomousProgramTestParallel;
@@ -33,15 +32,9 @@ public class AutonomousManager implements IObserver {
 
 	private AutonomousManager() {
 		definePrograms();
-		InputManager.getInstance()
-				.getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX)
-				.getSubject().attach(this);
-		InputManager.getInstance()
-				.getOiInput(InputManager.LOCK_IN_SWITCH_INDEX).getSubject()
-				.attach(this);
-		InputManager.getInstance()
-				.getOiInput(InputManager.START_POSITION_SELECTOR_INDEX)
-				.getSubject().attach(this);
+		InputManager.getInstance().getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX).getSubject().attach(this);
+		InputManager.getInstance().getOiInput(InputManager.LOCK_IN_SWITCH_INDEX).getSubject().attach(this);
+		InputManager.getInstance().getOiInput(InputManager.START_POSITION_SELECTOR_INDEX).getSubject().attach(this);
 		selectorSwitch = 0;
 		lockInSwitch = false;
 		positionSwitch = 0;
@@ -64,11 +57,9 @@ public class AutonomousManager implements IObserver {
 
 	public void startCurrentProgram() {
 		runningProgram = (AutonomousProgram) programs.get(lockedProgram);
-		Logger.getLogger().always("Auton", "Running Autonomous Program",
-				runningProgram.toString());
+		Logger.getLogger().always("Auton", "Running Autonomous Program", runningProgram.toString());
 		runningProgram.initialize();
-		SmartDashboard.putString("Running Autonomous Program",
-				runningProgram.toString());
+		SmartDashboard.putString("Running Autonomous Program", runningProgram.toString());
 	}
 
 	public void clear() {
@@ -79,14 +70,10 @@ public class AutonomousManager implements IObserver {
 		}
 		runningProgram = (AutonomousProgram) programs.get(0);
 		lockedProgram = 0;
-		SmartDashboard.putString("Running Autonomous Program",
-				"No Program Running");
-		SmartDashboard.putString("Locked Autonomous Program",
-				programs.get(lockedProgram).toString());
-		SmartDashboard.putString("Current Autonomous Program",
-				programs.get(currentProgram).toString());
-		SmartDashboard.putString("Current Start Position",
-				currentPosition.toString());
+		SmartDashboard.putString("Running Autonomous Program", "No Program Running");
+		SmartDashboard.putString("Locked Autonomous Program", programs.get(lockedProgram).toString());
+		SmartDashboard.putString("Current Autonomous Program", programs.get(currentProgram).toString());
+		SmartDashboard.putString("Current Start Position", currentPosition.toString());
 	}
 
 	public AutonomousProgram getRunningProgram() {
@@ -115,9 +102,7 @@ public class AutonomousManager implements IObserver {
 
 	public void acceptNotification(Subject cause) {
 		if (cause instanceof DoubleSubject) {
-			if (cause == InputManager.getInstance()
-					.getOiInput(InputManager.START_POSITION_SELECTOR_INDEX)
-					.getSubject()) {
+			if (cause == InputManager.getInstance().getOiInput(InputManager.START_POSITION_SELECTOR_INDEX).getSubject()) {
 				positionSwitch = (float) ((DoubleSubject) cause).getValue();
 				if (positionSwitch >= 3.3) {
 					positionSwitch = 3.3f;
@@ -125,15 +110,9 @@ public class AutonomousManager implements IObserver {
 				if (positionSwitch < 0) {
 					positionSwitch = 0;
 				}
-				currentPosition = AutonomousStartPositionEnum
-						.getEnumFromValue((int) (Math
-								.floor((positionSwitch / 3.4)
-										* AutonomousStartPositionEnum.POSITION_COUNT)));
-				SmartDashboard.putString("Current Start Position",
-						currentPosition.toString());
-			} else if (cause == InputManager.getInstance()
-					.getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX)
-					.getSubject()) {
+				currentPosition = AutonomousStartPositionEnum.getEnumFromValue((int) (Math.floor((positionSwitch / 3.4) * AutonomousStartPositionEnum.POSITION_COUNT)));
+				SmartDashboard.putString("Current Start Position", currentPosition.toString());
+			} else if (cause == InputManager.getInstance().getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX).getSubject()) {
 				selectorSwitch = (float) ((DoubleSubject) cause).getValue();
 				if (selectorSwitch >= 3.3) {
 					selectorSwitch = 3.3f;
@@ -141,16 +120,13 @@ public class AutonomousManager implements IObserver {
 				if (selectorSwitch < 0) {
 					selectorSwitch = 0;
 				}
-				currentProgram = (int) (Math.floor((selectorSwitch / 3.4)
-						* programs.size()));
-				SmartDashboard.putString("Current Autonomous Program", programs
-						.get(currentProgram).toString());
+				currentProgram = (int) (Math.floor((selectorSwitch / 3.4) * programs.size()));
+				SmartDashboard.putString("Current Autonomous Program", programs.get(currentProgram).toString());
 			}
 		} else if (cause instanceof BooleanSubject) {
 			lockInSwitch = ((BooleanSubject) cause).getValue();
 			lockedProgram = !lockInSwitch ? currentProgram : 0;
-			SmartDashboard.putString("Locked Autonomous Program",
-					programs.get(lockedProgram).toString());
+			SmartDashboard.putString("Locked Autonomous Program", programs.get(lockedProgram).toString());
 		}
 	}
 
@@ -183,7 +159,6 @@ public class AutonomousManager implements IObserver {
 		addProgram(new AutonomousProgramDriveDistanceMotionProfile());
 		addProgram(new AutonomousProgramDrivePatterns());
 		addProgram(new AutonomousProgramTestParallel());
-		addProgram(new AutonomousProgramYMCA());
 	}
 
 	private void addProgram(AutonomousProgram program) {

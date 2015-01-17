@@ -10,15 +10,10 @@ import org.wildstang.autonomous.AutonomousManager;
  *
  * @author chadschmidt
  */
-public class AutonomousIntegerStartPositionConfigFileParameter extends
-		AutonomousIntegerConfigFileParameter {
+public class AutonomousIntegerStartPositionConfigFileParameter extends AutonomousIntegerConfigFileParameter {
 
-	public AutonomousIntegerStartPositionConfigFileParameter(String pName,
-			int defValue) {
-		super(pName
-				+ "."
-				+ AutonomousManager.getInstance().getStartPosition()
-						.toConfigString(), defValue);
+	public AutonomousIntegerStartPositionConfigFileParameter(String pName, int defValue) {
+		super(pName + "." + AutonomousManager.getInstance().getStartPosition().toConfigString(), defValue);
 	}
 
 }

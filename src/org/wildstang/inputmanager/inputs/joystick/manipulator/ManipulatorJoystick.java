@@ -36,8 +36,7 @@ public class ManipulatorJoystick implements IInput {
 		axes = new DoubleSubject[numberOfAxes];
 		for (int i = 0; i < axes.length; i++) {
 			if (JoystickAxisEnum.getEnumFromIndex(false, i) != null) {
-				axes[i] = new DoubleSubject(JoystickAxisEnum.getEnumFromIndex(
-						false, i));
+				axes[i] = new DoubleSubject(JoystickAxisEnum.getEnumFromIndex(false, i));
 			} else {
 				axes[i] = new DoubleSubject("ManipulatorSubject" + 1);
 			}
@@ -45,28 +44,23 @@ public class ManipulatorJoystick implements IInput {
 
 		buttons = new BooleanSubject[numberOfButtons];
 		for (int i = 0; i < buttons.length; i++) {
-			buttons[i] = new BooleanSubject(
-					JoystickButtonEnum.getEnumFromIndex(false, i));
+			buttons[i] = new BooleanSubject(JoystickButtonEnum.getEnumFromIndex(false, i));
 		}
 
 		dPadButtons = new BooleanSubject[numberOfDPadButtons];
 		dPadDebouncers = new Debouncer[numberOfDPadButtons];
 		for (int i = 0; i < dPadButtons.length; i++) {
-			dPadButtons[i] = new BooleanSubject(
-					JoystickDPadButtonEnum.getEnumFromIndex(false, i));
+			dPadButtons[i] = new BooleanSubject(JoystickDPadButtonEnum.getEnumFromIndex(false, i));
 			dPadDebouncers[i] = new Debouncer(20, new Boolean(false));
 		}
 	}
 
 	public Subject getSubject(ISubjectEnum subjectEnum) {
-		if (subjectEnum instanceof JoystickAxisEnum
-				&& ((JoystickAxisEnum) subjectEnum).isDriver() == false) {
+		if (subjectEnum instanceof JoystickAxisEnum && ((JoystickAxisEnum) subjectEnum).isDriver() == false) {
 			return axes[((JoystickAxisEnum) subjectEnum).toValue()];
-		} else if (subjectEnum instanceof JoystickButtonEnum
-				&& ((JoystickButtonEnum) subjectEnum).isDriver() == false) {
+		} else if (subjectEnum instanceof JoystickButtonEnum && ((JoystickButtonEnum) subjectEnum).isDriver() == false) {
 			return buttons[((JoystickButtonEnum) subjectEnum).toValue()];
-		} else if (subjectEnum instanceof JoystickDPadButtonEnum
-				&& !((JoystickDPadButtonEnum) subjectEnum).isDriver()) {
+		} else if (subjectEnum instanceof JoystickDPadButtonEnum && !((JoystickDPadButtonEnum) subjectEnum).isDriver()) {
 			return dPadButtons[((JoystickDPadButtonEnum) subjectEnum).toValue()];
 		} else {
 			System.out.println("Subject not supported or incorrect.");
@@ -75,16 +69,12 @@ public class ManipulatorJoystick implements IInput {
 	}
 
 	public void set(IInputEnum key, Object value) {
-		if (key instanceof JoystickAxisEnum
-				&& ((JoystickAxisEnum) key).isDriver() == false) {
+		if (key instanceof JoystickAxisEnum && ((JoystickAxisEnum) key).isDriver() == false) {
 			axes[((JoystickAxisEnum) key).toValue() - 1].setValue(value);
-		} else if (key instanceof JoystickButtonEnum
-				&& ((JoystickButtonEnum) key).isDriver() == false) {
+		} else if (key instanceof JoystickButtonEnum && ((JoystickButtonEnum) key).isDriver() == false) {
 			buttons[((JoystickButtonEnum) key).toValue()].setValue(value);
-		} else if (key instanceof JoystickDPadButtonEnum
-				&& ((JoystickDPadButtonEnum) key).isDriver()) {
-			dPadButtons[((JoystickDPadButtonEnum) key).toValue()]
-					.setValue(value);
+		} else if (key instanceof JoystickDPadButtonEnum && ((JoystickDPadButtonEnum) key).isDriver()) {
+			dPadButtons[((JoystickDPadButtonEnum) key).toValue()].setValue(value);
 		} else {
 			System.out.println("key not supported or incorrect.");
 		}
@@ -92,16 +82,11 @@ public class ManipulatorJoystick implements IInput {
 
 	public Object get(IInputEnum key) {
 		if (key instanceof JoystickAxisEnum) {
-			return axes[((JoystickAxisEnum) key).toValue() - 1]
-					.getValueAsObject();
-		} else if (key instanceof JoystickButtonEnum
-				&& ((JoystickButtonEnum) key).isDriver() == false) {
-			return buttons[((JoystickButtonEnum) key).toValue()]
-					.getValueAsObject();
-		} else if (key instanceof JoystickDPadButtonEnum
-				&& ((JoystickDPadButtonEnum) key).isDriver()) {
-			return dPadButtons[((JoystickDPadButtonEnum) key).toValue()]
-					.getValueAsObject();
+			return axes[((JoystickAxisEnum) key).toValue() - 1].getValueAsObject();
+		} else if (key instanceof JoystickButtonEnum && ((JoystickButtonEnum) key).isDriver() == false) {
+			return buttons[((JoystickButtonEnum) key).toValue()].getValueAsObject();
+		} else if (key instanceof JoystickDPadButtonEnum && ((JoystickDPadButtonEnum) key).isDriver()) {
+			return dPadButtons[((JoystickDPadButtonEnum) key).toValue()].getValueAsObject();
 		} else {
 			return new Double(-100);
 		}
@@ -136,27 +121,15 @@ public class ManipulatorJoystick implements IInput {
 		}
 
 		// DPad Button Logic
-		dPadDebouncers[JoystickDPadButtonEnum.DPAD_DOWN].update(new Boolean(
-				axes[JoystickAxisEnum.DPAD_Y].getValue() < 0));
-		dPadDebouncers[JoystickDPadButtonEnum.DPAD_UP].update(new Boolean(
-				axes[JoystickAxisEnum.DPAD_Y].getValue() > 0));
-		dPadDebouncers[JoystickDPadButtonEnum.DPAD_LEFT].update(new Boolean(
-				axes[JoystickAxisEnum.DPAD_X].getValue() < 0));
-		dPadDebouncers[JoystickDPadButtonEnum.DPAD_RIGHT].update(new Boolean(
-				axes[JoystickAxisEnum.DPAD_X].getValue() > 0));
+		dPadDebouncers[JoystickDPadButtonEnum.DPAD_DOWN].update(new Boolean(axes[JoystickAxisEnum.DPAD_Y].getValue() < 0));
+		dPadDebouncers[JoystickDPadButtonEnum.DPAD_UP].update(new Boolean(axes[JoystickAxisEnum.DPAD_Y].getValue() > 0));
+		dPadDebouncers[JoystickDPadButtonEnum.DPAD_LEFT].update(new Boolean(axes[JoystickAxisEnum.DPAD_X].getValue() < 0));
+		dPadDebouncers[JoystickDPadButtonEnum.DPAD_RIGHT].update(new Boolean(axes[JoystickAxisEnum.DPAD_X].getValue() > 0));
 
-		dPadButtons[JoystickDPadButtonEnum.DPAD_DOWN]
-				.setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_DOWN]
-						.getDebouncedValue());
-		dPadButtons[JoystickDPadButtonEnum.DPAD_UP]
-				.setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_UP]
-						.getDebouncedValue());
-		dPadButtons[JoystickDPadButtonEnum.DPAD_LEFT]
-				.setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_LEFT]
-						.getDebouncedValue());
-		dPadButtons[JoystickDPadButtonEnum.DPAD_RIGHT]
-				.setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_RIGHT]
-						.getDebouncedValue());
+		dPadButtons[JoystickDPadButtonEnum.DPAD_DOWN].setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_DOWN].getDebouncedValue());
+		dPadButtons[JoystickDPadButtonEnum.DPAD_UP].setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_UP].getDebouncedValue());
+		dPadButtons[JoystickDPadButtonEnum.DPAD_LEFT].setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_LEFT].getDebouncedValue());
+		dPadButtons[JoystickDPadButtonEnum.DPAD_RIGHT].setValue(dPadDebouncers[JoystickDPadButtonEnum.DPAD_RIGHT].getDebouncedValue());
 	}
 
 	public void set(Object value) {

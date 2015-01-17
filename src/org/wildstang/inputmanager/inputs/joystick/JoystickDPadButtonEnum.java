@@ -31,31 +31,19 @@ public class JoystickDPadButtonEnum implements IInputEnum {
 	public static final int DPAD_UP = 2;
 	public static final int DPAD_DOWN = 3;
 
-	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_LEFT = new JoystickDPadButtonEnum(
-			true, DPAD_LEFT, "DRIVER_D_PAD_LEFT");
-	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_RIGHT = new JoystickDPadButtonEnum(
-			true, DPAD_RIGHT, "DRIVER_D_PAD_RIGHT");
-	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_UP = new JoystickDPadButtonEnum(
-			true, DPAD_UP, "DRIVER_D_PAD_UP");
-	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_DOWN = new JoystickDPadButtonEnum(
-			true, DPAD_DOWN, "DRIVER_D_PAD_DOWN");
+	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_LEFT = new JoystickDPadButtonEnum(true, DPAD_LEFT, "DRIVER_D_PAD_LEFT");
+	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_RIGHT = new JoystickDPadButtonEnum(true, DPAD_RIGHT, "DRIVER_D_PAD_RIGHT");
+	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_UP = new JoystickDPadButtonEnum(true, DPAD_UP, "DRIVER_D_PAD_UP");
+	public static final JoystickDPadButtonEnum DRIVER_D_PAD_BUTTON_DOWN = new JoystickDPadButtonEnum(true, DPAD_DOWN, "DRIVER_D_PAD_DOWN");
 
-	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_LEFT = new JoystickDPadButtonEnum(
-			false, DPAD_LEFT, "MANIPULATOR_D_PAD_LEFT");
-	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_RIGHT = new JoystickDPadButtonEnum(
-			false, DPAD_RIGHT, "MANIPULATOR_D_PAD_RIGHT");
-	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_UP = new JoystickDPadButtonEnum(
-			false, DPAD_UP, "MANIPULATOR_D_PAD_UP");
-	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_DOWN = new JoystickDPadButtonEnum(
-			false, DPAD_DOWN, "MANIPULATOR_D_PAD_DOWN");
+	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_LEFT = new JoystickDPadButtonEnum(false, DPAD_LEFT, "MANIPULATOR_D_PAD_LEFT");
+	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_RIGHT = new JoystickDPadButtonEnum(false, DPAD_RIGHT, "MANIPULATOR_D_PAD_RIGHT");
+	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_UP = new JoystickDPadButtonEnum(false, DPAD_UP, "MANIPULATOR_D_PAD_UP");
+	public static final JoystickDPadButtonEnum MANIPULATOR_D_PAD_BUTTON_DOWN = new JoystickDPadButtonEnum(false, DPAD_DOWN, "MANIPULATOR_D_PAD_DOWN");
 
-	public static JoystickDPadButtonEnum getEnumFromIndex(boolean driver,
-			int index) {
-		if (index >= 0
-				&& index < (driver ? driverDPadButtons.length
-						: manipulatorDPadButtons.length)) {
-			return (driver ? driverDPadButtons[index]
-					: manipulatorDPadButtons[index]);
+	public static JoystickDPadButtonEnum getEnumFromIndex(boolean driver, int index) {
+		if (index >= 0 && index < (driver ? driverDPadButtons.length : manipulatorDPadButtons.length)) {
+			return (driver ? driverDPadButtons[index] : manipulatorDPadButtons[index]);
 		}
 		return null;
 	}

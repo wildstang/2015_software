@@ -10,8 +10,7 @@ import org.wildstang.config.BooleanConfigFileParameter;
  *
  * @author chadschmidt
  */
-public class AutonomousBooleanConfigFileParameter extends
-		BooleanConfigFileParameter {
+public class AutonomousBooleanConfigFileParameter extends BooleanConfigFileParameter {
 
 	public AutonomousBooleanConfigFileParameter(String pName, boolean defValue) {
 		super("org.wildstang.autonomous.parameters", pName, defValue);

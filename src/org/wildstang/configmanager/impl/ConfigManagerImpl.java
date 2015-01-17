@@ -37,8 +37,7 @@ public final class ConfigManagerImpl {
 	 * @throws ConfigManagerImplException
 	 * @returns Hashtable of the config params.
 	 */
-	public static List<DataElement> readConfig(String fileName)
-			throws ConfigManagerImplException {
+	public static List<DataElement> readConfig(String fileName) throws ConfigManagerImplException {
 		List<DataElement> config = new ArrayList<>();
 		String line;
 		StringTokenizer st;
@@ -51,13 +50,11 @@ public final class ConfigManagerImpl {
 		if (!file.exists()) {
 			return null;
 		}
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream(file)))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 			while ((line = br.readLine()) != null) {
 				// initialize configLine
 				configLine = line;
-				if (!(line.trim().startsWith("//"))
-						&& (line.trim().length() != 0)) {
+				if (!(line.trim().startsWith("//")) && (line.trim().length() != 0)) {
 					// This is not a comment line
 					b = line.trim().getBytes();
 					for (i = 0; i < (b.length - 1); i++) {
@@ -76,12 +73,10 @@ public final class ConfigManagerImpl {
 
 					st = new StringTokenizer(configLine.trim(), "=");
 					if (st.countTokens() >= 2) {
-						config.add(new DataElement(st.nextToken(), st
-								.nextToken()));
+						config.add(new DataElement(st.nextToken(), st.nextToken()));
 					} else {
 						br.close();
-						throw new ConfigManagerImplException(
-								"Bad line in config file " + line);
+						throw new ConfigManagerImplException("Bad line in config file " + line);
 					}
 				}
 			}
@@ -102,8 +97,7 @@ public final class ConfigManagerImpl {
 				return true;
 			}
 		} catch (Throwable e) {
-			Logger.getLogger().error(myClassName, "checkCreateFile",
-					"Open Config File exception " + e.toString());
+			Logger.getLogger().error(myClassName, "checkCreateFile", "Open Config File exception " + e.toString());
 			return false;
 		}
 	}
@@ -129,8 +123,7 @@ public final class ConfigManagerImpl {
 			file = new File(path);
 			return file.exists();
 		} catch (Throwable e) {
-			Logger.getLogger().error(myClassName, "isUpdateAvailable",
-					"Check for update exception " + e.toString());
+			Logger.getLogger().error(myClassName, "isUpdateAvailable", "Check for update exception " + e.toString());
 			return false;
 		}
 	}
@@ -144,8 +137,7 @@ public final class ConfigManagerImpl {
 			file = new File(path);
 			file.delete();
 		} catch (Throwable e) {
-			Logger.getLogger().error(myClassName, "isUpdateAvailable",
-					"Update file not deleted " + e.toString());
+			Logger.getLogger().error(myClassName, "isUpdateAvailable", "Update file not deleted " + e.toString());
 		}
 	}
 }

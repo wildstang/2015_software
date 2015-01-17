@@ -19,7 +19,6 @@ public class DriveBaseSpeedPidOutput implements IPidOutput {
 	}
 
 	public void pidWrite(double output) {
-		((DriveBase) SubsystemContainer.getInstance().getSubsystem(
-				SubsystemContainer.DRIVE_BASE_INDEX)).setPidSpeedValue(output);
+		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).setPidSpeedValue(output);
 	}
 }

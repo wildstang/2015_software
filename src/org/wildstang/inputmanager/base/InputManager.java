@@ -126,17 +126,11 @@ public class InputManager {
 
 	final public void attachJoystickButton(IInputEnum button, IObserver observer) {
 		if (button instanceof JoystickButtonEnum) {
-			Subject subject = InputManager
-					.getInstance()
-					.getOiInput(
-							((JoystickButtonEnum) button).isDriver() ? InputManager.DRIVER_JOYSTICK_INDEX
-									: InputManager.MANIPULATOR_JOYSTICK_INDEX)
+			Subject subject = InputManager.getInstance().getOiInput(((JoystickButtonEnum) button).isDriver() ? InputManager.DRIVER_JOYSTICK_INDEX : InputManager.MANIPULATOR_JOYSTICK_INDEX)
 					.getSubject(button);
 			subject.attach(observer);
 		} else {
-			Logger.getLogger()
-					.debug(this.getClass().getName(), "attachJoystickButton",
-							"Oops! Check that the inputs implement the required interfaces.");
+			Logger.getLogger().debug(this.getClass().getName(), "attachJoystickButton", "Oops! Check that the inputs implement the required interfaces.");
 		}
 	}
 
@@ -184,10 +178,8 @@ public class InputManager {
 		sensorInputs.add(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
 		sensorInputs.add(LATCH_POSITION_SWITCH_INDEX, new WsDigitalInput(6));
 		sensorInputs.add(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
-		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX,
-				new WsDigitalInput(8));
-		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(
-				9));
+		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
+		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
 
 		oiInputs.add(UNKNOWN_INDEX, new NoInput());
 		oiInputs.add(DRIVER_JOYSTICK_INDEX, new DriverJoystick());

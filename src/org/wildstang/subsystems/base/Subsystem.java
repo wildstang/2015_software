@@ -60,23 +60,17 @@ public class Subsystem {
 
 	public void registerForJoystickButtonNotification(IInputEnum button) {
 		try {
-			InputManager.getInstance().attachJoystickButton(button,
-					(IObserver) this);
+			InputManager.getInstance().attachJoystickButton(button, (IObserver) this);
 		} catch (ClassCastException e) {
-			Logger.getLogger().debug(this.getClass().getName(),
-					"registerForJoystickButtonNotification",
-					"This class must implement IObserver!");
+			Logger.getLogger().debug(this.getClass().getName(), "registerForJoystickButtonNotification", "This class must implement IObserver!");
 		}
 	}
 
 	public void registerForSensorNotification(int sensorIndex) {
 		try {
-			InputManager.getInstance().getSensorInput(sensorIndex).getSubject()
-					.attach((IObserver) this);
+			InputManager.getInstance().getSensorInput(sensorIndex).getSubject().attach((IObserver) this);
 		} catch (Exception e) {
-			Logger.getLogger().debug(this.getClass().getName(),
-					"registerForSensorNotification",
-					"This class must implement IObserver!");
+			Logger.getLogger().debug(this.getClass().getName(), "registerForSensorNotification", "This class must implement IObserver!");
 		}
 	}
 }

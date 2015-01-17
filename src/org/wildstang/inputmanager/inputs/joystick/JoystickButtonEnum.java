@@ -22,61 +22,35 @@ public class JoystickButtonEnum implements IInputEnum {
 	}
 
 	// Set up all of the driver buttons
-	public static final JoystickButtonEnum DRIVER_BUTTON_1 = new JoystickButtonEnum(
-			true, 0, "D_BUTTON1");
-	public static final JoystickButtonEnum DRIVER_BUTTON_2 = new JoystickButtonEnum(
-			true, 1, "D_BUTTON2");
-	public static final JoystickButtonEnum DRIVER_BUTTON_3 = new JoystickButtonEnum(
-			true, 2, "D_BUTTON3");
-	public static final JoystickButtonEnum DRIVER_BUTTON_4 = new JoystickButtonEnum(
-			true, 3, "D_BUTTON4");
-	public static final JoystickButtonEnum DRIVER_BUTTON_5 = new JoystickButtonEnum(
-			true, 4, "D_BUTTON5");
-	public static final JoystickButtonEnum DRIVER_BUTTON_6 = new JoystickButtonEnum(
-			true, 5, "D_BUTTON6");
-	public static final JoystickButtonEnum DRIVER_BUTTON_7 = new JoystickButtonEnum(
-			true, 6, "D_BUTTON7");
-	public static final JoystickButtonEnum DRIVER_BUTTON_8 = new JoystickButtonEnum(
-			true, 7, "D_BUTTON8");
-	public static final JoystickButtonEnum DRIVER_BUTTON_9 = new JoystickButtonEnum(
-			true, 8, "D_BUTTON9");
-	public static final JoystickButtonEnum DRIVER_BUTTON_10 = new JoystickButtonEnum(
-			true, 9, "D_BUTTON10");
-	public static final JoystickButtonEnum DRIVER_BUTTON_11 = new JoystickButtonEnum(
-			true, 10, "D_BUTTON11");
-	public static final JoystickButtonEnum DRIVER_BUTTON_12 = new JoystickButtonEnum(
-			true, 11, "D_BUTTON12");
+	public static final JoystickButtonEnum DRIVER_BUTTON_1 = new JoystickButtonEnum(true, 0, "D_BUTTON1");
+	public static final JoystickButtonEnum DRIVER_BUTTON_2 = new JoystickButtonEnum(true, 1, "D_BUTTON2");
+	public static final JoystickButtonEnum DRIVER_BUTTON_3 = new JoystickButtonEnum(true, 2, "D_BUTTON3");
+	public static final JoystickButtonEnum DRIVER_BUTTON_4 = new JoystickButtonEnum(true, 3, "D_BUTTON4");
+	public static final JoystickButtonEnum DRIVER_BUTTON_5 = new JoystickButtonEnum(true, 4, "D_BUTTON5");
+	public static final JoystickButtonEnum DRIVER_BUTTON_6 = new JoystickButtonEnum(true, 5, "D_BUTTON6");
+	public static final JoystickButtonEnum DRIVER_BUTTON_7 = new JoystickButtonEnum(true, 6, "D_BUTTON7");
+	public static final JoystickButtonEnum DRIVER_BUTTON_8 = new JoystickButtonEnum(true, 7, "D_BUTTON8");
+	public static final JoystickButtonEnum DRIVER_BUTTON_9 = new JoystickButtonEnum(true, 8, "D_BUTTON9");
+	public static final JoystickButtonEnum DRIVER_BUTTON_10 = new JoystickButtonEnum(true, 9, "D_BUTTON10");
+	public static final JoystickButtonEnum DRIVER_BUTTON_11 = new JoystickButtonEnum(true, 10, "D_BUTTON11");
+	public static final JoystickButtonEnum DRIVER_BUTTON_12 = new JoystickButtonEnum(true, 11, "D_BUTTON12");
 
 	// Set up all of the manipulator buttons
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_1 = new JoystickButtonEnum(
-			false, 0, "M_BUTTON1");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_2 = new JoystickButtonEnum(
-			false, 1, "M_BUTTON2");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_3 = new JoystickButtonEnum(
-			false, 2, "M_BUTTON3");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_4 = new JoystickButtonEnum(
-			false, 3, "M_BUTTON4");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_5 = new JoystickButtonEnum(
-			false, 4, "M_BUTTON5");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_6 = new JoystickButtonEnum(
-			false, 5, "M_BUTTON6");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_7 = new JoystickButtonEnum(
-			false, 6, "M_BUTTON7");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_8 = new JoystickButtonEnum(
-			false, 7, "M_BUTTON8");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_9 = new JoystickButtonEnum(
-			false, 8, "M_BUTTON9");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_10 = new JoystickButtonEnum(
-			false, 9, "M_BUTTON10");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_11 = new JoystickButtonEnum(
-			false, 10, "M_BUTTON11");
-	public static final JoystickButtonEnum MANIPULATOR_BUTTON_12 = new JoystickButtonEnum(
-			false, 11, "M_BUTTON12");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_1 = new JoystickButtonEnum(false, 0, "M_BUTTON1");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_2 = new JoystickButtonEnum(false, 1, "M_BUTTON2");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_3 = new JoystickButtonEnum(false, 2, "M_BUTTON3");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_4 = new JoystickButtonEnum(false, 3, "M_BUTTON4");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_5 = new JoystickButtonEnum(false, 4, "M_BUTTON5");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_6 = new JoystickButtonEnum(false, 5, "M_BUTTON6");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_7 = new JoystickButtonEnum(false, 6, "M_BUTTON7");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_8 = new JoystickButtonEnum(false, 7, "M_BUTTON8");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_9 = new JoystickButtonEnum(false, 8, "M_BUTTON9");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_10 = new JoystickButtonEnum(false, 9, "M_BUTTON10");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_11 = new JoystickButtonEnum(false, 10, "M_BUTTON11");
+	public static final JoystickButtonEnum MANIPULATOR_BUTTON_12 = new JoystickButtonEnum(false, 11, "M_BUTTON12");
 
 	public static JoystickButtonEnum getEnumFromIndex(boolean driver, int index) {
-		if (index >= 0
-				&& index < (driver ? driverButtons.length
-						: manipulatorButtons.length)) {
+		if (index >= 0 && index < (driver ? driverButtons.length : manipulatorButtons.length)) {
 			return (driver ? driverButtons[index] : manipulatorButtons[index]);
 		}
 

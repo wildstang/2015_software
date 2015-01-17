@@ -24,8 +24,7 @@ public class BooleanConfigFileParameter extends ConfigFileParameter {
 	 * @param defValue
 	 *            a default value to use.
 	 */
-	public BooleanConfigFileParameter(String cName, String pName,
-			boolean defValue) {
+	public BooleanConfigFileParameter(String cName, String pName, boolean defValue) {
 		super(cName, pName);
 		defaultValue = defValue;
 	}

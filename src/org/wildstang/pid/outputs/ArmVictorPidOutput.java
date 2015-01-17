@@ -19,8 +19,7 @@ public class ArmVictorPidOutput implements IPidOutput {
 	}
 
 	public void pidWrite(double output) {
-		OutputManager.getInstance().getOutput(victorIndex)
-				.set(new Double(output));
+		OutputManager.getInstance().getOutput(victorIndex).set(new Double(output));
 	}
 
 }

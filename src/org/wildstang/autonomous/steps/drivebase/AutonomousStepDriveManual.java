@@ -25,18 +25,10 @@ public class AutonomousStepDriveManual extends AutonomousStep {
 	public void initialize() {
 		finished = true;
 		if (throttle != KEEP_PREVIOUS_STATE) {
-			InputManager
-					.getInstance()
-					.getOiInput(InputManager.DRIVER_JOYSTICK_INDEX)
-					.set(JoystickAxisEnum.DRIVER_THROTTLE,
-							new Double(Math.max(Math.min(throttle, 1.0), -1.0)));
+			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_THROTTLE, new Double(Math.max(Math.min(throttle, 1.0), -1.0)));
 		}
 		if (heading != KEEP_PREVIOUS_STATE) {
-			InputManager
-					.getInstance()
-					.getOiInput(InputManager.DRIVER_JOYSTICK_INDEX)
-					.set(JoystickAxisEnum.DRIVER_HEADING,
-							new Double(Math.max(Math.min(heading, 1.0), -1.0)));
+			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_HEADING, new Double(Math.max(Math.min(heading, 1.0), -1.0)));
 		}
 	}
 

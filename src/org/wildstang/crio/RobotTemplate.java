@@ -29,16 +29,13 @@ public class RobotTemplate extends IterativeRobot {
 	public void robotInit() {
 		startupTimer.startTimingSection();
 		FrameworkAbstraction.robotInit("/ws_config.txt");
-		Logger.getLogger().always(this.getClass().getName(), "robotInit",
-				"Startup Completed");
+		Logger.getLogger().always(this.getClass().getName(), "robotInit", "Startup Completed");
 		startupTimer.endTimingSection();
 
 	}
 
-	ProfilingTimer durationTimer = new ProfilingTimer(
-			"Periodic method duration", 50);
-	ProfilingTimer periodTimer = new ProfilingTimer("Periodic method period",
-			50);
+	ProfilingTimer durationTimer = new ProfilingTimer("Periodic method duration", 50);
+	ProfilingTimer periodTimer = new ProfilingTimer("Periodic method period", 50);
 	ProfilingTimer startupTimer = new ProfilingTimer("Startup duration", 1);
 	ProfilingTimer initTimer = new ProfilingTimer("Init duration", 1);
 
@@ -46,8 +43,7 @@ public class RobotTemplate extends IterativeRobot {
 		initTimer.startTimingSection();
 		FrameworkAbstraction.disabledInit();
 		initTimer.endTimingSection();
-		Logger.getLogger().always(this.getClass().getName(), "disabledInit",
-				"Disabled Init Complete");
+		Logger.getLogger().always(this.getClass().getName(), "disabledInit", "Disabled Init Complete");
 
 	}
 

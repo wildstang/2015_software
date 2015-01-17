@@ -39,8 +39,7 @@ public class AutoMovementControl extends Subsystem implements IObserver {
 
 	protected void startProgram() {
 		runningProgram = programToRun;
-		Logger.getLogger().always("AutoMovementCtrl", "Running Auto Movement",
-				runningProgram.toString());
+		Logger.getLogger().always("AutoMovementCtrl", "Running Auto Movement", runningProgram.toString());
 		runningProgram.initialize();
 		SmartDashboard.putString("Auto Movement:", runningProgram.toString());
 	}
@@ -68,8 +67,7 @@ public class AutoMovementControl extends Subsystem implements IObserver {
 	}
 
 	private void cancelProgram() {
-		Logger.getLogger().always("AutoMovementCtrl", "Abort Auto Movement",
-				runningProgram.toString());
+		Logger.getLogger().always("AutoMovementCtrl", "Abort Auto Movement", runningProgram.toString());
 		runningProgram.abort();
 		cleanUpRunningProgram();
 	}

@@ -50,8 +50,7 @@ public class ConfigManager {
 	 *            The new filename to use for reading.
 	 * @throws ConfigManagerException
 	 */
-	public void setConfigFileName(String filename)
-			throws ConfigManagerException {
+	public void setConfigFileName(String filename) throws ConfigManagerException {
 		if (ConfigManagerImpl.checkCreateFile(filename)) {
 			configFileName = filename;
 		} else {
@@ -68,8 +67,7 @@ public class ConfigManager {
 	 *            The new filename to use for checking for updates.
 	 * @throws ConfigManagerException
 	 */
-	public void setUpdateFileName(String filename)
-			throws ConfigManagerException {
+	public void setUpdateFileName(String filename) throws ConfigManagerException {
 		if (ConfigManagerImpl.checkCreateFile(filename)) {
 			updateFileName = filename;
 		} else {
@@ -93,8 +91,7 @@ public class ConfigManager {
 		} catch (ConfigManagerImplException e) {
 			throw new ConfigManagerException(e.toString());
 		}
-		Logger.getLogger().always(this.getClass().getName(), "readConfig",
-				"Read config File: " + configFileName);
+		Logger.getLogger().always(this.getClass().getName(), "readConfig", "Read config File: " + configFileName);
 		// Update all the facades
 		InputManager.getInstance().notifyConfigChange();
 		OutputManager.getInstance().notifyConfigChange();
@@ -111,11 +108,9 @@ public class ConfigManager {
 	 * @throws ConfigManagerException
 	 *             if the key cannot be found.
 	 */
-	public String getConfigParamByName(String name)
-			throws ConfigManagerException {
+	public String getConfigParamByName(String name) throws ConfigManagerException {
 		for (int i = 0; i < config.size(); i++) {
-			if ((((String) ((DataElement) config.get(i)).getKey()))
-					.equals(name)) {
+			if ((((String) ((DataElement) config.get(i)).getKey())).equals(name)) {
 				return (String) ((DataElement) config.get(i)).getValue();
 			}
 		}
@@ -127,8 +122,7 @@ public class ConfigManager {
 		System.out.println("Dumping config data...");
 		for (int i = 0; i < config.size(); i++) {
 			String name = ((String) ((DataElement) config.get(i)).getKey());
-			String value = ((String) ((DataElement) config.get(i)).getValue()
-					.toString());
+			String value = ((String) ((DataElement) config.get(i)).getValue().toString());
 			System.out.println(name + "=" + value);
 		}
 		return null;
@@ -155,8 +149,7 @@ public class ConfigManager {
 	 */
 	public void readConfigIfUpdateAvailable() throws ConfigManagerException {
 		if (ConfigManagerImpl.isUpdateAvailable(updateFileName)) {
-			Logger.getLogger().always(this.getClass().getName(),
-					"readConfigIfUpdateAvailable", "New config file found!");
+			Logger.getLogger().always(this.getClass().getName(), "readConfigIfUpdateAvailable", "New config file found!");
 			try {
 				readConfig();
 				ConfigManagerImpl.deleteUpdateFile(updateFileName);

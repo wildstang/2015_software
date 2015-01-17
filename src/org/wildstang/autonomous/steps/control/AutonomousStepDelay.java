@@ -32,8 +32,7 @@ public class AutonomousStepDelay extends AutonomousStep /*
 		this.delay = msDelay / 1000.0;
 		this.timer = new WsTimer();
 		if (msDelay < 0) {
-			Logger.getLogger().debug(this.getClass().getName(),
-					"AutonomousStepDelay", "Delay must be greater than 0");
+			Logger.getLogger().debug(this.getClass().getName(), "AutonomousStepDelay", "Delay must be greater than 0");
 		}
 	}
 
