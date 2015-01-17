@@ -31,7 +31,7 @@ public class DriverJoystick implements IInput {
 	protected Joystick driverJoystick = null;
 
 	public DriverJoystick() {
-		driverJoystick = (Joystick) new Joystick(1);
+		driverJoystick = (Joystick) new Joystick(0);
 
 		axes = new DoubleSubject[numberOfAxes];
 		for (int i = 0; i < axes.length; i++) {

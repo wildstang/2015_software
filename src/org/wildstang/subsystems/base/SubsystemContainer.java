@@ -6,7 +6,7 @@ import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.BallHandler;
 import org.wildstang.subsystems.Catapult;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.Ears;
+import org.wildstang.subsystems.JoystickTest;
 import org.wildstang.subsystems.LED;
 //import org.wildstang.subsystems.HotGoalDetector;
 import org.wildstang.subsystems.LandingGear;
@@ -96,8 +96,8 @@ public class SubsystemContainer {
 	public static final int LANDING_GEAR_INDEX = 6;
 	// public static final int HOT_GOAL_DETECTOR_INDEX = 7;
 	public static final int WINGS_INDEX = 7;
-	public static final int EAR_INDEX = 8;
-	public static final int AUTO_MOVEMENT_CONTROLLER = 9;
+	public static final int AUTO_MOVEMENT_CONTROLLER = 8;
+	public static final int JOYSTICK_TEST_INDEX = 9;
 
 	/**
 	 * Constructor for the subsystem container.
@@ -117,8 +117,8 @@ public class SubsystemContainer {
 		// subsystem.add(HOT_GOAL_DETECTOR_INDEX, new
 		// HotGoalDetector(HOT_GOAL_DETECTOR));
 		subsystem.add(WINGS_INDEX, new Wings(WINGS));
-		subsystem.add(EAR_INDEX, new Ears("EARS"));
 		subsystem.add(AUTO_MOVEMENT_CONTROLLER, new AutoMovementControl(
 				"Auto Movement Control"));
+		subsystem.add(JOYSTICK_TEST_INDEX, new JoystickTest());
 	}
 }

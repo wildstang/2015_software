@@ -307,6 +307,7 @@ public class DriveBase extends Subsystem implements IObserver {
 					.getOiInput(InputManager.DRIVER_JOYSTICK_INDEX)))
 					.get(JoystickAxisEnum.DRIVER_HEADING)).doubleValue();
 
+			SmartDashboard.putNumber("Throttle Joystick Value", throttleValue);
 			SmartDashboard.putNumber("Heading Joystick Value", headingValue);
 
 			setThrottleValue(throttleValue);

@@ -31,7 +31,7 @@ public class ManipulatorJoystick implements IInput {
 	Joystick manipulatorJoystick = null;
 
 	public ManipulatorJoystick() {
-		manipulatorJoystick = (Joystick) new Joystick(2);
+		manipulatorJoystick = (Joystick) new Joystick(1);
 
 		axes = new DoubleSubject[numberOfAxes];
 		for (int i = 0; i < axes.length; i++) {
