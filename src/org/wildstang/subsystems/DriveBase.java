@@ -252,9 +252,9 @@ public class DriveBase extends Subsystem implements IObserver {
 			double headingValue = 0.0;
 			double strafeValue = 0.0;
 
-			throttleValue = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(JoystickAxisEnum.DRIVER_THROTTLE)).doubleValue();
-			headingValue = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(JoystickAxisEnum.DRIVER_HEADING)).doubleValue();
-			strafeValue = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(JoystickAxisEnum.DRIVER_STRAFE)).doubleValue();
+			throttleValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_THROTTLE);
+			headingValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_HEADING);
+			strafeValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_STRAFE).doubleValue();
 
 			SmartDashboard.putNumber("Throttle Joystick Value", throttleValue);
 			SmartDashboard.putNumber("Heading Joystick Value", headingValue);
@@ -276,7 +276,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			SmartDashboard.putBoolean("Quickturn", quickTurnFlag);
 
 			// Set gear shift output
-			OutputManager.getInstance().getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(shifterFlag.value));
+			getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(shifterFlag.value));
 		}
 
 		SmartDashboard.putNumber("Left encoder count: ", this.getLeftEncoderValue());
@@ -577,9 +577,9 @@ public class DriveBase extends Subsystem implements IObserver {
 		SmartDashboard.putNumber("StrafeDriveSpeed", strafeMotorSpeed);
 
 		// Update Output Facade.
-		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
-		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
-		OutputManager.getInstance().getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
+		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
+		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
+		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
 	}
 
 	public void checkAutoQuickTurn() {
