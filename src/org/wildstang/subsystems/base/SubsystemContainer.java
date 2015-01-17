@@ -1,11 +1,12 @@
 package org.wildstang.subsystems.base;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.LED;
+import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.WsCompressor;
 
 /**
@@ -15,7 +16,7 @@ import org.wildstang.subsystems.WsCompressor;
 public class SubsystemContainer {
 
 	private static SubsystemContainer instance = null;
-	private static ArrayList<Subsystem> subsystem = new ArrayList<>();
+	private static Map<Integer, Subsystem> subsystems = new HashMap<Integer, Subsystem>();
 
 	public static SubsystemContainer getInstance() {
 		if (SubsystemContainer.instance == null) {
@@ -25,8 +26,8 @@ public class SubsystemContainer {
 	}
 
 	public void init() {
-		for (int i = 0; i < subsystem.size(); i++) {
-			Subsystem sys = (Subsystem) subsystem.get(i);
+		for (Integer key : subsystems.keySet()) {
+			Subsystem sys = (Subsystem) subsystems.get(key);
 			if (sys != null) {
 				sys.init();
 			}
@@ -41,20 +42,19 @@ public class SubsystemContainer {
 	 * @return A subsystem.
 	 */
 	public Subsystem getSubsystem(int index) {
-		if (index >= 0 && index < subsystem.size()) {
-			return (Subsystem) subsystem.get(index);
-		}
-		return (Subsystem) null;
+		Subsystem sys = (Subsystem) subsystems.get(index);
+		return sys == null ? (Subsystem) null : sys;
 	}
 
 	/**
 	 * Triggers all subsystems to be updated.
 	 */
 	public void update() {
-		for (int i = 0; i < subsystem.size(); i++) {
-			Subsystem sys = (Subsystem) subsystem.get(i);
-			if (sys != null)
+		for (Integer key : subsystems.keySet()) {
+			Subsystem sys = subsystems.get(key);
+			if (sys != null) {
 				sys.update();
+			}
 		}
 	}
 
@@ -63,10 +63,11 @@ public class SubsystemContainer {
 	 * should be re-read.
 	 */
 	public void notifyConfigChange() {
-		for (int i = 0; i < subsystem.size(); i++) {
-			Subsystem sys = (Subsystem) subsystem.get(i);
-			if (sys != null)
+		for (Integer key : subsystems.keySet()) {
+			Subsystem sys = subsystems.get(key);
+			if (sys != null) {
 				sys.notifyConfigChange();
+			}
 		}
 	}
 
@@ -89,11 +90,10 @@ public class SubsystemContainer {
 	 * instantiated as well as placed in the subsystem container.
 	 */
 	protected SubsystemContainer() {
-		subsystem.add(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		subsystem.add(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
-		subsystem.add(LED_INDEX, new LED(LED));
-		subsystem.add(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
-				AUTO_MOVEMENT_CONTROLLER));
-		subsystem.add(TEST_INDEX, new Test());
+		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
+		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
+		subsystems.put(LED_INDEX, new LED(LED));
+		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
+		subsystems.put(TEST_INDEX, new Test());
 	}
 }
