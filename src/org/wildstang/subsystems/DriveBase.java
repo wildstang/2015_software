@@ -183,11 +183,14 @@ public class DriveBase extends Subsystem implements IObserver {
 		// Zero out all motor values left over from autonomous
 		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(0.0));
 		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(OutputManager.MIDDLE_DRIVE_SPEED_INDEX).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(OutputManager.MIDDLE_DRIVE_SPEED_INDEX).update();
 		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).update();
 		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).update();
 		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_THROTTLE, new Double(0.0));
 		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_HEADING, new Double(0.0));
 		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).update();
+		
 		// Clear encoders
 		resetLeftEncoder();
 		resetRightEncoder();

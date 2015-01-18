@@ -75,6 +75,7 @@ public class OutputManager {
 	public static final int UNKNOWN_INDEX = 0;
 	public static final int RIGHT_DRIVE_SPEED_INDEX = 1;
 	public static final int LEFT_DRIVE_SPEED_INDEX = 2;
+	public static final int MIDDLE_DRIVE_SPEED_INDEX = 4;
 	public static final int SHIFTER_INDEX = 3;
 	
 
@@ -90,6 +91,8 @@ public class OutputManager {
 		outputs.add(UNKNOWN_INDEX, new NoOutput());
 		outputs.add(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
 		outputs.add(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
+		//idk about the mid numbers
+		outputs.add(MIDDLE_DRIVE_SPEED_INDEX, new WsDriveSpeed("Middle Drive Speed", 4, 5));
 		outputs.add(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 	}
 }
