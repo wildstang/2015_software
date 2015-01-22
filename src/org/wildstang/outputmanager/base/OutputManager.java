@@ -76,6 +76,7 @@ public class OutputManager {
 	public static final int RIGHT_DRIVE_SPEED_INDEX = 1;
 	public static final int LEFT_DRIVE_SPEED_INDEX = 2;
 	public static final int SHIFTER_INDEX = 3;
+	public static final int HOOKS_SOLENOID_INDEX = 5;
 	
 
 	/**
@@ -91,5 +92,6 @@ public class OutputManager {
 		outputs.add(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
 		outputs.add(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
 		outputs.add(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
+		outputs.add(HOOKS_SOLENOID_INDEX, new WsDoubleSolenoid("Hooks", 2, 3));
 	}
 }
