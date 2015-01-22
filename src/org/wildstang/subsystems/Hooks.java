@@ -20,6 +20,7 @@ public class Hooks extends Subsystem implements IObserver
 
 	public void init()
 	{
+		currentState = false;
 		// Open Hooks Button (I think these are trigger buttons)
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 		// Close Hooks Button
@@ -35,7 +36,7 @@ public class Hooks extends Subsystem implements IObserver
         else {
             wingsValue = DoubleSolenoid.Value.kForward_val;
         }
-        (OutputManager.getInstance().getOutput(OutputManager.HOOKS_SOLENOID_INDEX)).set(new Integer(wingsValue));
+        (getOutput(OutputManager.HOOKS_SOLENOID_INDEX)).set(new Integer(wingsValue));
         SmartDashboard.putBoolean("Hook State", currentState);
 	}
 	
