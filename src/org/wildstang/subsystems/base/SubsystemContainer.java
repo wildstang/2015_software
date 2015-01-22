@@ -82,7 +82,7 @@ public class SubsystemContainer {
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
 	public static final int JOYSTICK_TEST_INDEX = 4;
-	public static final int HOOKS_SOLENOID_INDEX = 0;
+	public static final int HOOKS_SOLENOID_INDEX = 5;
 
 	/**
 	 * Constructor for the subsystem container.
