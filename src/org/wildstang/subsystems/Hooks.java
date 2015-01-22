@@ -52,5 +52,10 @@ public class Hooks extends Subsystem implements IObserver
 			currentState = true;
 		}
 	}
+	
+	public void setHooksState(boolean state)
+	{
+		currentState = state;
+	}
 
 }
