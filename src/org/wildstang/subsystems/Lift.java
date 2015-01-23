@@ -21,6 +21,7 @@ public class Lift extends Subsystem
 	{
 		double speed = ((Double) (getJoystickValue(false, JoystickAxisEnum.MANIPULATOR_DPAD_Y))).doubleValue();
 		getOutput(OutputManager.WINCH_INDEX).set(new Double(speed));
+		getOutput(OutputManager.WINCH_INDEX).update();
 	}
 
 }
