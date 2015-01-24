@@ -29,14 +29,14 @@ public class Hooks extends Subsystem implements IObserver
 	
 	public void update()
 	{
-        int wingsValue = 0;
+        int hooksValue = 0;
         if(currentState == true){
-            wingsValue = DoubleSolenoid.Value.kReverse_val;
+            hooksValue = DoubleSolenoid.Value.kReverse_val;
         }
         else {
-            wingsValue = DoubleSolenoid.Value.kForward_val;
+            hooksValue = DoubleSolenoid.Value.kForward_val;
         }
-        (getOutput(OutputManager.HOOKS_SOLENOID_INDEX)).set(new Integer(wingsValue));
+        (getOutput(OutputManager.HOOKS_SOLENOID_INDEX)).set(new Integer(hooksValue));
         SmartDashboard.putBoolean("Hook State", currentState);
 	}
 	
