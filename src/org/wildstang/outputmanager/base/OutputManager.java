@@ -5,9 +5,8 @@ import java.util.List;
 
 import org.wildstang.outputmanager.outputs.WsDoubleSolenoid;
 import org.wildstang.outputmanager.outputs.WsDriveSpeed;
+import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.outputmanager.outputs.no.NoOutput;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -76,6 +75,8 @@ public class OutputManager {
 	public static final int RIGHT_DRIVE_SPEED_INDEX = 1;
 	public static final int LEFT_DRIVE_SPEED_INDEX = 2;
 	public static final int SHIFTER_INDEX = 3;
+	public static final int INTAKE_WHEELS_INDEX = 4;
+	
 	
 
 	/**
@@ -91,5 +92,6 @@ public class OutputManager {
 		outputs.add(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
 		outputs.add(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
 		outputs.add(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
+		outputs.add(INTAKE_WHEELS_INDEX, new WsVictor("Intake Wheels", 10));
 	}
 }
