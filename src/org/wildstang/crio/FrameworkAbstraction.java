@@ -9,6 +9,7 @@ import org.wildstang.configmanager.ConfigManager;
 import org.wildstang.configmanager.ConfigManagerException;
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.logger.Logger;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
@@ -41,6 +42,7 @@ public class FrameworkAbstraction {
 		OutputManager.getInstance();
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
+		LogManager.getInstance();
 		AutonomousManager.getInstance();
 	}
 
@@ -49,6 +51,7 @@ public class FrameworkAbstraction {
 		InputManager.getInstance().updateSensorData();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
+		LogManager.getInstance().update();
 	}
 
 	public static void autonomousPeriodic() {
@@ -57,10 +60,12 @@ public class FrameworkAbstraction {
 		AutonomousManager.getInstance().update();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
+		LogManager.getInstance().update();
 	}
 
 	public static void disabledPeriodic() {
 		InputManager.getInstance().updateOiData();
+		LogManager.getInstance().update();
 	}
 
 	public static void disabledInit() {
