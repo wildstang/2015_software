@@ -76,6 +76,8 @@ public class OutputManager {
 	public static final int RIGHT_DRIVE_SPEED_INDEX = 1;
 	public static final int LEFT_DRIVE_SPEED_INDEX = 2;
 	public static final int SHIFTER_INDEX = 3;
+	public static final int CONTAINMENT_PISTON_INDEX = 8;
+	public static final int CONTAINMENT_FLAP_PISTON_INDEX = 9;
 	
 
 	/**
@@ -91,5 +93,7 @@ public class OutputManager {
 		outputs.add(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
 		outputs.add(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
 		outputs.add(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
+		outputs.add(CONTAINMENT_PISTON_INDEX, new WsDoubleSolenoid("Containment", 4, 5));
+		outputs.add(CONTAINMENT_FLAP_PISTON_INDEX, new WsDoubleSolenoid("Containment Flaps", 6, 7));
 	}
 }
