@@ -4,6 +4,7 @@
  */
 package org.wildstang.subsystems.base;
 
+import org.wildstang.inputmanager.base.IInput;
 import org.wildstang.inputmanager.base.IInputEnum;
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.logger.Logger;
@@ -93,5 +94,10 @@ public class Subsystem {
 	public IOutput getOutput(int index)
 	{
 		return OutputManager.getInstance().getOutput(index);
+	}
+	
+	public IInput getSensorInput(int index)
+	{
+		return InputManager.getInstance().getSensorInput(index);
 	}
 }
