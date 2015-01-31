@@ -6,6 +6,7 @@ import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.JoystickTest;
 import org.wildstang.subsystems.LED;
+import org.wildstang.subsystems.Monitor;
 import org.wildstang.subsystems.WsCompressor;
 
 /**
@@ -81,6 +82,7 @@ public class SubsystemContainer {
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
 	public static final int JOYSTICK_TEST_INDEX = 4;
+	public static final int MONITOR_INDEX = 5;
 
 	/**
 	 * Constructor for the subsystem container.
@@ -95,5 +97,6 @@ public class SubsystemContainer {
 		subsystem.add(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
 				AUTO_MOVEMENT_CONTROLLER));
 		subsystem.add(JOYSTICK_TEST_INDEX, new JoystickTest());
+		subsystem.add(MONITOR_INDEX, new Monitor("Monitor"));
 	}
 }
