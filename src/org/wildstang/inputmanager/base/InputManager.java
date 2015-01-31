@@ -145,18 +145,10 @@ public class InputManager {
 	public static final int START_POSITION_SELECTOR_INDEX = 5;
 	// Sensor Inputs
 	public static final int PRESSURE_TRANSDUCER_INDEX = 1;
-	public static final int FRONT_ARM_POT_INDEX = 2;
-	public static final int BACK_ARM_POT_INDEX = 3;
 	// public static final int LEFT_ENCODER_A_INDEX = 4;
 	// public static final int LEFT_ENCODER_B_INDEX = 5;
 	// public static final int RIGHT_ENCODER_A_INDEX = 6;
 	// public static final int RIGHT_ENCODER_B_INDEX = 7;
-	public static final int TENSION_LIMIT_SWITCH_INDEX = 4;
-	public static final int BALL_DETECT_SWITCH_INDEX = 5;
-	public static final int LATCH_POSITION_SWITCH_INDEX = 6;
-	public static final int CATAPULT_DOWN_SWITCH_INDEX = 7;
-	public static final int FRONT_ARM_CALIBRATION_SWITCH_INDEX = 8;
-	public static final int BACK_ARM_CALIBRATION_SWITCH_INDEX = 9;
 	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
 	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
 
@@ -170,18 +162,10 @@ public class InputManager {
 		// Add the facade data elements
 		sensorInputs.add(UNKNOWN_INDEX, new NoInput());
 		sensorInputs.add(PRESSURE_TRANSDUCER_INDEX, new WsAnalogInput(4));
-		sensorInputs.add(FRONT_ARM_POT_INDEX, new WsAnalogInput(2));
-		sensorInputs.add(BACK_ARM_POT_INDEX, new WsAnalogInput(3));
 		// sensorInputs.add(LEFT_ENCODER_A_INDEX, new WsDigitalInput(2));
 		// sensorInputs.add(LEFT_ENCODER_B_INDEX, new WsDigitalInput(3));
 		// sensorInputs.add(RIGHT_ENCODER_A_INDEX, new WsDigitalInput(4));
 		// sensorInputs.add(RIGHT_ENCODER_B_INDEX, new WsDigitalInput(5));
-		sensorInputs.add(TENSION_LIMIT_SWITCH_INDEX, new WsDigitalInput(4));
-		sensorInputs.add(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
-		sensorInputs.add(LATCH_POSITION_SWITCH_INDEX, new WsDigitalInput(6));
-		sensorInputs.add(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
-		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
-		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
 		sensorInputs.add(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(11));
 		sensorInputs.add(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(12));
 
