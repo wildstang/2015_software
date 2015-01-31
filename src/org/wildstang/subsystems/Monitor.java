@@ -28,17 +28,18 @@ public class Monitor extends Subsystem
 	
 	public void update ()
 	{
-		/*for (int i = 0; i < 16; i = i + 1)
+		for (int i = 0; i < 16; i = i + 1)
 		{
 			double current = pdp.getCurrent(i);
-			SmartDashboard.putDouble("PDP output #" + i, current);
-		}*/
+			SmartDashboard.putNumber("PDP output #" + (i+1), current);
+			
+		}
 		
 		double totalCurrent = pdp.getTotalCurrent();
-		SmartDashboard.putNumber("Total Current", totalCurrent);
+		SmartDashboard.putNumber("Current", totalCurrent);
 		
 		double voltage = pdp.getVoltage();
-		SmartDashboard.putNumber("Average Voltage", voltage);
+		SmartDashboard.putNumber("Voltage", voltage);
 		
 		double pdpTemp = pdp.getTemperature();
 		SmartDashboard.putNumber("Temperature", pdpTemp);
