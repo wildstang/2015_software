@@ -35,13 +35,13 @@ public class Monitor extends Subsystem
 		}*/
 		
 		double totalCurrent = pdp.getTotalCurrent();
-		SmartDashboard.putDouble("Total Current", totalCurrent);
+		SmartDashboard.putNumber("Total Current", totalCurrent);
 		
 		double voltage = pdp.getVoltage();
-		SmartDashboard.putDouble("Average Voltage", voltage);
+		SmartDashboard.putNumber("Average Voltage", voltage);
 		
 		double pdpTemp = pdp.getTemperature();
-		SmartDashboard.putDouble("Temperature", pdpTemp);
+		SmartDashboard.putNumber("Temperature", pdpTemp);
 		
 		
 	}
