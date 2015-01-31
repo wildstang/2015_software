@@ -1,5 +1,6 @@
 package org.wildstang.subsystems;
 
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.subsystems.base.Subsystem;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -28,20 +29,22 @@ public class Monitor extends Subsystem
 	
 	public void update ()
 	{
-		for (int i = 0; i < 16; i = i + 1)
+		for(int i = 0; i < 16; i++)
 		{
 			double current = pdp.getCurrent(i);
-			SmartDashboard.putNumber("PDP output #" + (i+1), current);
-			
+			LogManager.getInstance().getObject(i).updateObject(new Double(current));
 		}
 		
 		double totalCurrent = pdp.getTotalCurrent();
+		LogManager.getInstance().getObject(LogManager.CURRENT_INDEX).updateObject(new Double(totalCurrent));
 		SmartDashboard.putNumber("Current", totalCurrent);
 		
 		double voltage = pdp.getVoltage();
+		LogManager.getInstance().getObject(LogManager.VOLTAGE_INDEX).updateObject(new Double(voltage));
 		SmartDashboard.putNumber("Voltage", voltage);
 		
 		double pdpTemp = pdp.getTemperature();
+		LogManager.getInstance().getObject(LogManager.TEMPERATURE_INDEX).updateObject(new Double(pdpTemp));
 		SmartDashboard.putNumber("Temperature", pdpTemp);
 		
 		

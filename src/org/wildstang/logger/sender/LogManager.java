@@ -60,12 +60,20 @@ public class LogManager
 	{
 		return (LogObject) objects.get(index);
 	}
-	
-	
+
+	public static final int CURRENT_INDEX = 16;
+	public static final int VOLTAGE_INDEX = 17;
+	public static final int TEMPERATURE_INDEX = 18;
 	
 	protected LogManager()
 	{
-		//logs.add(UNKNOWN_INDEX, new NoLog());
+		for(int i = 0; i < 16; i++)
+		{
+			objects.add(i, new LogObject("Current " + i));
+		}
+		objects.add(CURRENT_INDEX, new LogObject("Total Current"));
+		objects.add(VOLTAGE_INDEX, new LogObject("Voltage"));
+		objects.add(TEMPERATURE_INDEX, new LogObject("Temperature"));
 	}
 	
 }
