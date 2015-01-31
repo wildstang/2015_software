@@ -14,6 +14,7 @@ public class LogManager
 	private static LogManager instance = null;
 	private static List<LogObject> objects = new ArrayList<>();
 	private static Socket socket;
+	private static long startTime = System.currentTimeMillis();
 	
 	public static LogManager getInstance()
 	{
@@ -38,6 +39,7 @@ public class LogManager
 	public void update()
 	{
 	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for(LogObject object : objects)
 		{
 		    map.put(object.getName(), object.getObject());
