@@ -158,6 +158,7 @@ public class InputManager {
 	public static final int FRONT_ARM_CALIBRATION_SWITCH_INDEX = 8;
 	public static final int BACK_ARM_CALIBRATION_SWITCH_INDEX = 9;
 	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
+	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
 
 	/**
 	 * Constructor for the InputManager.
@@ -181,7 +182,8 @@ public class InputManager {
 		sensorInputs.add(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
 		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
 		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
-		sensorInputs.add(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(10));
+		sensorInputs.add(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(11));
+		sensorInputs.add(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(12));
 
 		oiInputs.add(UNKNOWN_INDEX, new NoInput());
 		oiInputs.add(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
