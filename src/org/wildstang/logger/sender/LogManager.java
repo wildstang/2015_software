@@ -29,6 +29,7 @@ public class LogManager
 	{
 		try
 		{
+			//hostname will need to be updated
 			socket = new Socket("hostname", 1111);
 		}
 		catch (IOException e) {
@@ -63,6 +64,7 @@ public class LogManager
 		return (LogObject) objects.get(index);
 	}
 
+	//0-15 reserved for individual currents
 	public static final int CURRENT_INDEX = 16;
 	public static final int VOLTAGE_INDEX = 17;
 	public static final int TEMPERATURE_INDEX = 18;
