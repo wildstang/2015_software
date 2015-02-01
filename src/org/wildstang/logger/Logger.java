@@ -3,6 +3,7 @@ package org.wildstang.logger;
 import org.wildstang.config.BooleanConfigFileParameter;
 import org.wildstang.config.StringConfigFileParameter;
 import org.wildstang.logger.impl.LoggerImpl;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.types.Level;
 
 /**
@@ -115,6 +116,7 @@ public class Logger {
 		}
 
 		logMessage(Level.DEBUG, c, id, message);
+		LogManager.getInstance().addDebug(message);
 	}
 
 	/**

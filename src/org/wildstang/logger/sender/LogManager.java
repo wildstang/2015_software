@@ -13,7 +13,9 @@ public class LogManager
 {
 	private static LogManager instance = null;
 	private static List<LogObject> objects = new ArrayList<>();
-	private static Socket socket;
+	private static List<LogObject> debugs = new ArrayList<>();
+	private static Socket logSocket;
+	private static Socket debugSocket;
 	private static long startTime = System.currentTimeMillis();
 	
 	public static LogManager getInstance()
@@ -30,7 +32,8 @@ public class LogManager
 		try
 		{
 			//hostname will need to be updated
-			socket = new Socket("hostname", 1111);
+			logSocket = new Socket("hostname", 1111);
+			debugSocket = new Socket("hostname", 1112);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -39,6 +42,7 @@ public class LogManager
 	
 	public void update()
 	{
+		//for sending subsystem data
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for(LogObject object : objects)
@@ -48,7 +52,27 @@ public class LogManager
 		try
 		{
 		    OutputStream outputStream;
-			outputStream = socket.getOutputStream();
+			outputStream = logSocket.getOutputStream();
+		    ObjectOutputStream mapOutputStream;
+			mapOutputStream = new ObjectOutputStream(outputStream);
+		    mapOutputStream.writeObject(map);
+		    mapOutputStream.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//for sending debug messages
+	    map = new HashMap<String, Object>();
+	    map.put("Timestamp", System.currentTimeMillis() - startTime);
+		for(LogObject debug : debugs)
+		{
+		    map.put(debug.getName(), debug.getObject());
+		}
+		try
+		{
+		    OutputStream outputStream;
+			outputStream = debugSocket.getOutputStream();
 		    ObjectOutputStream mapOutputStream;
 			mapOutputStream = new ObjectOutputStream(outputStream);
 		    mapOutputStream.writeObject(map);
@@ -59,11 +83,17 @@ public class LogManager
 		}
 	}
 	
+	public void addDebug(Object message)
+	{
+		debugs.add(new LogObject("Debug", message));
+	}
+	
 	public LogObject getObject(int index)
 	{
 		return (LogObject) objects.get(index);
 	}
 
+	//Logs from subsystems
 	//0-15 reserved for individual currents
 	public static final int CURRENT_INDEX = 16;
 	public static final int VOLTAGE_INDEX = 17;
