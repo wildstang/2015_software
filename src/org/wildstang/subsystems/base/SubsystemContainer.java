@@ -9,6 +9,8 @@ import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.WsCompressor;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author Nathan
@@ -19,17 +21,21 @@ public class SubsystemContainer {
 	private static Map<Integer, Subsystem> subsystems = new HashMap<Integer, Subsystem>();
 
 	public static SubsystemContainer getInstance() {
-		if (SubsystemContainer.instance == null) {
-			SubsystemContainer.instance = new SubsystemContainer();
+		if (instance == null) {
+			instance = new SubsystemContainer();
 		}
-		return SubsystemContainer.instance;
+		return instance;
 	}
 
 	public void init() {
-		for (Integer key : subsystems.keySet()) {
-			Subsystem sys = (Subsystem) subsystems.get(key);
+		SmartDashboard.putString("subsystems-init", "Initing subsystems!");
+		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
+			Subsystem sys = entry.getValue();
 			if (sys != null) {
+				SmartDashboard.putString("subsystems-init", "Ayyy, subsystem not null, inited!");
 				sys.init();
+			} else {
+				SmartDashboard.putString("subsystems-init", "Damn, it's null.");
 			}
 		}
 	}
@@ -50,21 +56,24 @@ public class SubsystemContainer {
 	 * Triggers all subsystems to be updated.
 	 */
 	public void update() {
-		for (Integer key : subsystems.keySet()) {
-			Subsystem sys = subsystems.get(key);
+		SmartDashboard.putString("subsystems-update", "Updating subsystems!");
+		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
+			Subsystem sys = entry.getValue();
 			if (sys != null) {
+				SmartDashboard.putString("subsystems-update", "Ayyy, subsystem not null, updated!");
 				sys.update();
+			} else {
+				SmartDashboard.putString("subsystems-update", "Damn, it's null.");
 			}
 		}
 	}
 
 	/**
-	 * Notifies all subsystems a config change has occurred and config params
-	 * should be re-read.
+	 * Notifies all subsystems a config change has occurred and config params should be re-read.
 	 */
 	public void notifyConfigChange() {
-		for (Integer key : subsystems.keySet()) {
-			Subsystem sys = subsystems.get(key);
+		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
+			Subsystem sys = entry.getValue();
 			if (sys != null) {
 				sys.notifyConfigChange();
 			}
@@ -86,8 +95,8 @@ public class SubsystemContainer {
 	/**
 	 * Constructor for the subsystem container.
 	 *
-	 * Each new subsystem must be added here. This is where they are
-	 * instantiated as well as placed in the subsystem container.
+	 * Each new subsystem must be added here. This is where they are instantiated as well as placed in the subsystem
+	 * container.
 	 */
 	protected SubsystemContainer() {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));

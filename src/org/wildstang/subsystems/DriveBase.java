@@ -254,7 +254,7 @@ public class DriveBase extends Subsystem implements IObserver {
 
 			throttleValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_THROTTLE);
 			headingValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_HEADING);
-			strafeValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_STRAFE).doubleValue();
+			strafeValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_STRAFE);
 
 			SmartDashboard.putNumber("Throttle Joystick Value", throttleValue);
 			SmartDashboard.putNumber("Heading Joystick Value", headingValue);
@@ -262,6 +262,7 @@ public class DriveBase extends Subsystem implements IObserver {
 
 			setThrottleValue(throttleValue);
 			setHeadingValue(headingValue);
+			setStrafeValue(strafeValue);
 
 			// Use updated values to update the quickTurnFlag
 			checkAutoQuickTurn();

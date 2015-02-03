@@ -12,6 +12,8 @@ import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.IObserver;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  *
  * @author Nathan
@@ -76,7 +78,7 @@ public class Subsystem {
 		}
 	}
 
-	public Double getJoystickAxisValue(JoystickAxisEnum axis) {
+	public double getJoystickAxisValue(JoystickAxisEnum axis) {
 		if (axis.isDriver()) {
 			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(axis)).doubleValue();
 		} else {

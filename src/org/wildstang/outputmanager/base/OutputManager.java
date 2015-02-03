@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.wildstang.outputmanager.outputs.WsDoubleSolenoid;
 import org.wildstang.outputmanager.outputs.WsDriveSpeed;
+import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.outputmanager.outputs.no.NoOutput;
 
 /**
@@ -89,7 +90,7 @@ public class OutputManager {
 		outputs.put(UNKNOWN_INDEX, new NoOutput());
 		outputs.put(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
 		outputs.put(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
-		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsDriveSpeed("Strafe Drive Speed", 4, 5));
+		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsVictor("Strafe Drive Speed", 4));
 		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 	}
 }

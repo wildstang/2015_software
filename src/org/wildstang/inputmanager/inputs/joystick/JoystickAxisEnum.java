@@ -76,7 +76,7 @@ public class JoystickAxisEnum implements IInputEnum {
 		manipulatorAxes = new JoystickAxisEnum[MANIPULATOR_AXES_COUNT];
 
 		driverAxes[LEFT_JOYSTICK_Y] = DRIVER_THROTTLE;
-		driverAxes[LEFT_JOYSTICK_X] = DRIVER_LEFT_JOYSTICK_X;
+		driverAxes[LEFT_JOYSTICK_X] = DRIVER_STRAFE;
 		driverAxes[RIGHT_JOYSTICK_Y] = DRIVER_RIGHT_JOYSTICK_Y;
 		driverAxes[RIGHT_JOYSTICK_X] = DRIVER_HEADING;
 		driverAxes[DPAD_Y] = DRIVER_DPAD_Y;

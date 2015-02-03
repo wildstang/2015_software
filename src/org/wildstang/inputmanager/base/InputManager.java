@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.wildstang.inputmanager.inputs.WsAnalogInput;
 import org.wildstang.inputmanager.inputs.WsDigitalInput;
+import org.wildstang.inputmanager.inputs.WsLIDAR;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSAnalogInput;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSDigitalInput;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
@@ -41,9 +42,10 @@ public class InputManager {
 	 * Method to trigger updates of all the sensor data input containers
 	 */
 	public void updateSensorData() {
-		for (Integer key : sensorInputs.keySet()) {
-			IInput in = sensorInputs.get(key);
+		for (Map.Entry<Integer, IInput> entry : sensorInputs.entrySet()) {
+			IInput in = entry.getValue();
 			if (in != null) {
+				in.pullData();
 				in.update();
 			}
 		}
@@ -53,17 +55,18 @@ public class InputManager {
 	 * Method to trigger updates of all the oi data input containers.
 	 */
 	public void updateOiData() {
-		for (Integer key : oiInputs.keySet()) {
-			IInput in = oiInputs.get(key);
+		for (Map.Entry<Integer, IInput> entry : oiInputs.entrySet()) {
+			IInput in = entry.getValue();
 			if (in != null) {
+				in.pullData();
 				in.update();
 			}
 		}
 	}
 
 	public void updateOiDataAutonomous() {
-		for (Integer key : oiInputs.keySet()) {
-			IInput oiIn = oiInputs.get(key);
+		for (Map.Entry<Integer, IInput> entry : oiInputs.entrySet()) {
+			IInput oiIn = entry.getValue();
 			if (oiIn == null) {
 				continue;
 			}
@@ -80,14 +83,14 @@ public class InputManager {
 	 * Used by the ConfigManager when the config is re-read.
 	 */
 	public void notifyConfigChange() {
-		for (Integer key : sensorInputs.keySet()) {
-			IInput in = sensorInputs.get(key);
+		for (Map.Entry<Integer, IInput> entry : sensorInputs.entrySet()) {
+			IInput in = entry.getValue();
 			if (in != null) {
 				in.notifyConfigChange();
 			}
 		}
-		for (Integer key : oiInputs.keySet()) {
-			IInput in = oiInputs.get(key);
+		for (Map.Entry<Integer, IInput> entry : oiInputs.entrySet()) {
+			IInput in = entry.getValue();
 			if (in != null) {
 				in.notifyConfigChange();
 			}
@@ -147,6 +150,7 @@ public class InputManager {
 	public static final int CATAPULT_DOWN_SWITCH_INDEX = 7;
 	public static final int FRONT_ARM_CALIBRATION_SWITCH_INDEX = 8;
 	public static final int BACK_ARM_CALIBRATION_SWITCH_INDEX = 9;
+	public static final int LIDAR_INDEX = 10;
 
 	/**
 	 * Constructor for the InputManager.
@@ -161,11 +165,12 @@ public class InputManager {
 		sensorInputs.put(FRONT_ARM_POT_INDEX, new WsAnalogInput(2));
 		sensorInputs.put(BACK_ARM_POT_INDEX, new WsAnalogInput(3));
 		sensorInputs.put(TENSION_LIMIT_SWITCH_INDEX, new WsDigitalInput(4));
-		sensorInputs.put(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
+		//sensorInputs.put(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
 		sensorInputs.put(LATCH_POSITION_SWITCH_INDEX, new WsDigitalInput(6));
 		sensorInputs.put(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
-		sensorInputs.put(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
-		sensorInputs.put(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
+		//sensorInputs.put(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
+		//sensorInputs.put(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
+		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
