@@ -7,6 +7,7 @@ package org.wildstang.subsystems.base;
 import org.wildstang.inputmanager.base.IInput;
 import org.wildstang.inputmanager.base.IInputEnum;
 import org.wildstang.inputmanager.base.InputManager;
+import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.logger.Logger;
 import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.OutputManager;
@@ -16,7 +17,7 @@ import org.wildstang.subjects.base.IObserver;
  *
  * @author Nathan
  */
-public class Subsystem {
+public abstract class Subsystem {
 
 	static String subSystemName;
 
@@ -30,8 +31,7 @@ public class Subsystem {
 		subSystemName = name;
 	}
 
-	public void init() {
-	}
+	public abstract void init();
 
 	/**
 	 * Gets the name of the subsystem.
@@ -47,9 +47,7 @@ public class Subsystem {
 	 *
 	 * Must be overridden when extending the base class.
 	 */
-	public void update() {
-		// Override when extending base class.
-	}
+	public abstract void update();
 
 	/**
 	 * Method to notify the subsystem of a config change.
@@ -57,10 +55,10 @@ public class Subsystem {
 	 * Override this method when extending the base class, if config params are required.
 	 */
 	public void notifyConfigChange() {
-		// Override when extending base class if config is needed.
+		// Do nothing by default
 	}
 
-	public void registerForJoystickButtonNotification(IInputEnum button) {
+	protected void registerForJoystickButtonNotification(IInputEnum button) {
 		try {
 			InputManager.getInstance().attachJoystickButton(button, (IObserver) this);
 		} catch (ClassCastException e) {
@@ -68,7 +66,7 @@ public class Subsystem {
 		}
 	}
 
-	public void registerForSensorNotification(int sensorIndex) {
+	protected void registerForSensorNotification(int sensorIndex) {
 		try {
 			InputManager.getInstance().getSensorInput(sensorIndex).getSubject().attach((IObserver) this);
 		} catch (Exception e) {
@@ -76,21 +74,24 @@ public class Subsystem {
 		}
 	}
 
-	public Double getJoystickValue(boolean driver, IInputEnum key) {
-		Double returnval;
-		if (driver) {
-			returnval = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();
-		} else {
-			returnval = ((Double) ((InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX))).get(key)).doubleValue();
+	protected Double getJoystickValue(IInputEnum key) {
+		if(!(key instanceof JoystickAxisEnum)) {
+			throw new ClassCastException("Input enum must be an instance of JoystickAxisEnum!");
 		}
-		return returnval;
+		
+		JoystickAxisEnum axis = (JoystickAxisEnum) key;
+		if (axis.isDriver()) {
+			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();
+		} else {
+			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX))).get(key)).doubleValue();
+		}
 	}
 
-	public IOutput getOutput(int index) {
+	protected IOutput getOutput(int index) {
 		return OutputManager.getInstance().getOutput(index);
 	}
 
-	public IInput getSensorInput(int index) {
+	protected IInput getSensorInput(int index) {
 		return InputManager.getInstance().getSensorInput(index);
 	}
 }
