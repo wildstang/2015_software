@@ -151,6 +151,10 @@ public class InputManager {
 	public static final int FRONT_ARM_CALIBRATION_SWITCH_INDEX = 8;
 	public static final int BACK_ARM_CALIBRATION_SWITCH_INDEX = 9;
 	public static final int LIDAR_INDEX = 10;
+	// public static final int LEFT_ENCODER_A_INDEX = 4;
+	// public static final int LEFT_ENCODER_B_INDEX = 5;
+	// public static final int RIGHT_ENCODER_A_INDEX = 6;
+	// public static final int RIGHT_ENCODER_B_INDEX = 7;
 
 	/**
 	 * Constructor for the InputManager.
@@ -171,6 +175,12 @@ public class InputManager {
 		//sensorInputs.put(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
 		//sensorInputs.put(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
 		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
+		sensorInputs.put(UNKNOWN_INDEX, new NoInput());
+		sensorInputs.put(PRESSURE_TRANSDUCER_INDEX, new WsAnalogInput(4));
+		// sensorInputs.add(LEFT_ENCODER_A_INDEX, new WsDigitalInput(2));
+		// sensorInputs.add(LEFT_ENCODER_B_INDEX, new WsDigitalInput(3));
+		// sensorInputs.add(RIGHT_ENCODER_A_INDEX, new WsDigitalInput(4));
+		// sensorInputs.add(RIGHT_ENCODER_B_INDEX, new WsDigitalInput(5));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
