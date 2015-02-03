@@ -54,8 +54,7 @@ public class Subsystem {
 	/**
 	 * Method to notify the subsystem of a config change.
 	 *
-	 * Override this method when extending the base class, if config params are
-	 * required.
+	 * Override this method when extending the base class, if config params are required.
 	 */
 	public void notifyConfigChange() {
 		// Override when extending base class if config is needed.
@@ -76,28 +75,22 @@ public class Subsystem {
 			Logger.getLogger().debug(this.getClass().getName(), "registerForSensorNotification", "This class must implement IObserver!");
 		}
 	}
-	
-	public Double getJoystickValue(boolean driver, IInputEnum key)
-	{
+
+	public Double getJoystickValue(boolean driver, IInputEnum key) {
 		Double returnval;
-		if(driver)
-		{
+		if (driver) {
 			returnval = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();
-		}
-		else
-		{
+		} else {
 			returnval = ((Double) ((InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX))).get(key)).doubleValue();
 		}
 		return returnval;
 	}
-	
-	public IOutput getOutput(int index)
-	{
+
+	public IOutput getOutput(int index) {
 		return OutputManager.getInstance().getOutput(index);
 	}
-	
-	public IInput getSensorInput(int index)
-	{
+
+	public IInput getSensorInput(int index) {
 		return InputManager.getInstance().getSensorInput(index);
 	}
 }

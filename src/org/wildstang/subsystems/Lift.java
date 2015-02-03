@@ -8,51 +8,41 @@ import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
 
-public class Lift extends Subsystem implements IObserver
-{	
+public class Lift extends Subsystem implements IObserver {
 	boolean atBottom;
 	boolean atTop;
-	
-	public Lift(String name)
-	{
+
+	public Lift(String name) {
 		super(name);
-		atBottom = false;
-		atTop = false;
-		//temp limit switch will probably be hall effect sensor
+
+		registerForSensorNotification(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX);
 		registerForSensorNotification(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX);
 	}
-	
-	public void init()
-	{
-		getOutput(OutputManager.WINCH_INDEX).set(new Double(0.0));
-		getOutput(OutputManager.WINCH_INDEX).update();
+
+	public void init() {
+		atBottom = false;
+		atTop = false;
 	}
-	
-	public void update()
-	{
-		double speed = ((Double) (getJoystickValue(false, JoystickAxisEnum.MANIPULATOR_DPAD_Y))).doubleValue();
-		if(!atBottom && !atTop)
-		{
-			getOutput(OutputManager.WINCH_INDEX).set(new Double(speed));
+
+	public void update() {
+		double winchJoystickValue = ((Double) (getJoystickValue(false, JoystickAxisEnum.MANIPULATOR_DPAD_Y))).doubleValue();
+		double winchMotorSpeed = 0;
+		if ((atBottom && winchJoystickValue < 0) || (atTop && winchJoystickValue > 0)) {
+			// Prevent driving past the top/bottom of the lift
+			winchMotorSpeed = 0;
+		} else {
+			winchMotorSpeed = winchJoystickValue;
 		}
-		else
-		{
-			getOutput(OutputManager.WINCH_INDEX).set(new Double(0.0));
-		}
-		getOutput(OutputManager.WINCH_INDEX).update();
-		
+		getOutput(OutputManager.WINCH_INDEX).set(new Double(winchMotorSpeed));
+
 	}
 
 	@Override
-	public void acceptNotification(Subject subjectThatCaused)
-	{
-		if(subjectThatCaused.equals(InputManager.getInstance().getSensorInput(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX).getSubject()))
-		{
-            atBottom = ((BooleanSubject) subjectThatCaused).getValue();
-		}
-		if(subjectThatCaused.equals(InputManager.getInstance().getSensorInput(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX).getSubject()))
-		{
-            atTop = ((BooleanSubject) subjectThatCaused).getValue();
+	public void acceptNotification(Subject subjectThatCaused) {
+		if (subjectThatCaused.equals(getSensorInput(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX).getSubject())) {
+			atBottom = ((BooleanSubject) subjectThatCaused).getValue();
+		} else if (subjectThatCaused.equals(getSensorInput(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX).getSubject())) {
+			atTop = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 
