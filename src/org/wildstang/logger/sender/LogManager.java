@@ -2,112 +2,99 @@ package org.wildstang.logger.sender;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
-public class LogManager
-{
+public class LogManager {
 	private static LogManager instance = null;
-	private static List<LogObject> objects = new ArrayList<>();
-	private static List<LogObject> debugs = new ArrayList<>();
-	private static Socket logSocket;
-	private static Socket debugSocket;
-	private static long startTime = System.currentTimeMillis();
-	
-	public static LogManager getInstance()
-	{
-		if(LogManager.instance == null)
-		{
+	private List<LogObject> objects = new ArrayList<>();
+	private List<LogObject> debugs = new ArrayList<>();
+	private long startTime = System.currentTimeMillis();
+	private ObjectSender logDataSender;
+	private ObjectSender debugDataSender;
+
+	public static LogManager getInstance() {
+		if (LogManager.instance == null) {
 			LogManager.instance = new LogManager();
 		}
 		return LogManager.instance;
 	}
-	
-	public void init()
-	{
-		try
-		{
-			//hostname will need to be updated
-			logSocket = new Socket("hostname", 1111);
-			debugSocket = new Socket("hostname", 1112);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void update()
-	{
-		//for sending subsystem data
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("Timestamp", System.currentTimeMillis() - startTime);
-		for(LogObject object : objects)
-		{
-		    map.put(object.getName(), object.getObject());
-		}
-		try
-		{
-		    OutputStream outputStream;
-			outputStream = logSocket.getOutputStream();
-		    ObjectOutputStream mapOutputStream;
-			mapOutputStream = new ObjectOutputStream(outputStream);
-		    mapOutputStream.writeObject(map);
-		    mapOutputStream.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		//for sending debug messages
-	    map = new HashMap<String, Object>();
-	    map.put("Timestamp", System.currentTimeMillis() - startTime);
-		for(LogObject debug : debugs)
-		{
-		    map.put(debug.getName(), debug.getObject());
-		}
-		try
-		{
-		    OutputStream outputStream;
-			outputStream = debugSocket.getOutputStream();
-		    ObjectOutputStream mapOutputStream;
-			mapOutputStream = new ObjectOutputStream(outputStream);
-		    mapOutputStream.writeObject(map);
-		    mapOutputStream.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void addDebug(Object message)
-	{
-		debugs.add(new LogObject("Debug", message));
-	}
-	
-	public LogObject getObject(int index)
-	{
-		return (LogObject) objects.get(index);
+
+	public void init() {
+		new Thread(logDataSender = new ObjectSender(1111)).start();
+		new Thread(debugDataSender = new ObjectSender(1112)).start();
 	}
 
-	//Logs from subsystems
-	//0-15 reserved for individual currents
-	public static final int CURRENT_INDEX = 16;
-	public static final int VOLTAGE_INDEX = 17;
-	public static final int TEMPERATURE_INDEX = 18;
-	
-	protected LogManager()
-	{
-		for(int i = 0; i < 16; i++)
-		{
-			objects.add(i, new LogObject("Current " + i));
+	public void update() {
+		// for sending subsystem data
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("Timestamp", System.currentTimeMillis() - startTime);
+		for (LogObject object : objects) {
+			map.put(object.getName(), object.getObject());
 		}
-		objects.add(CURRENT_INDEX, new LogObject("Total Current"));
-		objects.add(VOLTAGE_INDEX, new LogObject("Voltage"));
-		objects.add(TEMPERATURE_INDEX, new LogObject("Temperature"));
+		logDataSender.addToQueue(map);
+
+		// for sending debug messages
+		map = new HashMap<String, Object>();
+		map.put("Timestamp", System.currentTimeMillis() - startTime);
+		for (LogObject debug : debugs) {
+			map.put(debug.getName(), debug.getObject());
+		}
+		debugDataSender.addToQueue(map);
+
+		objects.clear();
+		debugs.clear();
 	}
-	
+
+	public void addDebug(Object message) {
+		debugs.add(new LogObject("Debug", message));
+	}
+
+	public void addObject(String name, Object obj) {
+		objects.add(new LogObject(name, obj));
+	}
+
+	public class ObjectSender implements Runnable {
+		private Socket socket;
+		private ObjectOutputStream outputStream;
+		private BlockingDeque<Object> queue = new LinkedBlockingDeque<>();
+		private int portNumber;
+
+		public ObjectSender(int portNumber) {
+			this.portNumber = portNumber;
+		}
+
+		public void addToQueue(Object o) {
+			queue.addFirst(o);
+		}
+
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					socket = new Socket("beaglebone.local", portNumber);
+					outputStream = new ObjectOutputStream(
+							socket.getOutputStream());
+
+					while (true) {
+						Object o;
+						try {
+							while ((o = queue.takeLast()) != null) {
+								outputStream.writeObject(o);
+							}
+						} catch (InterruptedException e) {
+							continue;
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

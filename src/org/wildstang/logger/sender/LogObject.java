@@ -11,12 +11,6 @@ public class LogObject
 		this.object = object;
 	}
 	
-	public LogObject(String name)
-	{
-		this.name = name;
-		this.object = null;
-	}
-	
 	public String getName()
 	{
 		return name;
@@ -25,10 +19,5 @@ public class LogObject
 	public Object getObject()
 	{
 		return object;
-	}
-	
-	public void updateObject(Object object)
-	{
-		this.object = object;
 	}
 }

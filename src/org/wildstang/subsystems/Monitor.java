@@ -32,19 +32,19 @@ public class Monitor extends Subsystem
 		for(int i = 0; i < 16; i++)
 		{
 			double current = pdp.getCurrent(i);
-			LogManager.getInstance().getObject(i).updateObject(new Double(current));
+			LogManager.getInstance().addObject("Current " + i, current);
 		}
 		
 		double totalCurrent = pdp.getTotalCurrent();
-		LogManager.getInstance().getObject(LogManager.CURRENT_INDEX).updateObject(new Double(totalCurrent));
+		LogManager.getInstance().addObject("Total Current", totalCurrent);
 		SmartDashboard.putNumber("Current", totalCurrent);
 		
 		double voltage = pdp.getVoltage();
-		LogManager.getInstance().getObject(LogManager.VOLTAGE_INDEX).updateObject(new Double(voltage));
+		LogManager.getInstance().addObject("Voltage", voltage);
 		SmartDashboard.putNumber("Voltage", voltage);
 		
 		double pdpTemp = pdp.getTemperature();
-		LogManager.getInstance().getObject(LogManager.TEMPERATURE_INDEX).updateObject(new Double(pdpTemp));
+		LogManager.getInstance().addObject("Temperature", pdpTemp);
 		SmartDashboard.putNumber("Temperature", pdpTemp);
 		
 		
