@@ -1,14 +1,17 @@
 package org.wildstang.subsystems.base;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.JoystickTest;
 import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Lift;
+import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.Monitor;
 import org.wildstang.subsystems.WsCompressor;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,20 +20,24 @@ import org.wildstang.subsystems.WsCompressor;
 public class SubsystemContainer {
 
 	private static SubsystemContainer instance = null;
-	private static ArrayList<Subsystem> subsystem = new ArrayList<>();
+	private static Map<Integer, Subsystem> subsystems = new HashMap<Integer, Subsystem>();
 
 	public static SubsystemContainer getInstance() {
-		if (SubsystemContainer.instance == null) {
-			SubsystemContainer.instance = new SubsystemContainer();
+		if (instance == null) {
+			instance = new SubsystemContainer();
 		}
-		return SubsystemContainer.instance;
+		return instance;
 	}
 
 	public void init() {
-		for (int i = 0; i < subsystem.size(); i++) {
-			Subsystem sys = (Subsystem) subsystem.get(i);
+		SmartDashboard.putString("subsystems-init", "Initing subsystems!");
+		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
+			Subsystem sys = entry.getValue();
 			if (sys != null) {
+				SmartDashboard.putString("subsystems-init", "Ayyy, subsystem not null, inited!");
 				sys.init();
+			} else {
+				SmartDashboard.putString("subsystems-init", "Damn, it's null.");
 			}
 		}
 	}
@@ -43,32 +50,35 @@ public class SubsystemContainer {
 	 * @return A subsystem.
 	 */
 	public Subsystem getSubsystem(int index) {
-		if (index >= 0 && index < subsystem.size()) {
-			return (Subsystem) subsystem.get(index);
-		}
-		return (Subsystem) null;
+		Subsystem sys = (Subsystem) subsystems.get(index);
+		return sys == null ? (Subsystem) null : sys;
 	}
 
 	/**
 	 * Triggers all subsystems to be updated.
 	 */
 	public void update() {
-		for (int i = 0; i < subsystem.size(); i++) {
-			Subsystem sys = (Subsystem) subsystem.get(i);
-			if (sys != null)
+		SmartDashboard.putString("subsystems-update", "Updating subsystems!");
+		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
+			Subsystem sys = entry.getValue();
+			if (sys != null) {
+				SmartDashboard.putString("subsystems-update", "Ayyy, subsystem not null, updated!");
 				sys.update();
+			} else {
+				SmartDashboard.putString("subsystems-update", "Damn, it's null.");
+			}
 		}
 	}
 
 	/**
-	 * Notifies all subsystems a config change has occurred and config params
-	 * should be re-read.
+	 * Notifies all subsystems a config change has occurred and config params should be re-read.
 	 */
 	public void notifyConfigChange() {
-		for (int i = 0; i < subsystem.size(); i++) {
-			Subsystem sys = (Subsystem) subsystem.get(i);
-			if (sys != null)
+		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
+			Subsystem sys = entry.getValue();
+			if (sys != null) {
 				sys.notifyConfigChange();
+			}
 		}
 	}
 
@@ -82,24 +92,29 @@ public class SubsystemContainer {
 	public static final int WS_COMPRESSOR_INDEX = 1;
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
-	public static final int JOYSTICK_TEST_INDEX = 4;
 	public static final int LIFT_INDEX = 6;
+	public static final int TEST_INDEX = 7;
 	public static final int MONITOR_INDEX = 5;
 
 	/**
 	 * Constructor for the subsystem container.
 	 *
-	 * Each new subsystem must be added here. This is where they are
-	 * instantiated as well as placed in the subsystem container.
+	 * Each new subsystem must be added here. This is where they are instantiated as well as placed in the subsystem
+	 * container.
 	 */
 	protected SubsystemContainer() {
-		subsystem.add(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		subsystem.add(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
-		subsystem.add(LED_INDEX, new LED(LED));
-		subsystem.add(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
+		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
+		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
+		subsystems.put(LED_INDEX, new LED(LED));
+		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
+		subsystems.put(TEST_INDEX, new Test());
+		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
+		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
+		subsystems.put(LED_INDEX, new LED(LED));
+		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
 				AUTO_MOVEMENT_CONTROLLER));
-		subsystem.add(JOYSTICK_TEST_INDEX, new JoystickTest());
-		subsystem.add(LIFT_INDEX, new Lift("Lift"));
-		subsystem.add(MONITOR_INDEX, new Monitor("Monitor"));
+		subsystems.put(LIFT_INDEX, new Lift("Lift"));
+		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
+		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 	}
 }

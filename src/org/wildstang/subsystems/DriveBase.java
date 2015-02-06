@@ -33,6 +33,7 @@ public class DriveBase extends Subsystem implements IObserver {
 
 	private static final double MAX_INPUT_THROTTLE_VALUE = 1.0;
 	private static final double MAX_INPUT_HEADING_VALUE = 1.0;
+	private static final double MAX_INPUT_STRAFE_VALUE = 1.0;
 	private static final double HEADING_SENSITIVITY = 1.8;
 	private static final double MAX_MOTOR_OUTPUT = 1.0;
 	private static final double ANTI_TURBO_MAX_DEFLECTION = 0.500;
@@ -40,6 +41,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double HEADING_LOW_GEAR_ACCEL_FACTOR = 0.500;
 	private static double THROTTLE_HIGH_GEAR_ACCEL_FACTOR = 0.125;
 	private static double HEADING_HIGH_GEAR_ACCEL_FACTOR = 0.250;
+	private static double STRAFE_ACCEL_FACTOR = 0.250;
 	private static double TICKS_PER_ROTATION = 360.0;
 	private static double WHEEL_DIAMETER = 6;
 	private static double MAX_HIGH_GEAR_PERCENT = 0.80;
@@ -53,12 +55,10 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double QUICK_TURN_ANTITURBO;
 	private static double driveBaseThrottleValue = 0.0;
 	private static double driveBaseHeadingValue = 0.0;
+	private static double driveBaseStrafeValue = 0.0;
 	private static boolean antiTurboFlag = false;
 	private static boolean turboFlag = false;
-	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default
-																						// to
-																						// low
-																						// gear
+	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
 	private static boolean quickTurnFlag = false;
 	private static Encoder leftDriveEncoder;
 	private static Encoder rightDriveEncoder;
@@ -102,6 +102,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static DoubleConfigFileParameter HEADING_LOW_GEAR_ACCEL_FACTOR_config;
 	private static DoubleConfigFileParameter THROTTLE_HIGH_GEAR_ACCEL_FACTOR_config;
 	private static DoubleConfigFileParameter HEADING_HIGH_GEAR_ACCEL_FACTOR_config;
+	private static DoubleConfigFileParameter STRAFE_ACCEL_FACTOR_config;
 	private static DoubleConfigFileParameter MAX_HIGH_GEAR_PERCENT_config;
 	private static DoubleConfigFileParameter ENCODER_GEAR_RATIO_config;
 	private static DoubleConfigFileParameter DEADBAND_config;
@@ -128,6 +129,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		HEADING_LOW_GEAR_ACCEL_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "heading_low_gear_accel_factor", 0.500);
 		THROTTLE_HIGH_GEAR_ACCEL_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "throttle_high_gear_accel_factor", 0.125);
 		HEADING_HIGH_GEAR_ACCEL_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "heading_high_gear_accel_factor", 0.250);
+		STRAFE_ACCEL_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "strafe_accel_factor", 0.250);
 		MAX_HIGH_GEAR_PERCENT_config = new DoubleConfigFileParameter(this.getClass().getName(), "max_high_gear_percent", 0.80);
 		ENCODER_GEAR_RATIO_config = new DoubleConfigFileParameter(this.getClass().getName(), "encoder_gear_ratio", 7.5);
 		DEADBAND_config = new DoubleConfigFileParameter(this.getClass().getName(), "deadband", 0.05);
@@ -183,11 +185,14 @@ public class DriveBase extends Subsystem implements IObserver {
 		// Zero out all motor values left over from autonomous
 		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(0.0));
 		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).update();
 		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).update();
 		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).update();
 		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_THROTTLE, new Double(0.0));
 		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_HEADING, new Double(0.0));
 		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).update();
+
 		// Clear encoders
 		resetLeftEncoder();
 		resetRightEncoder();
@@ -238,28 +243,32 @@ public class DriveBase extends Subsystem implements IObserver {
 				driveBaseThrottleValue = -MAX_INPUT_THROTTLE_VALUE;
 			}
 			SmartDashboard.putNumber("Motion Profile Throttle", driveBaseThrottleValue);
-			updateDriveMotors(true);
+			updateDriveMotors();
 		} else {
 			// We are in manual control
 			// Get the inputs for heading and throttle
 			// Set heading and throttle values
 			double throttleValue = 0.0;
 			double headingValue = 0.0;
+			double strafeValue = 0.0;
 
-			throttleValue = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(JoystickAxisEnum.DRIVER_THROTTLE)).doubleValue();
-			headingValue = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(JoystickAxisEnum.DRIVER_HEADING)).doubleValue();
+			throttleValue = getJoystickValue(JoystickAxisEnum.DRIVER_THROTTLE);
+			headingValue = getJoystickValue(JoystickAxisEnum.DRIVER_HEADING);
+			strafeValue = getJoystickValue(JoystickAxisEnum.DRIVER_STRAFE);
 
 			SmartDashboard.putNumber("Throttle Joystick Value", throttleValue);
 			SmartDashboard.putNumber("Heading Joystick Value", headingValue);
+			SmartDashboard.putNumber("Strafe Joystick Value", strafeValue);
 
 			setThrottleValue(throttleValue);
 			setHeadingValue(headingValue);
+			setStrafeValue(strafeValue);
 
 			// Use updated values to update the quickTurnFlag
 			checkAutoQuickTurn();
 
 			// Set the drive motor outputs
-			updateDriveMotors(false);
+			updateDriveMotors();
 
 			SmartDashboard.putNumber("Throttle Value", driveBaseThrottleValue);
 			SmartDashboard.putNumber("Heading Value", driveBaseHeadingValue);
@@ -268,7 +277,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			SmartDashboard.putBoolean("Quickturn", quickTurnFlag);
 
 			// Set gear shift output
-			OutputManager.getInstance().getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(shifterFlag.value));
+			getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(shifterFlag.value));
 		}
 
 		SmartDashboard.putNumber("Left encoder count: ", this.getLeftEncoderValue());
@@ -386,6 +395,34 @@ public class DriveBase extends Subsystem implements IObserver {
 		}
 	}
 
+	public void setStrafeValue(double sValue) {
+		double newStrafe = sValue;
+		if (antiTurboFlag) {
+			newStrafe *= ANTI_TURBO_MAX_DEFLECTION;
+
+			if (newStrafe > ANTI_TURBO_MAX_DEFLECTION) {
+				newStrafe = ANTI_TURBO_MAX_DEFLECTION;
+			} else if (newStrafe < -ANTI_TURBO_MAX_DEFLECTION) {
+				newStrafe = -ANTI_TURBO_MAX_DEFLECTION;
+			}
+		}
+
+		// Use the acceleration factor based on the current shifter state
+		if (shifterFlag == DoubleSolenoid.Value.kForward) {
+			// We are in low gear, use that acceleration factor
+			driveBaseStrafeValue = driveBaseStrafeValue + (newStrafe - driveBaseStrafeValue) * STRAFE_ACCEL_FACTOR;
+		} else if (shifterFlag == DoubleSolenoid.Value.kReverse) {
+			// We are in high gear, use that acceleration factor
+			driveBaseStrafeValue = driveBaseStrafeValue + (newStrafe - driveBaseStrafeValue) * STRAFE_ACCEL_FACTOR;
+		}
+
+		if (driveBaseStrafeValue > MAX_INPUT_STRAFE_VALUE) {
+			driveBaseStrafeValue = MAX_INPUT_STRAFE_VALUE;
+		} else if (driveBaseStrafeValue < -MAX_INPUT_STRAFE_VALUE) {
+			driveBaseStrafeValue = -MAX_INPUT_STRAFE_VALUE;
+		}
+	}
+
 	public void setHeadingValue(double hValue) {
 
 		// Taking into account anti-turbo
@@ -430,9 +467,10 @@ public class DriveBase extends Subsystem implements IObserver {
 		}
 	}
 
-	public void updateDriveMotors(boolean useDriveOffset) {
-		double rightMotorSpeed = 0;
-		double leftMotorSpeed = 0;
+	public void updateDriveMotors() {
+		double rightMotorSpeed = 0.0;
+		double leftMotorSpeed = 0.0;
+		double strafeMotorSpeed = 0.0;
 		double angularPower = 0.0;
 		if (Math.abs(driveBaseHeadingValue) > 0.05) {
 			// Absolute value on driveBaseThrottleValue, creates a S curve, none
@@ -442,6 +480,8 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		rightMotorSpeed = driveBaseThrottleValue - angularPower;
 		leftMotorSpeed = driveBaseThrottleValue + angularPower;
+
+		strafeMotorSpeed = driveBaseStrafeValue;
 
 		if (true == quickTurnFlag) {
 			rightMotorSpeed = 0.0f;
@@ -527,12 +567,20 @@ public class DriveBase extends Subsystem implements IObserver {
 			leftMotorSpeed = 0.0;
 		}
 
+		// Ditto for strafing
+		if (strafeMotorSpeed < DEADBAND && strafeMotorSpeed > -DEADBAND) {
+			setStrafeValue(0.0);
+			strafeMotorSpeed = 0.0;
+		}
+
 		SmartDashboard.putNumber("LeftDriveSpeed", leftMotorSpeed);
 		SmartDashboard.putNumber("RightDriveSpeed", rightMotorSpeed);
+		SmartDashboard.putNumber("StrafeDriveSpeed", strafeMotorSpeed);
 
 		// Update Output Facade.
-		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
-		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
+		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
+		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
+		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
 	}
 
 	public void checkAutoQuickTurn() {
@@ -667,6 +715,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		HEADING_LOW_GEAR_ACCEL_FACTOR = HEADING_LOW_GEAR_ACCEL_FACTOR_config.getValue();
 		THROTTLE_HIGH_GEAR_ACCEL_FACTOR = THROTTLE_HIGH_GEAR_ACCEL_FACTOR_config.getValue();
 		HEADING_HIGH_GEAR_ACCEL_FACTOR = HEADING_HIGH_GEAR_ACCEL_FACTOR_config.getValue();
+		STRAFE_ACCEL_FACTOR = STRAFE_ACCEL_FACTOR_config.getValue();
 		MAX_HIGH_GEAR_PERCENT = MAX_HIGH_GEAR_PERCENT_config.getValue();
 		ENCODER_GEAR_RATIO = ENCODER_GEAR_RATIO_config.getValue();
 		SLOW_TURN_FORWARD_SPEED = SLOW_TURN_FORWARD_SPEED_config.getValue();
@@ -713,6 +762,6 @@ public class DriveBase extends Subsystem implements IObserver {
 	}
 
 	public void setShifter(DoubleSolenoid.Value state) {
-		this.shifterFlag = state;
+		shifterFlag = state;
 	}
 }
