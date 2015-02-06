@@ -27,7 +27,7 @@ public class FrameworkAbstraction {
 			System.out.println(wscfe.toString());
 		}
 
-		LogManager.getInstance();
+		LogManager.getInstance().init();
 		InputManager.getInstance();
 		OutputManager.getInstance();
 		SubsystemContainer.getInstance().init();
