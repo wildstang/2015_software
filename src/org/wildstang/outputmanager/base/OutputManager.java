@@ -1,13 +1,12 @@
 package org.wildstang.outputmanager.base;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.wildstang.outputmanager.outputs.WsDoubleSolenoid;
 import org.wildstang.outputmanager.outputs.WsDriveSpeed;
+import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.outputmanager.outputs.no.NoOutput;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -16,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class OutputManager {
 
 	private static OutputManager instance = null;
-	private static List<IOutput> outputs = new ArrayList<>();
+	private static Map<Integer, IOutput> outputs = new HashMap<Integer, IOutput>();
 
 	/**
 	 * Method to obtain the instance of the OutputManager singleton.
@@ -37,7 +36,8 @@ public class OutputManager {
 	}
 
 	public void update() {
-		for (IOutput out : outputs) {
+		for (Integer key : outputs.keySet()) {
+			IOutput out = outputs.get(key);
 			if (out != null) {
 				out.update();
 			}
@@ -49,7 +49,8 @@ public class OutputManager {
 	 * and config values need to be re-read.
 	 */
 	public void notifyConfigChange() {
-		for (IOutput out : outputs) {
+		for (Integer key : outputs.keySet()) {
+			IOutput out = outputs.get(key);
 			if (out != null) {
 				out.notifyConfigChange();
 			}
@@ -65,17 +66,16 @@ public class OutputManager {
 	 * @return The output element.
 	 */
 	public IOutput getOutput(int index) {
-		if (index >= 0 && index < outputs.size()) {
-			return (IOutput) outputs.get(index);
-		}
-		return (IOutput) outputs.get(UNKNOWN_INDEX);
+		IOutput out = outputs.get(index);		
+		return out == null ? (IOutput) outputs.get(UNKNOWN_INDEX) : out;
 	}
 
 	// Key Values - Need to update for each new output element.
 	public static final int UNKNOWN_INDEX = 0;
 	public static final int RIGHT_DRIVE_SPEED_INDEX = 1;
 	public static final int LEFT_DRIVE_SPEED_INDEX = 2;
-	public static final int SHIFTER_INDEX = 3;
+	public static final int STRAFE_DRIVE_SPEED_INDEX = 3;
+	public static final int SHIFTER_INDEX = 4;
 	
 
 	/**
@@ -87,9 +87,10 @@ public class OutputManager {
 
 	protected OutputManager() {
 		// Add the facade data elements
-		outputs.add(UNKNOWN_INDEX, new NoOutput());
-		outputs.add(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
-		outputs.add(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
-		outputs.add(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
+		outputs.put(UNKNOWN_INDEX, new NoOutput());
+		outputs.put(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
+		outputs.put(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
+		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsVictor("Strafe Drive Speed", 4));
+		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 	}
 }

@@ -7,10 +7,13 @@ package org.wildstang.subsystems.base;
 import org.wildstang.inputmanager.base.IInput;
 import org.wildstang.inputmanager.base.IInputEnum;
 import org.wildstang.inputmanager.base.InputManager;
+import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.logger.Logger;
 import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.IObserver;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -54,8 +57,7 @@ public class Subsystem {
 	/**
 	 * Method to notify the subsystem of a config change.
 	 *
-	 * Override this method when extending the base class, if config params are
-	 * required.
+	 * Override this method when extending the base class, if config params are required.
 	 */
 	public void notifyConfigChange() {
 		// Override when extending base class if config is needed.
@@ -76,23 +78,16 @@ public class Subsystem {
 			Logger.getLogger().debug(this.getClass().getName(), "registerForSensorNotification", "This class must implement IObserver!");
 		}
 	}
-	
-	public Double getJoystickValue(boolean driver, IInputEnum key)
-	{
-		Double returnval;
-		if(driver)
-		{
-			returnval = ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();
+
+	public double getJoystickAxisValue(JoystickAxisEnum axis) {
+		if (axis.isDriver()) {
+			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(axis)).doubleValue();
+		} else {
+			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX))).get(axis)).doubleValue();
 		}
-		else
-		{
-			returnval = ((Double) ((InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX))).get(key)).doubleValue();
-		}
-		return returnval;
 	}
-	
-	public IOutput getOutput(int index)
-	{
+
+	public IOutput getOutput(int index) {
 		return OutputManager.getInstance().getOutput(index);
 	}
 	
