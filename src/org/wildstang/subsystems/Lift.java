@@ -33,7 +33,8 @@ public class Lift extends Subsystem implements IObserver {
 		} else {
 			winchMotorSpeed = winchJoystickValue;
 		}
-		getOutput(OutputManager.WINCH_INDEX).set(new Double(winchMotorSpeed));
+		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(winchMotorSpeed));
+		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(winchMotorSpeed));
 
 	}
 
