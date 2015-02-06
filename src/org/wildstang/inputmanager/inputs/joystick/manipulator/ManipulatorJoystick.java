@@ -70,7 +70,7 @@ public class ManipulatorJoystick implements IInput {
 
 	public void set(IInputEnum key, Object value) {
 		if (key instanceof JoystickAxisEnum && ((JoystickAxisEnum) key).isDriver() == false) {
-			axes[((JoystickAxisEnum) key).toValue() - 1].setValue(value);
+			axes[((JoystickAxisEnum) key).toValue()].setValue(value);
 		} else if (key instanceof JoystickButtonEnum && ((JoystickButtonEnum) key).isDriver() == false) {
 			buttons[((JoystickButtonEnum) key).toValue()].setValue(value);
 		} else if (key instanceof JoystickDPadButtonEnum && ((JoystickDPadButtonEnum) key).isDriver()) {
@@ -82,7 +82,7 @@ public class ManipulatorJoystick implements IInput {
 
 	public Object get(IInputEnum key) {
 		if (key instanceof JoystickAxisEnum) {
-			return axes[((JoystickAxisEnum) key).toValue() - 1].getValueAsObject();
+			return axes[((JoystickAxisEnum) key).toValue()].getValueAsObject();
 		} else if (key instanceof JoystickButtonEnum && ((JoystickButtonEnum) key).isDriver() == false) {
 			return buttons[((JoystickButtonEnum) key).toValue()].getValueAsObject();
 		} else if (key instanceof JoystickDPadButtonEnum && ((JoystickDPadButtonEnum) key).isDriver()) {
@@ -110,10 +110,10 @@ public class ManipulatorJoystick implements IInput {
 		}
 		for (int i = 0; i < axes.length; i++) {
 			// Invert the vertical axes so that full up is 1
-			if (i % 2 != 0) {
-				axes[i].setValue(manipulatorJoystick.getRawAxis(i + 1) * -1);
+			if (i % 2 == 0) {
+				axes[i].setValue(manipulatorJoystick.getRawAxis(i) * -1);
 			} else {
-				axes[i].setValue(manipulatorJoystick.getRawAxis(i + 1));
+				axes[i].setValue(manipulatorJoystick.getRawAxis(i));
 			}
 		}
 		for (int i = 0; i < buttons.length; i++) {

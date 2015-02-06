@@ -104,17 +104,11 @@ public class SubsystemContainer {
 	 */
 	protected SubsystemContainer() {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
 		subsystems.put(LED_INDEX, new LED(LED));
 		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
 		subsystems.put(TEST_INDEX, new Test());
-		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
 		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
-		subsystems.put(LED_INDEX, new LED(LED));
-		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
-				AUTO_MOVEMENT_CONTROLLER));
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
-		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 	}
 }

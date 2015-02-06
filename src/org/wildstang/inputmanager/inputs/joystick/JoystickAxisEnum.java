@@ -45,8 +45,8 @@ public class JoystickAxisEnum implements IInputEnum {
 	public static final JoystickAxisEnum DRIVER_DPAD_X = new JoystickAxisEnum(true, DPAD_X, "DRIVER_DPAD_X");
 
 	// Manipulator Enums
-	public static final JoystickAxisEnum MANIPULATOR_FRONT_ARM_CONTROL = new JoystickAxisEnum(false, LEFT_JOYSTICK_Y, "MANIPULATOR_FRONT_ARM_CONTROL");
-	public static final JoystickAxisEnum MANIPULATOR_BACK_ARM_CONTROL = new JoystickAxisEnum(false, RIGHT_JOYSTICK_Y, "MANIPULATOR_BACK_ARM_CONTROL");
+	public static final JoystickAxisEnum MANIPULATOR_LEFT_JOYSTICK_Y = new JoystickAxisEnum(false, LEFT_JOYSTICK_Y, "MANIPULATOR_FRONT_ARM_CONTROL");
+	public static final JoystickAxisEnum MANIPULATOR_RIGHT_JOYSTICK_Y = new JoystickAxisEnum(false, RIGHT_JOYSTICK_Y, "MANIPULATOR_BACK_ARM_CONTROL");
 	public static final JoystickAxisEnum MANIPULATOR_RIGHT_JOYSTICK_X = new JoystickAxisEnum(false, RIGHT_JOYSTICK_X, "MANIPULATOR_RIGHT_JOYSTICK_X");
 	public static final JoystickAxisEnum MANIPULATOR_LEFT_JOYSTICK_X = new JoystickAxisEnum(false, LEFT_JOYSTICK_X, "MANIPULATOR_LEFT_JOYSTICK_X");
 	public static final JoystickAxisEnum MANIPULATOR_DPAD_Y = new JoystickAxisEnum(false, DPAD_Y, "MANIPULATOR_DPAD_Y");
@@ -82,9 +82,9 @@ public class JoystickAxisEnum implements IInputEnum {
 		driverAxes[DPAD_Y] = DRIVER_DPAD_Y;
 		driverAxes[DPAD_X] = DRIVER_DPAD_X;
 
-		manipulatorAxes[LEFT_JOYSTICK_Y] = MANIPULATOR_FRONT_ARM_CONTROL;
+		manipulatorAxes[LEFT_JOYSTICK_Y] = MANIPULATOR_LEFT_JOYSTICK_Y;
 		manipulatorAxes[LEFT_JOYSTICK_X] = MANIPULATOR_LEFT_JOYSTICK_X;
-		manipulatorAxes[RIGHT_JOYSTICK_Y] = MANIPULATOR_BACK_ARM_CONTROL;
+		manipulatorAxes[RIGHT_JOYSTICK_Y] = MANIPULATOR_RIGHT_JOYSTICK_Y;
 		manipulatorAxes[RIGHT_JOYSTICK_X] = MANIPULATOR_RIGHT_JOYSTICK_X;
 		manipulatorAxes[DPAD_Y] = MANIPULATOR_DPAD_Y;
 		manipulatorAxes[DPAD_X] = MANIPULATOR_DPAD_X;
