@@ -15,7 +15,7 @@ public class WsLIDAR implements IInput {
 
 	public WsLIDAR() {
 		distanceSubject = new IntegerSubject();
-		
+
 		lidar = new LidarSensor(Port.kMXP);
 		lidar.start();
 	}
@@ -62,7 +62,7 @@ public class WsLIDAR implements IInput {
 
 	@Override
 	public void pullData() {
-			distanceSubject.setValue(lidar.getSmoothedDistance());
+		distanceSubject.setValue(lidar.getSmoothedDistance());
 	}
 
 	@Override

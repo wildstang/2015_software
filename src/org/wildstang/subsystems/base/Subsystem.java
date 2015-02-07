@@ -54,7 +54,8 @@ public abstract class Subsystem {
 	/**
 	 * Method to notify the subsystem of a config change.
 	 *
-	 * Override this method when extending the base class, if config params are required.
+	 * Override this method when extending the base class, if config params are
+	 * required.
 	 */
 	public void notifyConfigChange() {
 		// Do nothing by default
@@ -77,10 +78,10 @@ public abstract class Subsystem {
 	}
 
 	protected Double getJoystickValue(IInputEnum key) {
-		if(!(key instanceof JoystickAxisEnum)) {
+		if (!(key instanceof JoystickAxisEnum)) {
 			throw new ClassCastException("Input enum must be an instance of JoystickAxisEnum!");
 		}
-		
+
 		JoystickAxisEnum axis = (JoystickAxisEnum) key;
 		if (axis.isDriver()) {
 			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();

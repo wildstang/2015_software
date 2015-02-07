@@ -67,7 +67,7 @@ public class OutputManager {
 	 * @return The output element.
 	 */
 	public IOutput getOutput(int index) {
-		IOutput out = outputs.get(index);		
+		IOutput out = outputs.get(index);
 		return out == null ? (IOutput) outputs.get(UNKNOWN_INDEX) : out;
 	}
 
@@ -81,7 +81,7 @@ public class OutputManager {
 	public static final int LIFT_B_INDEX = 6;
 	public static final int CHUTE_INDEX = 7;
 	public static final int INTAKE_WHEELS_INDEX = 8;
-	
+
 	/**
 	 * Constructor for OutputManager.
 	 *

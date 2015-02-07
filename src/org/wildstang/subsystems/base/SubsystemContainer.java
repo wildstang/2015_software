@@ -72,7 +72,8 @@ public class SubsystemContainer {
 	}
 
 	/**
-	 * Notifies all subsystems a config change has occurred and config params should be re-read.
+	 * Notifies all subsystems a config change has occurred and config params
+	 * should be re-read.
 	 */
 	public void notifyConfigChange() {
 		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
@@ -98,14 +99,12 @@ public class SubsystemContainer {
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
 	public static final int INDEX_WHEELS_INDEX = 8;
-	
-	
 
 	/**
 	 * Constructor for the subsystem container.
 	 *
-	 * Each new subsystem must be added here. This is where they are instantiated as well as placed in the subsystem
-	 * container.
+	 * Each new subsystem must be added here. This is where they are
+	 * instantiated as well as placed in the subsystem container.
 	 */
 	protected SubsystemContainer() {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));

@@ -104,7 +104,7 @@ public class InputManager {
 	 * @return A WsInputInterface.
 	 */
 	public IInput getOiInput(int index) {
-		IInput in = oiInputs.get(index);		
+		IInput in = oiInputs.get(index);
 		return in == null ? (IInput) oiInputs.get(UNKNOWN_INDEX) : in;
 	}
 
@@ -116,7 +116,7 @@ public class InputManager {
 	 * @return A WsInputInterface.
 	 */
 	public IInput getSensorInput(int index) {
-		IInput in = sensorInputs.get(index);		
+		IInput in = sensorInputs.get(index);
 		return in == null ? (IInput) sensorInputs.get(UNKNOWN_INDEX) : in;
 	}
 

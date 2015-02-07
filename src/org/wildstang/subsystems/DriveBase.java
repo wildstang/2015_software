@@ -58,7 +58,10 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double driveBaseStrafeValue = 0.0;
 	private static boolean antiTurboFlag = false;
 	private static boolean turboFlag = false;
-	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
+	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default
+																						// to
+																						// low
+																						// gear
 	private static boolean quickTurnFlag = false;
 	private static Encoder leftDriveEncoder;
 	private static Encoder rightDriveEncoder;

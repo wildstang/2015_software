@@ -41,7 +41,7 @@ public class LidarSensor implements PIDSource {
 				numValidElements++;
 			}
 		}
-		
+
 		SmartDashboard.putNumber("Number of valid elements", numValidElements);
 		// Avoid divide by zero errors
 		if (numValidElements > 0) {
