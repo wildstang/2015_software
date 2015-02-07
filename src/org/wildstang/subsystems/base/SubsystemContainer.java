@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wildstang.subsystems.AutoMovementControl;
+import org.wildstang.subsystems.Chute;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.Monitor;
-import org.wildstang.subsystems.WsCompressor;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -95,6 +95,7 @@ public class SubsystemContainer {
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
 	public static final int MONITOR_INDEX = 5;
+	public static final int CHUTE_INDEX = 4;
 
 	/**
 	 * Constructor for the subsystem container.
@@ -104,17 +105,11 @@ public class SubsystemContainer {
 	 */
 	protected SubsystemContainer() {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
 		subsystems.put(LED_INDEX, new LED(LED));
 		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
 		subsystems.put(TEST_INDEX, new Test());
-		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		subsystems.put(WS_COMPRESSOR_INDEX, new WsCompressor(WS_COMPRESSOR, 1, 1, 1, 1));
-		subsystems.put(LED_INDEX, new LED(LED));
-		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
-				AUTO_MOVEMENT_CONTROLLER));
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
-		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
+		subsystems.put(CHUTE_INDEX, new Chute("Chute"));
 	}
 }

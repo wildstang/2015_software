@@ -74,10 +74,11 @@ public class OutputManager {
 	public static final int UNKNOWN_INDEX = 0;
 	public static final int RIGHT_DRIVE_SPEED_INDEX = 1;
 	public static final int LEFT_DRIVE_SPEED_INDEX = 2;
-	public static final int LIFT_A_INDEX = 5;
-	public static final int LIFT_B_INDEX = 6;
 	public static final int STRAFE_DRIVE_SPEED_INDEX = 3;
 	public static final int SHIFTER_INDEX = 4;
+	public static final int LIFT_A_INDEX = 5;
+	public static final int LIFT_B_INDEX = 6;
+	public static final int CHUTE_INDEX = 7;
 	
 
 	/**
@@ -96,5 +97,6 @@ public class OutputManager {
 		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 		outputs.put(LIFT_A_INDEX, new WsVictor("Lift A", 6));
 		outputs.put(LIFT_B_INDEX, new WsVictor("Lift B", 7));
+		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 5));
 	}
 }
