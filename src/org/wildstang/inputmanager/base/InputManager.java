@@ -155,6 +155,8 @@ public class InputManager {
 	// public static final int LEFT_ENCODER_B_INDEX = 5;
 	// public static final int RIGHT_ENCODER_A_INDEX = 6;
 	// public static final int RIGHT_ENCODER_B_INDEX = 7;
+	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
+	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
 
 	/**
 	 * Constructor for the InputManager.
@@ -181,6 +183,8 @@ public class InputManager {
 		// sensorInputs.add(LEFT_ENCODER_B_INDEX, new WsDigitalInput(3));
 		// sensorInputs.add(RIGHT_ENCODER_A_INDEX, new WsDigitalInput(4));
 		// sensorInputs.add(RIGHT_ENCODER_B_INDEX, new WsDigitalInput(5));
+		sensorInputs.put(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(8));
+		sensorInputs.put(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(9));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());

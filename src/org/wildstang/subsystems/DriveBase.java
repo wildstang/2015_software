@@ -252,9 +252,9 @@ public class DriveBase extends Subsystem implements IObserver {
 			double headingValue = 0.0;
 			double strafeValue = 0.0;
 
-			throttleValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_THROTTLE);
-			headingValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_HEADING);
-			strafeValue = getJoystickAxisValue(JoystickAxisEnum.DRIVER_STRAFE);
+			throttleValue = getJoystickValue(JoystickAxisEnum.DRIVER_THROTTLE);
+			headingValue = getJoystickValue(JoystickAxisEnum.DRIVER_HEADING);
+			strafeValue = getJoystickValue(JoystickAxisEnum.DRIVER_STRAFE);
 
 			SmartDashboard.putNumber("Throttle Joystick Value", throttleValue);
 			SmartDashboard.putNumber("Heading Joystick Value", headingValue);

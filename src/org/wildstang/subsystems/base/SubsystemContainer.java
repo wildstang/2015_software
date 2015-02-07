@@ -6,6 +6,7 @@ import java.util.Map;
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.LED;
+import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.Monitor;
 import org.wildstang.subsystems.WsCompressor;
@@ -91,7 +92,8 @@ public class SubsystemContainer {
 	public static final int WS_COMPRESSOR_INDEX = 1;
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
-	public static final int TEST_INDEX = 4;
+	public static final int LIFT_INDEX = 6;
+	public static final int TEST_INDEX = 7;
 	public static final int MONITOR_INDEX = 5;
 
 	/**
@@ -111,6 +113,8 @@ public class SubsystemContainer {
 		subsystems.put(LED_INDEX, new LED(LED));
 		subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(
 				AUTO_MOVEMENT_CONTROLLER));
+		subsystems.put(LIFT_INDEX, new Lift("Lift"));
+		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 	}
 }
