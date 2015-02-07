@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.wildstang.outputmanager.outputs.WsDoubleSolenoid;
 import org.wildstang.outputmanager.outputs.WsDriveSpeed;
+import org.wildstang.outputmanager.outputs.WsTalon;
 import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.outputmanager.outputs.no.NoOutput;
 
@@ -79,8 +80,8 @@ public class OutputManager {
 	public static final int LIFT_A_INDEX = 5;
 	public static final int LIFT_B_INDEX = 6;
 	public static final int CHUTE_INDEX = 7;
+	public static final int INTAKE_WHEELS_INDEX = 8;
 	
-
 	/**
 	 * Constructor for OutputManager.
 	 *
@@ -98,5 +99,6 @@ public class OutputManager {
 		outputs.put(LIFT_A_INDEX, new WsVictor("Lift A", 6));
 		outputs.put(LIFT_B_INDEX, new WsVictor("Lift B", 7));
 		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 5));
+		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
 	}
 }

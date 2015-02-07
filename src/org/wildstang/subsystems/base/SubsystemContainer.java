@@ -6,6 +6,7 @@ import java.util.Map;
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.Chute;
 import org.wildstang.subsystems.DriveBase;
+import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Test;
@@ -96,6 +97,7 @@ public class SubsystemContainer {
 	public static final int MONITOR_INDEX = 5;
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
+	public static final int INDEX_WHEELS_INDEX = 8;
 	
 	
 
@@ -113,5 +115,6 @@ public class SubsystemContainer {
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(CHUTE_INDEX, new Chute("Chute"));
+		subsystems.put(INDEX_WHEELS_INDEX, new IntakeWheels("Intake"));
 	}
 }
