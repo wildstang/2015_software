@@ -24,9 +24,9 @@ public class Test extends Subsystem {
 	public void update() {
 		int numAxes = 6;
 		for (int i = 0; i < numAxes; i++) {
-			JoystickAxisEnum joyEnum = new JoystickAxisEnum(true, i, "Axis" + i);
+			JoystickAxisEnum joyEnum = new JoystickAxisEnum(false, i, "Axis" + i);
 			double axisValue = ((Double) InputManager.getInstance()
-					.getOiInput(InputManager.DRIVER_JOYSTICK_INDEX)
+					.getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX)
 					.get(joyEnum)).doubleValue();
 			SmartDashboard.putNumber("JostickAxis" + i, axisValue);
 		}

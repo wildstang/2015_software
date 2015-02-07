@@ -3,7 +3,6 @@ package org.wildstang.inputmanager.base;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.wildstang.inputmanager.inputs.WsAnalogInput;
 import org.wildstang.inputmanager.inputs.WsDigitalInput;
 import org.wildstang.inputmanager.inputs.WsLIDAR;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSAnalogInput;

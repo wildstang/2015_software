@@ -2,7 +2,6 @@ package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.outputmanager.base.OutputManager;
-import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
@@ -31,9 +30,6 @@ public class Chute extends Subsystem implements IObserver {
 			chuteMotorValue = 0;
 		}
 		getOutput(OutputManager.CHUTE_INDEX).set(new Double(chuteMotorValue));
-		@SuppressWarnings("unused")
-		String name = ((WsVictor) getOutput(OutputManager.CHUTE_INDEX)).getSubject(null).getName();
-		boolean thing = false;
 	}
 
 	@Override

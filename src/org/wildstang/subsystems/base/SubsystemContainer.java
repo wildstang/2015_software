@@ -92,10 +92,12 @@ public class SubsystemContainer {
 	public static final int WS_COMPRESSOR_INDEX = 1;
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
+	public static final int CHUTE_INDEX = 4;
+	public static final int MONITOR_INDEX = 5;
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
-	public static final int MONITOR_INDEX = 5;
-	public static final int CHUTE_INDEX = 4;
+	
+	
 
 	/**
 	 * Constructor for the subsystem container.

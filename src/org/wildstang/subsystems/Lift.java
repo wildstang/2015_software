@@ -25,7 +25,7 @@ public class Lift extends Subsystem implements IObserver {
 	}
 
 	public void update() {
-		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_BACK_ARM_CONTROL))).doubleValue();
+		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LEFT_JOYSTICK_Y))).doubleValue();
 		double winchMotorSpeed = 0;
 		if ((atBottom && winchJoystickValue < 0) || (atTop && winchJoystickValue > 0)) {
 			// Prevent driving past the top/bottom of the lift
