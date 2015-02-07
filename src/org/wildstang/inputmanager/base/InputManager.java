@@ -3,6 +3,7 @@ package org.wildstang.inputmanager.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.wildstang.inputmanager.inputs.WsAnalogInput;
 import org.wildstang.inputmanager.inputs.WsDigitalInput;
 import org.wildstang.inputmanager.inputs.WsLIDAR;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSAnalogInput;
@@ -143,6 +144,7 @@ public class InputManager {
 	public static final int LIDAR_INDEX = 12;
 	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
 	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
+	public static final int LIFT_POT_INDEX = 12;
 
 	/**
 	 * Constructor for the InputManager.
@@ -156,6 +158,7 @@ public class InputManager {
 		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
 		sensorInputs.put(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(8));
 		sensorInputs.put(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(9));
+		sensorInputs.put(LIFT_POT_INDEX, new WsAnalogInput(0));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());

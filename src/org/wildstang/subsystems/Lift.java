@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Lift extends Subsystem implements IObserver {
 	boolean atBottom;
 	boolean atTop;
+	double potVal;
 
 	public Lift(String name) {
 		super(name);
@@ -39,8 +40,12 @@ public class Lift extends Subsystem implements IObserver {
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(winchMotorSpeed));
 		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(winchMotorSpeed));
 		
+		potVal = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
+
 		LogManager.getInstance().addObject("Winch", winchMotorSpeed);
 		SmartDashboard.putNumber("Winch", winchMotorSpeed);
+		LogManager.getInstance().addObject("Lift Pot", potVal);
+		SmartDashboard.putNumber("Lift Pot", potVal);
 	}
 
 	@Override
