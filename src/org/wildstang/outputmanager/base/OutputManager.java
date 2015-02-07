@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.wildstang.outputmanager.outputs.WsDoubleSolenoid;
 import org.wildstang.outputmanager.outputs.WsDriveSpeed;
+import org.wildstang.outputmanager.outputs.WsSolenoid;
 import org.wildstang.outputmanager.outputs.WsTalon;
 import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.outputmanager.outputs.no.NoOutput;
@@ -82,8 +83,16 @@ public class OutputManager {
 	public static final int CHUTE_INDEX = 7;
 	public static final int INTAKE_WHEELS_INDEX = 8;
 	public static final int HOOKS_SOLENOID_INDEX = 9;
-	public static final int CONTAINMENT_PISTON_INDEX = 10;
+	public static final int CONTAINMENT_DOORS_INDEX = 10;
 	public static final int CONTAINMENT_FLAP_PISTON_INDEX = 11;
+	public static final int INTAKE_PISTONS_INDEX = 12;
+	public static final int PAWL_RELEASE_INDEX = 13;
+	public static final int BIN_GRABBER_INDEX = 14;
+	public static final int BIN_GRABBER_DELPOY_INDEX = 15;
+	public static final int ARMS_INDEX = 16;
+	public static final int HOOKS_RELEASE_INDEX = 17;
+	public static final int TOTE_ALIGNMENT_INDEX = 18;
+	public static final int H_BACKUP_INDEX = 19;
 
 	/**
 	 * Constructor for OutputManager.
@@ -104,7 +113,11 @@ public class OutputManager {
 		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 5));
 		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
 		outputs.put(HOOKS_SOLENOID_INDEX, new WsDoubleSolenoid("Hooks", 2, 3));
-		outputs.put(CONTAINMENT_PISTON_INDEX, new WsDoubleSolenoid("Containment", 4, 5));
-		outputs.put(CONTAINMENT_FLAP_PISTON_INDEX, new WsDoubleSolenoid("Containment Flaps", 6, 7));
+		outputs.put(CONTAINMENT_DOORS_INDEX, new WsSolenoid("Containment", 0));
+		outputs.put(CONTAINMENT_FLAP_PISTON_INDEX, new WsSolenoid("Containment Flaps", 3));
+		outputs.put(INTAKE_PISTONS_INDEX, new WsDoubleSolenoid("Intake Pistons", 4, 5));
+		outputs.put(PAWL_RELEASE_INDEX, new WsSolenoid("Pawl Release", 2));
+		outputs.put(BIN_GRABBER_INDEX, new WsSolenoid("Bin Grabber", 6));
+		outputs.put(BIN_GRABBER_DELPOY_INDEX, new WsSolenoid("Bin Grabber Deploy", 7));
 	}
 }

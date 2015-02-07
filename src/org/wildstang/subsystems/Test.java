@@ -2,6 +2,7 @@ package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.subsystems.base.Subsystem;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
@@ -32,6 +33,10 @@ public class Test extends Subsystem {
 		SmartDashboard.putNumber("Accel X", accelerometer.getX());
 		SmartDashboard.putNumber("Accel Y", accelerometer.getY());
 		SmartDashboard.putNumber("Accel Z", accelerometer.getZ());
+		
+		LogManager.getInstance().addObject("Accel X", accelerometer.getX());
+		LogManager.getInstance().addObject("Accel Y", accelerometer.getY());
+		LogManager.getInstance().addObject("Accel Z", accelerometer.getZ());
 
 		int distance = ((Integer) InputManager.getInstance().getSensorInput(InputManager.LIDAR_INDEX).get()).intValue();
 		SmartDashboard.putNumber("LIDAR distance", distance);

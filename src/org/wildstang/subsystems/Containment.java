@@ -1,6 +1,7 @@
 package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
@@ -41,10 +42,12 @@ public class Containment extends Subsystem implements IObserver {
 			flapVal = DoubleSolenoid.Value.kReverse_val;
 		}
 
-		getOutput(OutputManager.CONTAINMENT_PISTON_INDEX).set(new Integer(containmentVal));
+		getOutput(OutputManager.CONTAINMENT_DOORS_INDEX).set(new Integer(containmentVal));
 		getOutput(OutputManager.CONTAINMENT_FLAP_PISTON_INDEX).set(new Integer(flapVal));
-		SmartDashboard.putBoolean("Containment", containmentOpen);
-		SmartDashboard.putBoolean("Containment Flap", flapOpen);
+		SmartDashboard.putBoolean("Containment Doors", containmentOpen);
+		SmartDashboard.putBoolean("Containment Flaps", flapOpen);
+		LogManager.getInstance().addObject("Containment Doors", containmentOpen);
+		LogManager.getInstance().addObject("Containment Flaps", flapOpen);
 	}
 
 	@Override

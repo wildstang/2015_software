@@ -2,11 +2,14 @@ package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem implements IObserver {
 	boolean atBottom;
@@ -35,7 +38,9 @@ public class Lift extends Subsystem implements IObserver {
 		}
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(winchMotorSpeed));
 		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(winchMotorSpeed));
-
+		
+		LogManager.getInstance().addObject("Winch", winchMotorSpeed);
+		SmartDashboard.putNumber("Winch", winchMotorSpeed);
 	}
 
 	@Override

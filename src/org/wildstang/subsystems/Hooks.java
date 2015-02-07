@@ -1,6 +1,7 @@
 package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
@@ -33,6 +34,8 @@ public class Hooks extends Subsystem implements IObserver {
 			hooksValue = DoubleSolenoid.Value.kForward_val;
 		}
 		(getOutput(OutputManager.HOOKS_SOLENOID_INDEX)).set(new Integer(hooksValue));
+		
+		LogManager.getInstance().addObject("Hooks", hooksValue);
 		SmartDashboard.putBoolean("Hook State", hooksEnabled);
 	}
 
