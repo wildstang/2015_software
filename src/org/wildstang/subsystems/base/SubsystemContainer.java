@@ -5,13 +5,14 @@ import java.util.Map;
 
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.Chute;
+import org.wildstang.subsystems.Containment;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.Hooks;
+import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Lift;
-import org.wildstang.subsystems.Test;
 import org.wildstang.subsystems.Monitor;
+import org.wildstang.subsystems.Test;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -96,11 +97,12 @@ public class SubsystemContainer {
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
 	public static final int CHUTE_INDEX = 4;
-	public static final int HOOKS_SOLENOID_INDEX = 9;
 	public static final int MONITOR_INDEX = 5;
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
 	public static final int INDEX_WHEELS_INDEX = 8;
+	public static final int HOOKS_SOLENOID_INDEX = 9;
+	public static final int CONTAINMENT_INDEX = 10;
 
 	/**
 	 * Constructor for the subsystem container.
@@ -118,5 +120,6 @@ public class SubsystemContainer {
 		subsystems.put(CHUTE_INDEX, new Chute("Chute"));
 		subsystems.put(INDEX_WHEELS_INDEX, new IntakeWheels("Intake"));
 		subsystems.put(HOOKS_SOLENOID_INDEX, new Hooks("Hooks"));
+		subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
 	}
 }

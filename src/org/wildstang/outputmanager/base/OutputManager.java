@@ -82,6 +82,8 @@ public class OutputManager {
 	public static final int CHUTE_INDEX = 7;
 	public static final int INTAKE_WHEELS_INDEX = 8;
 	public static final int HOOKS_SOLENOID_INDEX = 9;
+	public static final int CONTAINMENT_PISTON_INDEX = 10;
+	public static final int CONTAINMENT_FLAP_PISTON_INDEX = 11;
 
 	/**
 	 * Constructor for OutputManager.
@@ -102,5 +104,7 @@ public class OutputManager {
 		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 5));
 		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
 		outputs.put(HOOKS_SOLENOID_INDEX, new WsDoubleSolenoid("Hooks", 2, 3));
+		outputs.put(CONTAINMENT_PISTON_INDEX, new WsDoubleSolenoid("Containment", 4, 5));
+		outputs.put(CONTAINMENT_FLAP_PISTON_INDEX, new WsDoubleSolenoid("Containment Flaps", 6, 7));
 	}
 }
