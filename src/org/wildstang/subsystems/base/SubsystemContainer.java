@@ -3,7 +3,9 @@ package org.wildstang.subsystems.base;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.wildstang.subsystems.Arms;
 import org.wildstang.subsystems.AutoMovementControl;
+import org.wildstang.subsystems.BinGrabber;
 import org.wildstang.subsystems.Chute;
 import org.wildstang.subsystems.Containment;
 import org.wildstang.subsystems.DriveBase;
@@ -105,8 +107,10 @@ public class SubsystemContainer {
 	public static final int HOOKS_SOLENOID_INDEX = 9;
 	public static final int CONTAINMENT_INDEX = 10;
 	public static final int TOTE_ALIGNMENT_INDEX = 11;
-
-	/**
+	public static final int ARMS_INDEX = 12;
+	public static final int BIN_GRABBER_INDEX = 13;
+	
+	/*
 	 * Constructor for the subsystem container.
 	 *
 	 * Each new subsystem must be added here. This is where they are
@@ -124,5 +128,7 @@ public class SubsystemContainer {
 		subsystems.put(HOOKS_SOLENOID_INDEX, new Hooks("Hooks"));
 		subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
 		subsystems.put(TOTE_ALIGNMENT_INDEX, new ToteAlignment("Tote Alignment"));
+		subsystems.put(ARMS_INDEX, new Arms("71 Arms"));
+		subsystems.put(BIN_GRABBER_INDEX, new BinGrabber("Bin Grabber"));
 	}
 }
