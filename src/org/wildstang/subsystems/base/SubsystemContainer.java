@@ -13,6 +13,7 @@ import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Monitor;
 import org.wildstang.subsystems.Test;
+import org.wildstang.subsystems.ToteAlignment;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -103,6 +104,7 @@ public class SubsystemContainer {
 	public static final int INDEX_WHEELS_INDEX = 8;
 	public static final int HOOKS_SOLENOID_INDEX = 9;
 	public static final int CONTAINMENT_INDEX = 10;
+	public static final int TOTE_ALIGNMENT_INDEX = 11;
 
 	/**
 	 * Constructor for the subsystem container.
@@ -121,5 +123,6 @@ public class SubsystemContainer {
 		subsystems.put(INDEX_WHEELS_INDEX, new IntakeWheels("Intake"));
 		subsystems.put(HOOKS_SOLENOID_INDEX, new Hooks("Hooks"));
 		subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
+		subsystems.put(TOTE_ALIGNMENT_INDEX, new ToteAlignment("Tote Alignment"));
 	}
 }
