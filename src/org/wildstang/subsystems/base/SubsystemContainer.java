@@ -7,6 +7,7 @@ import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.Chute;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.IntakeWheels;
+import org.wildstang.subsystems.Hooks;
 import org.wildstang.subsystems.LED;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Test;
@@ -95,6 +96,7 @@ public class SubsystemContainer {
 	public static final int LED_INDEX = 2;
 	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
 	public static final int CHUTE_INDEX = 4;
+	public static final int HOOKS_SOLENOID_INDEX = 9;
 	public static final int MONITOR_INDEX = 5;
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
@@ -115,5 +117,6 @@ public class SubsystemContainer {
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(CHUTE_INDEX, new Chute("Chute"));
 		subsystems.put(INDEX_WHEELS_INDEX, new IntakeWheels("Intake"));
+		subsystems.put(HOOKS_SOLENOID_INDEX, new Hooks("Hooks"));
 	}
 }
