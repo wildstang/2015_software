@@ -2,8 +2,9 @@ package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.inputmanager.inputs.joystick.driver.DriverJoystick;
+import org.wildstang.inputmanager.inputs.joystick.manipulator.ManipulatorJoystick;
 import org.wildstang.logger.sender.LogManager;
-import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
@@ -49,11 +50,11 @@ public class Monitor extends Subsystem implements IObserver
 
 		for(int i = 0; i < 12; i++)
 		{
-			
+			LogManager.getInstance().addObject("Driver Joystick Button " + (i + 1), ((Boolean) ((DriverJoystick) InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX)).getSubject(JoystickButtonEnum.getEnumFromIndex(true, i)).getValueAsObject()));
 		}
 		for(int i = 0; i < 12; i++)
 		{
-		
+			LogManager.getInstance().addObject("Manipulator Joystick Button " + (i + 1), ((Boolean) ((ManipulatorJoystick) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX)).getSubject(JoystickButtonEnum.getEnumFromIndex(true, i)).getValueAsObject()));
 		}
 
 	}
