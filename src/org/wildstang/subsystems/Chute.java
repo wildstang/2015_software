@@ -1,5 +1,6 @@
 package org.wildstang.subsystems;
 
+import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
@@ -11,6 +12,7 @@ import org.wildstang.subsystems.base.Subsystem;
 public class Chute extends Subsystem implements IObserver {
 
 	boolean chuteIntake;
+	boolean override;
 
 	public Chute(String name) {
 		super(name);
@@ -20,6 +22,7 @@ public class Chute extends Subsystem implements IObserver {
 		chuteIntake = false;
 
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_7);
+		registerForSensorNotification(InputManager.CHUTE_LIGHT_SENSOR_INDEX);
 	}
 
 	public void update() {
@@ -38,6 +41,11 @@ public class Chute extends Subsystem implements IObserver {
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {
+			chuteIntake = ((BooleanSubject) subjectThatCaused).getValue();
+			override = chuteIntake;
+		}
+		if(subjectThatCaused.getType() == getSensorInput(InputManager.CHUTE_LIGHT_SENSOR_INDEX) && !override)
+		{
 			chuteIntake = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}

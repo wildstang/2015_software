@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeWheels extends Subsystem implements IObserver {
 	boolean intakeWheelsOn = false;
+	boolean intakePistonsOut = false;
 
 	public IntakeWheels(String name) {
 		super(name);
@@ -20,6 +21,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	public void init() {
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_3);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_2);
 	}
 
 	public void update() {
@@ -27,9 +29,12 @@ public class IntakeWheels extends Subsystem implements IObserver {
 		int intakePistonsValue;
 		if (intakeWheelsOn) {
 			intakeWheelsValue = 1;
-			intakePistonsValue = DoubleSolenoid.Value.kReverse_val;
 		} else {
 			intakeWheelsValue = 0;
+		}
+		if (intakePistonsOut) {
+			intakePistonsValue = DoubleSolenoid.Value.kReverse_val;
+		} else {
 			intakePistonsValue = DoubleSolenoid.Value.kForward_val;
 		}
 		getOutput(OutputManager.INTAKE_WHEELS_INDEX).set(new Double(intakeWheelsValue));
@@ -44,6 +49,9 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	public void acceptNotification(Subject subjectThatCaused) {
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_3) {
 			intakeWheelsOn = ((BooleanSubject) subjectThatCaused).getValue();
+		}
+		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_2) {
+			intakePistonsOut = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 

@@ -145,6 +145,7 @@ public class InputManager {
 	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
 	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
 	public static final int LIFT_POT_INDEX = 12;
+	public static final int CHUTE_LIGHT_SENSOR_INDEX = 13;
 
 	/**
 	 * Constructor for the InputManager.
@@ -159,6 +160,7 @@ public class InputManager {
 		sensorInputs.put(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(8));
 		sensorInputs.put(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(9));
 		sensorInputs.put(LIFT_POT_INDEX, new WsAnalogInput(0));
+		sensorInputs.put(CHUTE_LIGHT_SENSOR_INDEX, new WsDigitalInput(7));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
