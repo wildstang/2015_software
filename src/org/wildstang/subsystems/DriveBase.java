@@ -58,6 +58,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double driveBaseStrafeValue = 0.0;
 	private static boolean antiTurboFlag = false;
 	private static boolean turboFlag = false;
+	private static boolean hBackupFlag = false;
 	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default
 																						// to
 																						// low
@@ -205,6 +206,8 @@ public class DriveBase extends Subsystem implements IObserver {
 		updateSpeedAndAccelerationCalculations();
 		if (true == motionProfileActive) {
 
+			getOutput(OutputManager.H_BACKUP_INDEX).set(new Boolean(hBackupFlag));
+			
 			// Update PID using profile velocity as setpoint and measured
 			// velocity as PID input
 			enableSpeedPidControl();
@@ -745,6 +748,8 @@ public class DriveBase extends Subsystem implements IObserver {
 			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_7) {
 			turboFlag = ((BooleanSubject) subjectThatCaused).getValue();
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_5){
+			hBackupFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 
