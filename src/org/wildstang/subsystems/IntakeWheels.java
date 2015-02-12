@@ -54,5 +54,10 @@ public class IntakeWheels extends Subsystem implements IObserver {
 			intakePistonsOut = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
+	
+	public void setPistons(boolean state)
+	{
+		intakePistonsOut = state;
+	}
 
 }

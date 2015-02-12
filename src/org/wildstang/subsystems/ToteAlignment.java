@@ -42,4 +42,9 @@ public class ToteAlignment extends Subsystem implements IObserver
 			pressed = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
+	
+	public void setAlignmentState(boolean state)
+	{
+		pressed = state;
+	}
 }

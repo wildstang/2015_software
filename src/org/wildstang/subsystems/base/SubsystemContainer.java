@@ -103,7 +103,7 @@ public class SubsystemContainer {
 	public static final int MONITOR_INDEX = 5;
 	public static final int LIFT_INDEX = 6;
 	public static final int TEST_INDEX = 7;
-	public static final int INDEX_WHEELS_INDEX = 8;
+	public static final int INTAKE_WHEELS_INDEX = 8;
 	public static final int HOOKS_SOLENOID_INDEX = 9;
 	public static final int CONTAINMENT_INDEX = 10;
 	public static final int TOTE_ALIGNMENT_INDEX = 11;
@@ -124,7 +124,7 @@ public class SubsystemContainer {
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(CHUTE_INDEX, new Chute("Chute"));
-		subsystems.put(INDEX_WHEELS_INDEX, new IntakeWheels("Intake"));
+		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
 		subsystems.put(HOOKS_SOLENOID_INDEX, new Hooks("Hooks"));
 		subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
 		subsystems.put(TOTE_ALIGNMENT_INDEX, new ToteAlignment("Tote Alignment"));

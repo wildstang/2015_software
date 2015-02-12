@@ -66,4 +66,14 @@ public class Containment extends Subsystem implements IObserver {
 			}
 		}
 	}
+	
+	public void setContainmentState(boolean state)
+	{
+		containmentOpen = state;
+	}
+	
+	public void setContainmentFlapState(boolean state)
+	{
+		flapOpen = state;
+	}
 }

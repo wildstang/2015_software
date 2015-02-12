@@ -75,5 +75,10 @@ public class Lift extends Subsystem implements IObserver {
 			pawl = ((Boolean) subjectThatCaused.getValueAsObject());
 		}
 	}
+	
+	public void setPawl(boolean state)
+	{
+		pawl = state;
+	}
 
 }
