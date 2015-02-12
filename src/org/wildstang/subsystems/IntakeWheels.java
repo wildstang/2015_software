@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeWheels extends Subsystem implements IObserver {
-	boolean intakeWheelsOn = false;
+	boolean intakeWheelsIn = false;
+	boolean intakeWheelsOut = false;
 	boolean intakePistonsOut = false;
 
 	public IntakeWheels(String name) {
@@ -27,9 +28,15 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	public void update() {
 		double intakeWheelsValue;
 		int intakePistonsValue;
-		if (intakeWheelsOn) {
+		if (intakeWheelsIn) {
 			intakeWheelsValue = 1;
-		} else {
+			intakeWheelsOut = false;
+		}
+		else if(intakeWheelsOut)
+		{
+			intakeWheelsValue = -1;
+		}
+		else {
 			intakeWheelsValue = 0;
 		}
 		if (intakePistonsOut) {
@@ -42,13 +49,17 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
 		LogManager.getInstance().addObject("Intake Pistons", intakePistonsValue);
-		SmartDashboard.putBoolean("Intake Wheels", intakeWheelsOn);
+		SmartDashboard.putBoolean("Intake Wheels In", intakeWheelsIn);
+		SmartDashboard.putBoolean("Intake Wheels Out", intakeWheelsOut);
 	}
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_3) {
-			intakeWheelsOn = ((BooleanSubject) subjectThatCaused).getValue();
+			intakeWheelsIn = ((BooleanSubject) subjectThatCaused).getValue();
+		}
+		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_1) {
+			intakeWheelsOut = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_2) {
 			intakePistonsOut = ((BooleanSubject) subjectThatCaused).getValue();
@@ -58,6 +69,25 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	public void setPistons(boolean state)
 	{
 		intakePistonsOut = state;
+	}
+	
+	public void setWheels(boolean in, boolean out)
+	{
+		if(in)
+		{
+			intakeWheelsIn = true;
+			intakeWheelsOut = false;
+		}
+		else if(out)
+		{
+			intakeWheelsOut = true;
+			intakeWheelsIn = false;
+		}
+		else
+		{
+			intakeWheelsOut = false;
+			intakeWheelsIn = false;
+		}
 	}
 
 }
