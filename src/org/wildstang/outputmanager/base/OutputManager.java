@@ -47,8 +47,7 @@ public class OutputManager {
 	}
 
 	/**
-	 * Method to notify all output elements that a config change has occurred
-	 * and config values need to be re-read.
+	 * Method to notify all output elements that a config change has occurred and config values need to be re-read.
 	 */
 	public void notifyConfigChange() {
 		for (Integer key : outputs.keySet()) {
@@ -82,9 +81,8 @@ public class OutputManager {
 	public static final int LIFT_B_INDEX = 6;
 	public static final int CHUTE_INDEX = 7;
 	public static final int INTAKE_WHEELS_INDEX = 8;
-	public static final int HOOKS_SOLENOID_INDEX = 9;
 	public static final int CONTAINMENT_DOORS_INDEX = 10;
-	public static final int CONTAINMENT_FLAP_PISTON_INDEX = 11;
+	public static final int CONTAINMENT_FRONT_PISTON_INDEX = 11;
 	public static final int INTAKE_PISTONS_INDEX = 12;
 	public static final int PAWL_RELEASE_INDEX = 13;
 	public static final int BIN_GRABBER_INDEX = 14;
@@ -97,27 +95,32 @@ public class OutputManager {
 	/**
 	 * Constructor for OutputManager.
 	 *
-	 * All new output elements need to be added in the constructor as well as
-	 * having a key value added above.
+	 * All new output elements need to be added in the constructor as well as having a key value added above.
 	 */
 
 	protected OutputManager() {
-		// Add the facade data elements
 		outputs.put(UNKNOWN_INDEX, new NoOutput());
+
+		// MOTORS
 		outputs.put(RIGHT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Right Drive Speed", 2, 3));
 		outputs.put(LEFT_DRIVE_SPEED_INDEX, new WsDriveSpeed("Left Drive Speed", 0, 1));
-		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsVictor("Strafe Drive Speed", 4));
-		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
+		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsDriveSpeed("Strafe Drive Speed", 4, 5));
 		outputs.put(LIFT_A_INDEX, new WsVictor("Lift A", 6));
 		outputs.put(LIFT_B_INDEX, new WsVictor("Lift B", 7));
-		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 5));
+		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 8));
 		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
-		outputs.put(HOOKS_SOLENOID_INDEX, new WsDoubleSolenoid("Hooks", 2, 3));
-		outputs.put(CONTAINMENT_DOORS_INDEX, new WsSolenoid("Containment", 0));
-		outputs.put(CONTAINMENT_FLAP_PISTON_INDEX, new WsSolenoid("Containment Flaps", 3));
-		outputs.put(INTAKE_PISTONS_INDEX, new WsDoubleSolenoid("Intake Pistons", 4, 5));
+
+		// PCM 0 SOLENOIDS
+		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 		outputs.put(PAWL_RELEASE_INDEX, new WsSolenoid("Pawl Release", 2));
-		outputs.put(BIN_GRABBER_INDEX, new WsSolenoid("Bin Grabber", 6));
-		outputs.put(BIN_GRABBER_DELPOY_INDEX, new WsSolenoid("Bin Grabber Deploy", 7));
+		outputs.put(CONTAINMENT_FRONT_PISTON_INDEX, new WsSolenoid("Containment Front", 3));
+		outputs.put(INTAKE_PISTONS_INDEX, new WsSolenoid("Intake Pistons", 4));
+		outputs.put(BIN_GRABBER_INDEX, new WsSolenoid("Bin Grabber", 5));
+		outputs.put(BIN_GRABBER_DELPOY_INDEX, new WsSolenoid("Bin Grabber Deploy", 6));
+		outputs.put(ARMS_INDEX, new WsSolenoid("71 Arms", 7));
+		
+		// PCM 1 SOLENOIDS
+		outputs.put(CONTAINMENT_DOORS_INDEX, new WsDoubleSolenoid("Containment doors", 1, 6, 7));
+
 	}
 }

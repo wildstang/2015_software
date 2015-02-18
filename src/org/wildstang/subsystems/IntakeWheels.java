@@ -21,31 +21,30 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 
 	public void init() {
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_1);
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_3);
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_2);
 	}
 
 	public void update() {
 		double intakeWheelsValue;
-		int intakePistonsValue;
-		if (intakeWheelsIn) {
+		boolean intakePistonsValue;
+
+		if (intakeWheelsIn && !intakeWheelsOut) {
 			intakeWheelsValue = 1;
-			intakeWheelsOut = false;
-		}
-		else if(intakeWheelsOut)
-		{
+		} else if (intakeWheelsOut && !intakeWheelsIn) {
 			intakeWheelsValue = -1;
-		}
-		else {
+		} else {
 			intakeWheelsValue = 0;
 		}
+
 		if (intakePistonsOut) {
-			intakePistonsValue = DoubleSolenoid.Value.kReverse_val;
+			intakePistonsValue = true;
 		} else {
-			intakePistonsValue = DoubleSolenoid.Value.kForward_val;
+			intakePistonsValue = false;
 		}
 		getOutput(OutputManager.INTAKE_WHEELS_INDEX).set(new Double(intakeWheelsValue));
-		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Integer(intakePistonsValue));
+		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsValue));
 
 		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
 		LogManager.getInstance().addObject("Intake Pistons", intakePistonsValue);
@@ -62,29 +61,24 @@ public class IntakeWheels extends Subsystem implements IObserver {
 			intakeWheelsOut = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_2) {
-			intakePistonsOut = ((BooleanSubject) subjectThatCaused).getValue();
+			if (((BooleanSubject) subjectThatCaused).getValue()) {
+				intakePistonsOut = !intakePistonsOut;
+			}
 		}
 	}
-	
-	public void setPistons(boolean state)
-	{
+
+	public void setPistons(boolean state) {
 		intakePistonsOut = state;
 	}
-	
-	public void setWheels(boolean in, boolean out)
-	{
-		if(in)
-		{
+
+	public void setWheels(boolean in, boolean out) {
+		if (in) {
 			intakeWheelsIn = true;
 			intakeWheelsOut = false;
-		}
-		else if(out)
-		{
+		} else if (out) {
 			intakeWheelsOut = true;
 			intakeWheelsIn = false;
-		}
-		else
-		{
+		} else {
 			intakeWheelsOut = false;
 			intakeWheelsIn = false;
 		}

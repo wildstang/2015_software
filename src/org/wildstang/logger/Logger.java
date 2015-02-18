@@ -210,8 +210,7 @@ public class Logger {
 	}
 
 	/**
-	 * Always logs a message, regardless of the current log level, even if the
-	 * logging is off
+	 * Always logs a message, regardless of the current log level, even if the logging is off
 	 *
 	 * @param c
 	 *            The name of the class logging the message.

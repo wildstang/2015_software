@@ -150,8 +150,7 @@ public class InputManager {
 	/**
 	 * Constructor for the InputManager.
 	 *
-	 * Each new data element to be added to the facade must be added here and
-	 * have keys added above.
+	 * Each new data element to be added to the facade must be added here and have keys added above.
 	 */
 	protected InputManager() {
 		// Add the facade data elements

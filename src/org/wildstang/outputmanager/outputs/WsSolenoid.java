@@ -26,7 +26,7 @@ public class WsSolenoid implements IOutput {
 	}
 
 	public WsSolenoid(String name, int channel1) {
-		this(name, 1, channel1);
+		this(name, 0, channel1);
 	}
 
 	public void set(IOutputEnum key, Object value) {

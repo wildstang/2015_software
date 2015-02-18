@@ -18,7 +18,7 @@ import org.wildstang.subsystems.base.SubsystemContainer;
  * @author Alex
  */
 public class FrameworkAbstraction {
-	
+
 	public static void robotInit(String fileName) {
 		try {
 			ConfigManager.getInstance().setConfigFileName(fileName);
@@ -34,7 +34,7 @@ public class FrameworkAbstraction {
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance();
 	}
-	
+
 	public static void disabledInit() {
 		AutonomousManager.getInstance().clear();
 		try {
@@ -46,18 +46,18 @@ public class FrameworkAbstraction {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 	}
-	
+
 	public static void disabledPeriodic() {
 		InputManager.getInstance().updateOiData();
 		LogManager.getInstance().update();
-	}	
+	}
 
 	public static void autonomousInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance().startCurrentProgram();
 	}
-	
+
 	public static void autonomousPeriodic() {
 		InputManager.getInstance().updateOiDataAutonomous();
 		InputManager.getInstance().updateSensorData();

@@ -1,23 +1,19 @@
 package org.wildstang.logger.sender;
 
-public class LogObject
-{
+public class LogObject {
 	String name;
 	Object object;
 
-	public LogObject(String name, Object object)
-	{
+	public LogObject(String name, Object object) {
 		this.name = name;
 		this.object = object;
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
-	
-	public Object getObject()
-	{
+
+	public Object getObject() {
 		return object;
 	}
 }

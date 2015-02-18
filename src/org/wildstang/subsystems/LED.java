@@ -41,11 +41,9 @@ public class LED extends Subsystem implements IObserver {
 	}
 
 	/*
-	 * | Function | Cmd | PL 1 | PL 2 |
-	 * --------------------------------------------------------- | Shoot | 0x05
-	 * | 0x13 | 0x14 | | Climb | 0x06 | 0x11 | 0x12 | | Autonomous | 0x02 | 0x11
-	 * | 0x12 | | Red Alliance | 0x04 | 0x52 | 0x01 | | Blue Alliance | 0x04 |
-	 * 0x47 | 0x01 |
+	 * | Function | Cmd | PL 1 | PL 2 | --------------------------------------------------------- | Shoot | 0x05 | 0x13
+	 * | 0x14 | | Climb | 0x06 | 0x11 | 0x12 | | Autonomous | 0x02 | 0x11 | 0x12 | | Red Alliance | 0x04 | 0x52 | 0x01 |
+	 * | Blue Alliance | 0x04 | 0x47 | 0x01 |
 	 * 
 	 * Send sequence once, no spamming the Arduino.
 	 */

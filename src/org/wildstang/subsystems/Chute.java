@@ -28,12 +28,14 @@ public class Chute extends Subsystem implements IObserver {
 	public void update() {
 
 		double chuteMotorValue;
-		if (chuteIntake) {
+		if (override) {
+			chuteMotorValue = 1;
+		} else if (chuteIntake) {
 			chuteMotorValue = 1;
 		} else {
 			chuteMotorValue = 0;
 		}
-		
+
 		LogManager.getInstance().addObject("Chute", chuteMotorValue);
 		getOutput(OutputManager.CHUTE_INDEX).set(new Double(chuteMotorValue));
 	}
@@ -41,11 +43,10 @@ public class Chute extends Subsystem implements IObserver {
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {
-			chuteIntake = ((BooleanSubject) subjectThatCaused).getValue();
-			override = chuteIntake;
+			override = ((BooleanSubject) subjectThatCaused).getValue();
 		}
-		if(subjectThatCaused.getType() == getSensorInput(InputManager.CHUTE_LIGHT_SENSOR_INDEX) && !override)
-		{
+
+		if (subjectThatCaused.getType() == getSensorInput(InputManager.CHUTE_LIGHT_SENSOR_INDEX) && !override) {
 			chuteIntake = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}

@@ -52,8 +52,7 @@ public abstract class Subsystem {
 	/**
 	 * Method to notify the subsystem of a config change.
 	 *
-	 * Override this method when extending the base class, if config params are
-	 * required.
+	 * Override this method when extending the base class, if config params are required.
 	 */
 	public void notifyConfigChange() {
 		// Do nothing by default

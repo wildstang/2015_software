@@ -17,8 +17,7 @@ import org.wildstang.config.DoubleConfigFileParameter;
  * @author Joey
  */
 /*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
+ * To change this template, choose Tools | Templates and open the template in the editor.
  */
 public class AutonomousProgramDrivePatterns extends AutonomousProgram {
 

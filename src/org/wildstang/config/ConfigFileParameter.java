@@ -41,8 +41,7 @@ public class ConfigFileParameter {
 	}
 
 	/**
-	 * Retrieve the full parameter name with the class and parameter name
-	 * concatenated.
+	 * Retrieve the full parameter name with the class and parameter name concatenated.
 	 *
 	 * @return the full parameter name.
 	 */

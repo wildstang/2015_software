@@ -42,8 +42,7 @@ public interface IInput extends IObservable {
 	public void pullData();
 
 	/**
-	 * Method to notify the data element that config data has changed and needs
-	 * to be re-read.
+	 * Method to notify the data element that config data has changed and needs to be re-read.
 	 */
 	public void notifyConfigChange();
 }

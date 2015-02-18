@@ -13,17 +13,31 @@ import org.wildstang.subsystems.base.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem implements IObserver {
+
+	private static final long PAWL_ENGAGE_TIME_MILLIS = 300;
+	private static final long PAWL_DISENGAGE_TIME_MILLIS = 300;
+	// 100 ms
+	private static final long MIN_CYCLES_WINCH_MOTOR_AT_ZERO = 5;
+
 	boolean atBottom;
 	boolean atTop;
-	boolean pawl;
 	double potVal;
+
+	// PAWL STUFF
+
+	private enum PawlState {
+		PAWL_DISENGAGED, PAWL_ENGAGING, PAWL_ENGAGED, PAWL_DISENGAGING
+	}
+
+	PawlState pawlState = PawlState.PAWL_ENGAGED;
+	private int numCyclesWinchMotorAtZero = 0;
+	private long lastPawlStateChange = 0;
 
 	public Lift(String name) {
 		super(name);
 
 		registerForSensorNotification(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX);
 		registerForSensorNotification(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX);
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_4);
 	}
 
 	public void init() {
@@ -34,51 +48,87 @@ public class Lift extends Subsystem implements IObserver {
 	public void update() {
 		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LEFT_JOYSTICK_Y))).doubleValue();
 		double winchMotorSpeed = 0;
+
 		if ((atBottom && winchJoystickValue < 0) || (atTop && winchJoystickValue > 0)) {
 			// Prevent driving past the top/bottom of the lift
 			winchMotorSpeed = 0;
 		} else {
 			winchMotorSpeed = winchJoystickValue;
 		}
-		if(winchMotorSpeed < 0)
-		{
-			pawl = true;
+
+		// State machine time!
+		boolean pawlEngaged = true;
+		switch (pawlState) {
+		case PAWL_DISENGAGED:
+			// allow the winch to turn freely
+			pawlEngaged = false;
+			if (winchMotorSpeed == 0) {
+				numCyclesWinchMotorAtZero++;
+				if (numCyclesWinchMotorAtZero > MIN_CYCLES_WINCH_MOTOR_AT_ZERO) {
+					// Engage the pawl if the winch has been stopped for specified number of cycles
+					pawlState = PawlState.PAWL_ENGAGING;
+					lastPawlStateChange = System.currentTimeMillis();
+					pawlEngaged = true;
+				}
+			} else {
+				numCyclesWinchMotorAtZero = 0;
+			}
+			break;
+		case PAWL_ENGAGING:
+			// Disable the winch motor
+			winchMotorSpeed = 0;
+			// Make sure the pawl piston is still engaged
+			pawlEngaged = true;
+			if (System.currentTimeMillis() > lastPawlStateChange + PAWL_ENGAGE_TIME_MILLIS) {
+				// Pawl has finished engaging
+				pawlState = PawlState.PAWL_ENGAGED;
+			}
+			break;
+		case PAWL_ENGAGED:
+			// Make sure the pawl piston is still engaged
+			pawlEngaged = true;
+			if (winchMotorSpeed != 0) {
+				// We should disengage the pawl
+				pawlState = PawlState.PAWL_DISENGAGING;
+				lastPawlStateChange = System.currentTimeMillis();
+			}
+			// Disable the winch until the pawl is disengaged
+			winchMotorSpeed = 0;
+			break;
+		case PAWL_DISENGAGING:
+			// Disable the winch motor
+			winchMotorSpeed = 0;
+			// Make sure the pawl piston is still disengaged
+			pawlEngaged = false;
+			if (System.currentTimeMillis() > lastPawlStateChange + PAWL_DISENGAGE_TIME_MILLIS) {
+				// Pawl has finished disengaging
+				pawlState = PawlState.PAWL_DISENGAGED;
+			}
+			break;
 		}
-		else if(pawl == true)
-		{
-			pawl = false;
-		}
-		
+
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(winchMotorSpeed));
 		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(winchMotorSpeed));
-		getOutput(OutputManager.PAWL_RELEASE_INDEX).set(new Boolean(pawl));
 		
+		// The pawl is engaged when the solenoid is false (retracted = engaged)
+		getOutput(OutputManager.PAWL_RELEASE_INDEX).set(new Boolean(!pawlEngaged));
+
 		potVal = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 
 		LogManager.getInstance().addObject("Winch", winchMotorSpeed);
 		SmartDashboard.putNumber("Winch", winchMotorSpeed);
 		LogManager.getInstance().addObject("Lift Pot", potVal);
 		SmartDashboard.putNumber("Lift Pot", potVal);
-		LogManager.getInstance().addObject("Pawl Release", pawl);
-		SmartDashboard.putBoolean("Pawl Release", pawl);
+		LogManager.getInstance().addObject("Pawl Engaged", pawlEngaged);
+		SmartDashboard.putBoolean("Pawl Release", pawlEngaged);
 	}
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		if (subjectThatCaused.equals(getSensorInput(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX).getSubject())) {
-			atBottom = ((BooleanSubject) subjectThatCaused).getValue();
+			atBottom = !((BooleanSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.equals(getSensorInput(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX).getSubject())) {
-			atTop = ((BooleanSubject) subjectThatCaused).getValue();
-		}
-		if(subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_4)
-		{
-			pawl = ((Boolean) subjectThatCaused.getValueAsObject());
+			atTop = !((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
-	
-	public void setPawl(boolean state)
-	{
-		pawl = state;
-	}
-
 }

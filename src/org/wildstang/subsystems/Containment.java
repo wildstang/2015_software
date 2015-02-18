@@ -22,18 +22,18 @@ public class Containment extends Subsystem implements IObserver {
 	public void init() {
 		containmentOpen = false;
 		flapOpen = false;
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_11);
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_12);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_5);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 	}
 
 	public void update() {
-		int containmentVal;
+		boolean containmentVal;
 		int flapVal;
 
 		if (containmentOpen) {
-			containmentVal = DoubleSolenoid.Value.kForward_val;
+			containmentVal = true;
 		} else {
-			containmentVal = DoubleSolenoid.Value.kReverse_val;
+			containmentVal = false;
 		}
 
 		if (flapOpen) {
@@ -42,9 +42,10 @@ public class Containment extends Subsystem implements IObserver {
 			flapVal = DoubleSolenoid.Value.kReverse_val;
 		}
 
-		getOutput(OutputManager.CONTAINMENT_DOORS_INDEX).set(new Integer(containmentVal));
-		getOutput(OutputManager.CONTAINMENT_FLAP_PISTON_INDEX).set(new Integer(flapVal));
-		SmartDashboard.putBoolean("Containment Doors", containmentOpen);
+		// TODO THIS DOESN:T WORK
+		getOutput(OutputManager.CONTAINMENT_DOORS_INDEX).set(new Integer(flapVal));
+		getOutput(OutputManager.CONTAINMENT_FRONT_PISTON_INDEX).set(new Boolean(containmentVal));
+		SmartDashboard.putBoolean("Containment Front", containmentOpen);
 		SmartDashboard.putBoolean("Containment Flaps", flapOpen);
 		LogManager.getInstance().addObject("Containment Doors", containmentOpen);
 		LogManager.getInstance().addObject("Containment Flaps", flapOpen);
@@ -52,28 +53,26 @@ public class Containment extends Subsystem implements IObserver {
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_11) {
+		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_5) {
 			boolean buttonValue = ((BooleanSubject) subjectThatCaused).getValue();
 			// If button was just pressed, toggle the state
 			if (buttonValue) {
 				containmentOpen = !containmentOpen;
 			}
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_12) {
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
 			boolean buttonValue = ((BooleanSubject) subjectThatCaused).getValue();
-			// If button was jsut pressed, toggle the state
+			// If button was just pressed, toggle the state
 			if (buttonValue) {
 				flapOpen = !flapOpen;
 			}
 		}
 	}
-	
-	public void setContainmentState(boolean state)
-	{
+
+	public void setContainmentState(boolean state) {
 		containmentOpen = state;
 	}
-	
-	public void setContainmentFlapState(boolean state)
-	{
+
+	public void setContainmentFlapState(boolean state) {
 		flapOpen = state;
 	}
 }

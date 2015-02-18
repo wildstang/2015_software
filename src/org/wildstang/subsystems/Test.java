@@ -33,13 +33,14 @@ public class Test extends Subsystem {
 		SmartDashboard.putNumber("Accel X", accelerometer.getX());
 		SmartDashboard.putNumber("Accel Y", accelerometer.getY());
 		SmartDashboard.putNumber("Accel Z", accelerometer.getZ());
-		
+
 		LogManager.getInstance().addObject("Accel X", accelerometer.getX());
 		LogManager.getInstance().addObject("Accel Y", accelerometer.getY());
 		LogManager.getInstance().addObject("Accel Z", accelerometer.getZ());
 
-		int distance = ((Integer) InputManager.getInstance().getSensorInput(InputManager.LIDAR_INDEX).get()).intValue();
-		SmartDashboard.putNumber("LIDAR distance", distance);
+		// int distance = ((Integer)
+		// InputManager.getInstance().getSensorInput(InputManager.LIDAR_INDEX).get()).intValue();
+		// SmartDashboard.putNumber("LIDAR distance", distance);
 	}
 
 }
