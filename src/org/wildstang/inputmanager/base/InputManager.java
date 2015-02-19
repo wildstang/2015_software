@@ -1,10 +1,11 @@
 package org.wildstang.inputmanager.base;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.wildstang.inputmanager.inputs.WsAnalogInput;
 import org.wildstang.inputmanager.inputs.WsDigitalInput;
+import org.wildstang.inputmanager.inputs.WsLIDAR;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSAnalogInput;
 import org.wildstang.inputmanager.inputs.driverstation.WsDSDigitalInput;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
@@ -22,8 +23,8 @@ import org.wildstang.subjects.base.Subject;
 public class InputManager {
 
 	private static InputManager instance = null;
-	private static List<IInput> oiInputs = new ArrayList<>();
-	private static List<IInput> sensorInputs = new ArrayList<>();
+	private static Map<Integer, IInput> oiInputs = new HashMap<>();
+	private static Map<Integer, IInput> sensorInputs = new HashMap<>();
 
 	/**
 	 * Method to get the instance of this singleton object.
@@ -37,19 +38,16 @@ public class InputManager {
 		return instance;
 	}
 
-	public void init() {
-	}
-
 	/**
 	 * Method to trigger updates of all the sensor data input containers
 	 */
 	public void updateSensorData() {
-		for (IInput sIn : sensorInputs) {
-			if (sIn == null) {
-				continue;
+		for (Map.Entry<Integer, IInput> entry : sensorInputs.entrySet()) {
+			IInput in = entry.getValue();
+			if (in != null) {
+				in.pullData();
+				in.update();
 			}
-			sIn.pullData();
-			sIn.update();
 		}
 	}
 
@@ -57,17 +55,18 @@ public class InputManager {
 	 * Method to trigger updates of all the oi data input containers.
 	 */
 	public void updateOiData() {
-		for (IInput oiIn : oiInputs) {
-			if (oiIn == null) {
-				continue;
+		for (Map.Entry<Integer, IInput> entry : oiInputs.entrySet()) {
+			IInput in = entry.getValue();
+			if (in != null) {
+				in.pullData();
+				in.update();
 			}
-			oiIn.pullData();
-			oiIn.update();
 		}
 	}
 
 	public void updateOiDataAutonomous() {
-		for (IInput oiIn : oiInputs) {
+		for (Map.Entry<Integer, IInput> entry : oiInputs.entrySet()) {
+			IInput oiIn = entry.getValue();
 			if (oiIn == null) {
 				continue;
 			}
@@ -81,17 +80,19 @@ public class InputManager {
 	/**
 	 * Method to notify all input containers that a config update occurred.
 	 *
-	 * Used by the ConfigFacade when the config is re-read.
+	 * Used by the ConfigManager when the config is re-read.
 	 */
 	public void notifyConfigChange() {
-		for (IInput sIn : sensorInputs) {
-			if (sIn != null) {
-				sIn.notifyConfigChange();
+		for (Map.Entry<Integer, IInput> entry : sensorInputs.entrySet()) {
+			IInput in = entry.getValue();
+			if (in != null) {
+				in.notifyConfigChange();
 			}
 		}
-		for (IInput oiIn : oiInputs) {
-			if (oiIn != null) {
-				oiIn.notifyConfigChange();
+		for (Map.Entry<Integer, IInput> entry : oiInputs.entrySet()) {
+			IInput in = entry.getValue();
+			if (in != null) {
+				in.notifyConfigChange();
 			}
 		}
 	}
@@ -104,10 +105,8 @@ public class InputManager {
 	 * @return A WsInputInterface.
 	 */
 	public IInput getOiInput(int index) {
-		if (index >= 0 && index < oiInputs.size()) {
-			return (IInput) oiInputs.get(index);
-		}
-		return (IInput) oiInputs.get(UNKNOWN_INDEX);
+		IInput in = oiInputs.get(index);		
+		return in == null ? (IInput) oiInputs.get(UNKNOWN_INDEX) : in;
 	}
 
 	/**
@@ -118,10 +117,8 @@ public class InputManager {
 	 * @return A WsInputInterface.
 	 */
 	public IInput getSensorInput(int index) {
-		if (index >= 0 || index < sensorInputs.size()) {
-			return (IInput) sensorInputs.get(index);
-		}
-		return (IInput) sensorInputs.get(UNKNOWN_INDEX);
+		IInput in = sensorInputs.get(index);		
+		return in == null ? (IInput) sensorInputs.get(UNKNOWN_INDEX) : in;
 	}
 
 	final public void attachJoystickButton(IInputEnum button, IObserver observer) {
@@ -147,16 +144,19 @@ public class InputManager {
 	public static final int PRESSURE_TRANSDUCER_INDEX = 1;
 	public static final int FRONT_ARM_POT_INDEX = 2;
 	public static final int BACK_ARM_POT_INDEX = 3;
-	// public static final int LEFT_ENCODER_A_INDEX = 4;
-	// public static final int LEFT_ENCODER_B_INDEX = 5;
-	// public static final int RIGHT_ENCODER_A_INDEX = 6;
-	// public static final int RIGHT_ENCODER_B_INDEX = 7;
 	public static final int TENSION_LIMIT_SWITCH_INDEX = 4;
 	public static final int BALL_DETECT_SWITCH_INDEX = 5;
 	public static final int LATCH_POSITION_SWITCH_INDEX = 6;
 	public static final int CATAPULT_DOWN_SWITCH_INDEX = 7;
 	public static final int FRONT_ARM_CALIBRATION_SWITCH_INDEX = 8;
 	public static final int BACK_ARM_CALIBRATION_SWITCH_INDEX = 9;
+	public static final int LIDAR_INDEX = 10;
+	// public static final int LEFT_ENCODER_A_INDEX = 4;
+	// public static final int LEFT_ENCODER_B_INDEX = 5;
+	// public static final int RIGHT_ENCODER_A_INDEX = 6;
+	// public static final int RIGHT_ENCODER_B_INDEX = 7;
+	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
+	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
 
 	/**
 	 * Constructor for the InputManager.
@@ -166,27 +166,32 @@ public class InputManager {
 	 */
 	protected InputManager() {
 		// Add the facade data elements
-		sensorInputs.add(UNKNOWN_INDEX, new NoInput());
-		sensorInputs.add(PRESSURE_TRANSDUCER_INDEX, new WsAnalogInput(4));
-		sensorInputs.add(FRONT_ARM_POT_INDEX, new WsAnalogInput(2));
-		sensorInputs.add(BACK_ARM_POT_INDEX, new WsAnalogInput(3));
+		sensorInputs.put(UNKNOWN_INDEX, new NoInput());
+		sensorInputs.put(PRESSURE_TRANSDUCER_INDEX, new WsAnalogInput(4));
+		sensorInputs.put(FRONT_ARM_POT_INDEX, new WsAnalogInput(2));
+		sensorInputs.put(BACK_ARM_POT_INDEX, new WsAnalogInput(3));
+		sensorInputs.put(TENSION_LIMIT_SWITCH_INDEX, new WsDigitalInput(4));
+		//sensorInputs.put(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
+		sensorInputs.put(LATCH_POSITION_SWITCH_INDEX, new WsDigitalInput(6));
+		sensorInputs.put(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
+		//sensorInputs.put(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
+		//sensorInputs.put(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
+		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
+		sensorInputs.put(UNKNOWN_INDEX, new NoInput());
+		sensorInputs.put(PRESSURE_TRANSDUCER_INDEX, new WsAnalogInput(4));
 		// sensorInputs.add(LEFT_ENCODER_A_INDEX, new WsDigitalInput(2));
 		// sensorInputs.add(LEFT_ENCODER_B_INDEX, new WsDigitalInput(3));
 		// sensorInputs.add(RIGHT_ENCODER_A_INDEX, new WsDigitalInput(4));
 		// sensorInputs.add(RIGHT_ENCODER_B_INDEX, new WsDigitalInput(5));
-		sensorInputs.add(TENSION_LIMIT_SWITCH_INDEX, new WsDigitalInput(4));
-		sensorInputs.add(BALL_DETECT_SWITCH_INDEX, new WsDigitalInput(10));
-		sensorInputs.add(LATCH_POSITION_SWITCH_INDEX, new WsDigitalInput(6));
-		sensorInputs.add(CATAPULT_DOWN_SWITCH_INDEX, new WsDigitalInput(7));
-		sensorInputs.add(FRONT_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(8));
-		sensorInputs.add(BACK_ARM_CALIBRATION_SWITCH_INDEX, new WsDigitalInput(9));
+		sensorInputs.put(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(8));
+		sensorInputs.put(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(9));
 
-		oiInputs.add(UNKNOWN_INDEX, new NoInput());
-		oiInputs.add(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
-		oiInputs.add(MANIPULATOR_JOYSTICK_INDEX, new ManipulatorJoystick());
-		oiInputs.add(AUTO_PROGRAM_SELECTOR_INDEX, new WsDSAnalogInput(1));
-		oiInputs.add(LOCK_IN_SWITCH_INDEX, new WsDSDigitalInput(1));
-		oiInputs.add(START_POSITION_SELECTOR_INDEX, new WsDSAnalogInput(2));
+		oiInputs.put(UNKNOWN_INDEX, new NoInput());
+		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
+		oiInputs.put(MANIPULATOR_JOYSTICK_INDEX, new ManipulatorJoystick());
+		oiInputs.put(AUTO_PROGRAM_SELECTOR_INDEX, new WsDSAnalogInput(1));
+		oiInputs.put(LOCK_IN_SWITCH_INDEX, new WsDSDigitalInput(1));
+		oiInputs.put(START_POSITION_SELECTOR_INDEX, new WsDSAnalogInput(2));
 
 	}
 }
