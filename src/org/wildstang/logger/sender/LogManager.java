@@ -41,8 +41,8 @@ public class LogManager {
 	private List<LogObject> objects = new ArrayList<>();
 	private List<LogObject> debugs = new ArrayList<>();
 	private long startTime = System.currentTimeMillis();
-	private ObjectSender logDataSender;
-	private ObjectSender debugDataSender;
+	private LogSender logDataSender;
+	private LogSender debugDataSender;
 
 	public static LogManager getInstance() {
 		if (instance == null) {
@@ -53,8 +53,8 @@ public class LogManager {
 	}
 
 	private void init() {
-		new Thread(logDataSender = new ObjectSender(1111)).start();
-		new Thread(debugDataSender = new ObjectSender(1112)).start();
+		new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
+		new Thread(debugDataSender = new LogSender("beaglebone.local", 1112)).start();
 	}
 
 	/**
@@ -91,15 +91,23 @@ public class LogManager {
 		objects.add(new LogObject(name, obj));
 	}
 
-	public class ObjectSender implements Runnable {
+	/**
+	 * A thread that queues and sends log maps to the offboard processor.
+	 * 
+	 * @author Nathan
+	 *
+	 */
+	public class LogSender implements Runnable {
 		private Socket socket;
 		private ObjectOutputStream outputStream;
-		// Limit backlog to 20 objects. Otherwise we'll overflow the stack after a while.
+		// Limit queue to 20 objects; if we don't we'll run out of memory after a while.
 		private BlockingDeque<Object> queue = new LinkedBlockingDeque<>(20);
-		private int portNumber;
+		private String host;
+		private int port;
 
-		public ObjectSender(int portNumber) {
-			this.portNumber = portNumber;
+		public LogSender(String host, int port) {
+			this.port = port;
+			this.host = host;
 		}
 
 		public void addToQueue(Object o) {
@@ -111,7 +119,7 @@ public class LogManager {
 			while (true) {
 				// If we lose connection or the connection attempt times out, continually retry.
 				try {
-					socket = new Socket("beaglebone.local", portNumber);
+					socket = new Socket(host, port);
 					outputStream = new ObjectOutputStream(socket.getOutputStream());
 
 					while (true) {
