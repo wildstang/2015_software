@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem implements IObserver {
 
-	private static final long PAWL_ENGAGE_TIME_MILLIS = 300;
-	private static final long PAWL_DISENGAGE_TIME_MILLIS = 300;
+	private static final long PAWL_ENGAGE_TIME_MILLIS = 100;
+	private static final long PAWL_DISENGAGE_TIME_MILLIS = 100;
+	private static final double LIFT_DEADBAND = 0.05;
 	// 100 ms
 	private static final long MIN_CYCLES_WINCH_MOTOR_AT_ZERO = 5;
 
@@ -57,12 +58,14 @@ public class Lift extends Subsystem implements IObserver {
 		}
 
 		// State machine time!
+		// Default to pawl engaged
 		boolean pawlEngaged = true;
 		switch (pawlState) {
 		case PAWL_DISENGAGED:
-			// allow the winch to turn freely
+			// the pawl is not engaged, allow the winch to turn freely
 			pawlEngaged = false;
-			if (winchMotorSpeed == 0) {
+			if (Math.abs(winchMotorSpeed) < LIFT_DEADBAND) {
+				// Begin counting cycles that the motor speed is within deadband
 				numCyclesWinchMotorAtZero++;
 				if (numCyclesWinchMotorAtZero > MIN_CYCLES_WINCH_MOTOR_AT_ZERO) {
 					// Engage the pawl if the winch has been stopped for specified number of cycles
@@ -71,6 +74,7 @@ public class Lift extends Subsystem implements IObserver {
 					pawlEngaged = true;
 				}
 			} else {
+				// Winch is still moving, reset cycle count
 				numCyclesWinchMotorAtZero = 0;
 			}
 			break;
@@ -110,7 +114,7 @@ public class Lift extends Subsystem implements IObserver {
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(winchMotorSpeed));
 		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(winchMotorSpeed));
 		
-		// The pawl is engaged when the solenoid is false (retracted = engaged)
+		// The pawl is engaged when the solenoid is false (piston retracted = pawl engaged)
 		getOutput(OutputManager.PAWL_RELEASE_INDEX).set(new Boolean(!pawlEngaged));
 
 		potVal = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
