@@ -58,6 +58,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double driveBaseStrafeValue = 0.0;
 	private static boolean antiTurboFlag = false;
 	private static boolean turboFlag = false;
+	private static boolean hBackupFlag = false;
 	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
 	private static boolean quickTurnFlag = false;
 	private static Encoder leftDriveEncoder;
@@ -176,7 +177,8 @@ public class DriveBase extends Subsystem implements IObserver {
 		driveBaseHeadingValue = 0.0;
 		antiTurboFlag = false;
 		turboFlag = false;
-		shifterFlag = DoubleSolenoid.Value.kForward;
+		// Default to low gear
+		shifterFlag = DoubleSolenoid.Value.kReverse;
 		quickTurnFlag = false;
 		motionProfileActive = false;
 		previousTime = Timer.getFPGATimestamp();
@@ -201,6 +203,8 @@ public class DriveBase extends Subsystem implements IObserver {
 	public void update() {
 		updateSpeedAndAccelerationCalculations();
 		if (true == motionProfileActive) {
+
+			getOutput(OutputManager.H_BACKUP_INDEX).set(new Boolean(hBackupFlag));
 
 			// Update PID using profile velocity as setpoint and measured
 			// velocity as PID input
@@ -493,17 +497,13 @@ public class DriveBase extends Subsystem implements IObserver {
 			rightMotorSpeed -= driveBaseHeadingValue;
 
 			/*
-			 * if(true == antiTurboFlag) { leftMotorSpeed /=
-			 * ANTI_TURBO_MAX_DEFLECTION; leftMotorSpeed *=
-			 * QUICK_TURN_ANTITURBO; rightMotorSpeed /=
-			 * ANTI_TURBO_MAX_DEFLECTION; rightMotorSpeed *=
+			 * if(true == antiTurboFlag) { leftMotorSpeed /= ANTI_TURBO_MAX_DEFLECTION; leftMotorSpeed *=
+			 * QUICK_TURN_ANTITURBO; rightMotorSpeed /= ANTI_TURBO_MAX_DEFLECTION; rightMotorSpeed *=
 			 * QUICK_TURN_ANTITURBO; }
 			 * 
-			 * if(false == turboFlag) { if (leftMotorSpeed > QUICK_TURN_CAP) {
-			 * leftMotorSpeed = QUICK_TURN_CAP; } else if (leftMotorSpeed <
-			 * -QUICK_TURN_CAP) { leftMotorSpeed = -QUICK_TURN_CAP; } if
-			 * (rightMotorSpeed > QUICK_TURN_CAP) { rightMotorSpeed =
-			 * QUICK_TURN_CAP; } else if (rightMotorSpeed < -QUICK_TURN_CAP) {
+			 * if(false == turboFlag) { if (leftMotorSpeed > QUICK_TURN_CAP) { leftMotorSpeed = QUICK_TURN_CAP; } else
+			 * if (leftMotorSpeed < -QUICK_TURN_CAP) { leftMotorSpeed = -QUICK_TURN_CAP; } if (rightMotorSpeed >
+			 * QUICK_TURN_CAP) { rightMotorSpeed = QUICK_TURN_CAP; } else if (rightMotorSpeed < -QUICK_TURN_CAP) {
 			 * rightMotorSpeed = -QUICK_TURN_CAP; } }
 			 */
 		} else {
@@ -742,6 +742,8 @@ public class DriveBase extends Subsystem implements IObserver {
 			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_7) {
 			turboFlag = ((BooleanSubject) subjectThatCaused).getValue();
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_5) {
+			hBackupFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 

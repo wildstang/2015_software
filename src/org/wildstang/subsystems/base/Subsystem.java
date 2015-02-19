@@ -13,8 +13,6 @@ import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.IObserver;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  *
  * @author Nathan
@@ -77,10 +75,10 @@ public abstract class Subsystem {
 	}
 
 	protected Double getJoystickValue(IInputEnum key) {
-		if(!(key instanceof JoystickAxisEnum)) {
+		if (!(key instanceof JoystickAxisEnum)) {
 			throw new ClassCastException("Input enum must be an instance of JoystickAxisEnum!");
 		}
-		
+
 		JoystickAxisEnum axis = (JoystickAxisEnum) key;
 		if (axis.isDriver()) {
 			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();

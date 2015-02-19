@@ -19,8 +19,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * @author Nathan
  */
 /*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
+ * To change this template, choose Tools | Templates and open the template in the editor.
  */
 public class AutonomousProgramDriveDistanceMotionProfile extends AutonomousProgram {
 

@@ -13,16 +13,10 @@ import org.wildstang.timer.WsTimer;
  * @author coder65535
  */
 public class AutonomousStepDelay extends AutonomousStep /*
-														 * This step delays
-														 * testing for the
-														 * specified number of
-														 * cycles. Note: If used
-														 * in a parallel step
-														 * group, it insures
-														 * that the group waits
-														 * for at least the
-														 * specified number of
-														 * cycles, instead.
+														 * This step delays testing for the specified number of cycles.
+														 * Note: If used in a parallel step group, it insures that the
+														 * group waits for at least the specified number of cycles,
+														 * instead.
 														 */{
 
 	protected final double delay;

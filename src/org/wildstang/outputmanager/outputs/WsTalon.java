@@ -2,49 +2,46 @@ package org.wildstang.outputmanager.outputs;
 
 import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.IOutputEnum;
-import org.wildstang.subjects.base.BooleanSubject;
+import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.ISubjectEnum;
 import org.wildstang.subjects.base.Subject;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  *
  * @author Nathan
  */
-public class WsSolenoid implements IOutput {
+public class WsTalon implements IOutput {
 
-	BooleanSubject subject;
-	Solenoid solenoid;
+	DoubleSubject motorSpeed;
+	Talon talon;
 
-	public WsSolenoid(String name, int module, int channel1) {
-		this.subject = new BooleanSubject(name);
-		subject.setValue(false);
-		solenoid = new Solenoid(module, channel1);
-		solenoid.set(false);
+	// By giving the victor1 number in the constructor we can make this generic
+	// for all digital victor1s
+	public WsTalon(String name, int channel) {
+		this.motorSpeed = new DoubleSubject(name);
+		this.talon = new Talon(channel);
 
-	}
-
-	public WsSolenoid(String name, int channel1) {
-		this(name, 0, channel1);
+		motorSpeed.setValue(0.0);
 	}
 
 	public void set(IOutputEnum key, Object value) {
-		subject.setValue(((Boolean) value).booleanValue());
+		motorSpeed.setValue(((Double) value).doubleValue());
 
 	}
 
 	public Subject getSubject(ISubjectEnum subjectEnum) {
-		return subject;
+		return motorSpeed;
 	}
 
 	public Object get(IOutputEnum key) {
-		return subject.getValueAsObject();
+		return motorSpeed.getValueAsObject();
 	}
 
 	public void update() {
-		subject.updateValue();
-		solenoid.set(subject.getValue());
+		motorSpeed.updateValue();
+		this.talon.set(motorSpeed.getValue());
 	}
 
 	public void set(Object value) {

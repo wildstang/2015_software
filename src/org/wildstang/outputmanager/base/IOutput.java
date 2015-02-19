@@ -30,15 +30,13 @@ public interface IOutput {
 	public Object get();
 
 	/**
-	 * Method to force the output element to update. Used by the output facade
-	 * to update all elements.
+	 * Method to force the output element to update. Used by the output facade to update all elements.
 	 */
 	public void update();
 
 	/**
-	 * Method to notify the output element that config values have been updated
-	 * and should be re-read. Used by the output facade to notify all output
-	 * elements.
+	 * Method to notify the output element that config values have been updated and should be re-read. Used by the
+	 * output facade to notify all output elements.
 	 */
 	public void notifyConfigChange();
 }

@@ -25,7 +25,7 @@ public class WsDoubleSolenoid implements IOutput {
 	}
 
 	public WsDoubleSolenoid(String name, int channel1, int channel2) {
-		this(name, 1, channel1, channel2);
+		this(name, 0, channel1, channel2);
 	}
 
 	public void set(IOutputEnum key, Object value) {

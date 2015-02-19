@@ -43,8 +43,8 @@ public class ConfigManager {
 	}
 
 	/**
-	 * Sets the filename to parse. Overrides the default /ws_config.txt. The
-	 * filename will only be set if it exists and is readable.
+	 * Sets the filename to parse. Overrides the default /ws_config.txt. The filename will only be set if it exists and
+	 * is readable.
 	 *
 	 * @param filename
 	 *            The new filename to use for reading.
@@ -59,9 +59,8 @@ public class ConfigManager {
 	}
 
 	/**
-	 * Sets the filename to check for updates. Overrides the default
-	 * /reloadConfigFile.cmd. The filename will only be set if it exists and is
-	 * readable.
+	 * Sets the filename to check for updates. Overrides the default /reloadConfigFile.cmd. The filename will only be
+	 * set if it exists and is readable.
 	 *
 	 * @param filename
 	 *            The new filename to use for checking for updates.
@@ -76,12 +75,10 @@ public class ConfigManager {
 	}
 
 	/**
-	 * Reads the config file /ws_config.txt unless setFileName has been used to
-	 * change the filename. Supports comment lines using // delineator. Comments
-	 * can be by themselves on a line or at the end of the line.
+	 * Reads the config file /ws_config.txt unless setFileName has been used to change the filename. Supports comment
+	 * lines using // delineator. Comments can be by themselves on a line or at the end of the line.
 	 *
-	 * The config file should be on the format key=value Example:
-	 * org.wildstang.InputManager.WsDriverJoystick.trim=0.1
+	 * The config file should be on the format key=value Example: org.wildstang.InputManager.WsDriverJoystick.trim=0.1
 	 *
 	 * @throws ConfigManagerException
 	 */
@@ -131,8 +128,7 @@ public class ConfigManager {
 	/**
 	 * Config Item name parser
 	 *
-	 * Example: org.wildstang.InputManager.WsDriverJoystick.trim will return
-	 * trim.
+	 * Example: org.wildstang.InputManager.WsDriverJoystick.trim will return trim.
 	 *
 	 * @return The config Item name or null if the string is unparsable
 	 * @param configItem

@@ -2,13 +2,14 @@ package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.subsystems.base.Subsystem;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Test extends Subsystem {
-	
+
 	BuiltInAccelerometer accelerometer;
 
 	public Test() {
@@ -24,19 +25,22 @@ public class Test extends Subsystem {
 	public void update() {
 		int numAxes = 6;
 		for (int i = 0; i < numAxes; i++) {
-			JoystickAxisEnum joyEnum = new JoystickAxisEnum(true, i, "Axis" + i);
-			double axisValue = ((Double) InputManager.getInstance()
-					.getOiInput(InputManager.DRIVER_JOYSTICK_INDEX)
-					.get(joyEnum)).doubleValue();
+			JoystickAxisEnum joyEnum = new JoystickAxisEnum(false, i, "Axis" + i);
+			double axisValue = ((Double) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX).get(joyEnum)).doubleValue();
 			SmartDashboard.putNumber("JostickAxis" + i, axisValue);
 		}
-		
+
 		SmartDashboard.putNumber("Accel X", accelerometer.getX());
 		SmartDashboard.putNumber("Accel Y", accelerometer.getY());
 		SmartDashboard.putNumber("Accel Z", accelerometer.getZ());
-		
-		int distance = ((Integer) InputManager.getInstance().getSensorInput(InputManager.LIDAR_INDEX).get()).intValue();
-		SmartDashboard.putNumber("LIDAR distance", distance);
+
+		LogManager.getInstance().addObject("Accel X", accelerometer.getX());
+		LogManager.getInstance().addObject("Accel Y", accelerometer.getY());
+		LogManager.getInstance().addObject("Accel Z", accelerometer.getZ());
+
+		// int distance = ((Integer)
+		// InputManager.getInstance().getSensorInput(InputManager.LIDAR_INDEX).get()).intValue();
+		// SmartDashboard.putNumber("LIDAR distance", distance);
 	}
 
 }

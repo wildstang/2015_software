@@ -46,16 +46,14 @@ public interface IJoystick {
 	/**
 	 * The Throttle (D-pad up/down) value of the Joystick.
 	 *
-	 * @return The Throttle value of the Joystick, ranges from -1.0 to +1.0.
-	 *         Note: -1 is up, 1 is down
+	 * @return The Throttle value of the Joystick, ranges from -1.0 to +1.0. Note: -1 is up, 1 is down
 	 */
 	double getThrottle();
 
 	/**
 	 * The Twist (D-pad left/right) value of the Joystick.
 	 *
-	 * @return The Twist value of the Joystick, ranges from -1.0 to +1.0. Note:
-	 *         -1 is left, 1 is right
+	 * @return The Twist value of the Joystick, ranges from -1.0 to +1.0. Note: -1 is left, 1 is right
 	 */
 	double getTwist();
 

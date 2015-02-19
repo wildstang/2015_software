@@ -3,6 +3,7 @@ package org.wildstang.logger;
 import org.wildstang.config.BooleanConfigFileParameter;
 import org.wildstang.config.StringConfigFileParameter;
 import org.wildstang.logger.impl.LoggerImpl;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.types.Level;
 
 /**
@@ -115,6 +116,7 @@ public class Logger {
 		}
 
 		logMessage(Level.DEBUG, c, id, message);
+		LogManager.getInstance().addDebug(message);
 	}
 
 	/**
@@ -208,8 +210,7 @@ public class Logger {
 	}
 
 	/**
-	 * Always logs a message, regardless of the current log level, even if the
-	 * logging is off
+	 * Always logs a message, regardless of the current log level, even if the logging is off
 	 *
 	 * @param c
 	 *            The name of the class logging the message.

@@ -3,10 +3,10 @@ package org.wildstang.inputmanager.inputs;
 import java.util.TimerTask;
 
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LidarSensor implements PIDSource {
 	private I2C i2c;
@@ -41,7 +41,7 @@ public class LidarSensor implements PIDSource {
 				numValidElements++;
 			}
 		}
-		
+
 		SmartDashboard.putNumber("Number of valid elements", numValidElements);
 		// Avoid divide by zero errors
 		if (numValidElements > 0) {
