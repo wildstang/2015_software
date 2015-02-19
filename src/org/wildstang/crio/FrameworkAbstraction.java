@@ -27,7 +27,7 @@ public class FrameworkAbstraction {
 			System.out.println(wscfe.toString());
 		}
 
-		LogManager.getInstance().init();
+		LogManager.getInstance();
 		InputManager.getInstance();
 		OutputManager.getInstance();
 		SubsystemContainer.getInstance().init();
@@ -49,7 +49,7 @@ public class FrameworkAbstraction {
 
 	public static void disabledPeriodic() {
 		InputManager.getInstance().updateOiData();
-		LogManager.getInstance().update();
+		LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void autonomousInit() {
@@ -64,7 +64,7 @@ public class FrameworkAbstraction {
 		AutonomousManager.getInstance().update();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
-		LogManager.getInstance().update();
+		LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void teleopInit() {
@@ -77,7 +77,7 @@ public class FrameworkAbstraction {
 		InputManager.getInstance().updateSensorData();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
-		LogManager.getInstance().update();
+		LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 }
