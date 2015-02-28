@@ -111,9 +111,9 @@ public class DriverJoystick implements IInput {
 		for (int i = 0; i < axes.length; i++) {
 			// Invert the vertical axes so that full up is 1
 			if (i % 2 == 0) {
-				axes[i].setValue(driverJoystick.getRawAxis(i) * -1);
-			} else {
 				axes[i].setValue(driverJoystick.getRawAxis(i));
+			} else {
+				axes[i].setValue(driverJoystick.getRawAxis(i) * -1);
 			}
 		}
 		for (int i = 0; i < buttons.length; i++) {

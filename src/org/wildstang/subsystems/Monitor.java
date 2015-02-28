@@ -62,7 +62,9 @@ public class Monitor extends Subsystem implements IObserver {
 		for (int i = 0; i < 12; i++) {
 			logManager.addObject("Manipulator Button " + (i + 1), ((Boolean) manipulatorJoystick.getSubject(JoystickButtonEnum.getEnumFromIndex(false, i)).getValueAsObject()));
 		}
-
+		
+		Runtime rt = Runtime.getRuntime();
+		logManager.addObject("memory in use", new Double(rt.totalMemory() - rt.freeMemory()));
 	}
 
 	@Override

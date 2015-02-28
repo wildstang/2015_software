@@ -1,5 +1,7 @@
 package org.wildstang.inputmanager.inputs;
 
+import java.util.TimerTask;
+
 import org.wildstang.inputmanager.base.IInput;
 import org.wildstang.inputmanager.base.IInputEnum;
 import org.wildstang.subjects.base.ISubjectEnum;
@@ -16,7 +18,7 @@ public class WsLIDAR implements IInput {
 	public WsLIDAR() {
 		distanceSubject = new IntegerSubject();
 
-		lidar = new LidarSensor(Port.kMXP);
+		lidar = new LidarSensor(Port.kOnboard);
 		lidar.start();
 	}
 

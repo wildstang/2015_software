@@ -116,12 +116,12 @@ public class SubsystemContainer {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
 		// subsystems.put(LED_INDEX, new LED(LED));
 		// subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
-		// subsystems.put(TEST_INDEX, new Test());
+		subsystems.put(TEST_INDEX, new Test());
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(CHUTE_INDEX, new Chute("Chute"));
 		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
-		subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
+		//subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
 		subsystems.put(ARMS_INDEX, new Arms("71 Arms"));
 		subsystems.put(BIN_GRABBER_INDEX, new BinGrabber("Bin Grabber"));
 	}

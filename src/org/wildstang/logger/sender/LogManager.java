@@ -53,8 +53,16 @@ public class LogManager {
 	}
 
 	private void init() {
-		new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
-		new Thread(debugDataSender = new LogSender("beaglebone.local", 1112)).start();
+		//new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
+		//new Thread(debugDataSender = new LogSender("beaglebone.local", 1112)).start();
+		//sendCommand("startlogwithname", "" + System.currentTimeMillis());
+	}
+	
+	private void sendCommand(String command, String data) {
+		/*
+		logDataSender.addCommandToQueue(command + ":" + data);
+		debugDataSender.addCommandToQueue(command + ":" + data);
+		*/
 	}
 
 	/**
@@ -64,7 +72,7 @@ public class LogManager {
 	 */
 	public void queueCurrentLogsForSending() {
 		// for sending subsystem data
-		Map<String, Object> map = new HashMap<String, Object>();
+		/*Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for (LogObject object : objects) {
 			map.put(object.getName(), object.getObject());
@@ -81,14 +89,15 @@ public class LogManager {
 
 		objects.clear();
 		debugs.clear();
+		*/
 	}
 
 	public void addDebug(Object message) {
-		debugs.add(new LogObject("Debug", message));
+		//debugs.add(new LogObject("Debug", message));
 	}
 
 	public void addObject(String name, Object obj) {
-		objects.add(new LogObject(name, obj));
+		//objects.add(new LogObject(name, obj));
 	}
 
 	/**
@@ -98,10 +107,12 @@ public class LogManager {
 	 *
 	 */
 	public class LogSender implements Runnable {
+		private static final int QUEUE_MAX_SIZE = 20;
 		private Socket socket;
 		private ObjectOutputStream outputStream;
 		// Limit queue to 20 objects; if we don't we'll run out of memory after a while.
-		private BlockingDeque<Object> queue = new LinkedBlockingDeque<>(20);
+		private BlockingDeque<Object> queue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
+		private BlockingDeque<String> commandQueue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
 		private String host;
 		private int port;
 
@@ -111,7 +122,17 @@ public class LogManager {
 		}
 
 		public void addToQueue(Object o) {
+			while(queue.size() >= QUEUE_MAX_SIZE) {
+				queue.removeLast();
+			}
 			queue.addFirst(o);
+		}
+		
+		public void addCommandToQueue(String command) {
+			while(commandQueue.size() >= QUEUE_MAX_SIZE) {
+				commandQueue.removeLast();
+			}
+			commandQueue.addFirst(command);
 		}
 
 		@Override
@@ -123,13 +144,15 @@ public class LogManager {
 					outputStream = new ObjectOutputStream(socket.getOutputStream());
 
 					while (true) {
+						
+						// And now, any log data
 						Object o;
 						try {
 							while ((o = queue.takeLast()) != null) {
 								outputStream.writeObject(o);
 							}
 						} catch (InterruptedException e) {
-							continue;
+							e.printStackTrace();;
 						}
 					}
 				} catch (IOException e) {

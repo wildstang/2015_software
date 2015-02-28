@@ -10,6 +10,8 @@ import org.wildstang.outputmanager.outputs.WsTalon;
 import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.outputmanager.outputs.no.NoOutput;
 
+import edu.wpi.first.wpilibj.Compressor;
+
 /**
  *
  * @author Nathan
@@ -120,7 +122,6 @@ public class OutputManager {
 		outputs.put(ARMS_INDEX, new WsSolenoid("71 Arms", 7));
 		
 		// PCM 1 SOLENOIDS
-		outputs.put(CONTAINMENT_DOORS_INDEX, new WsDoubleSolenoid("Containment doors", 1, 6, 7));
-
+		//outputs.put(CONTAINMENT_DOORS_INDEX, new WsDoubleSolenoid("Containment doors", 1, 6, 7));
 	}
 }

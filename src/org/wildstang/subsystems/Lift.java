@@ -2,11 +2,11 @@ package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
-import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
+import org.wildstang.subjects.base.IntegerSubject;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
 
@@ -23,6 +23,7 @@ public class Lift extends Subsystem implements IObserver {
 	boolean atBottom;
 	boolean atTop;
 	double potVal;
+	int selectedHallEffectSensor;
 
 	// PAWL STUFF
 
@@ -37,8 +38,9 @@ public class Lift extends Subsystem implements IObserver {
 	public Lift(String name) {
 		super(name);
 
-		registerForSensorNotification(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX);
-		registerForSensorNotification(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX);
+		registerForSensorNotification(InputManager.HALL_EFFECT_BOTTOM);
+		registerForSensorNotification(InputManager.HALL_EFFECT_TOP);
+		registerForSensorNotification(InputManager.HALL_EFFECT_INDEX);
 	}
 
 	public void init() {
@@ -47,6 +49,8 @@ public class Lift extends Subsystem implements IObserver {
 	}
 
 	public void update() {
+		potVal = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
+
 		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LEFT_JOYSTICK_Y))).doubleValue();
 		double winchMotorSpeed = 0;
 
@@ -73,6 +77,10 @@ public class Lift extends Subsystem implements IObserver {
 					lastPawlStateChange = System.currentTimeMillis();
 					pawlEngaged = true;
 				}
+			} else if ((atBottom && winchJoystickValue < 0) || (atTop && winchJoystickValue > 0)) {
+				// We are at the top/bottom; engage the pawl immediately
+				pawlState = PawlState.PAWL_ENGAGING;
+				lastPawlStateChange = System.currentTimeMillis();
 			} else {
 				// Winch is still moving, reset cycle count
 				numCyclesWinchMotorAtZero = 0;
@@ -91,7 +99,7 @@ public class Lift extends Subsystem implements IObserver {
 		case PAWL_ENGAGED:
 			// Make sure the pawl piston is still engaged
 			pawlEngaged = true;
-			if (winchMotorSpeed != 0) {
+			if (Math.abs(winchMotorSpeed) > LIFT_DEADBAND) {
 				// We should disengage the pawl
 				pawlState = PawlState.PAWL_DISENGAGING;
 				lastPawlStateChange = System.currentTimeMillis();
@@ -111,28 +119,61 @@ public class Lift extends Subsystem implements IObserver {
 			break;
 		}
 
-		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(winchMotorSpeed));
-		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(winchMotorSpeed));
-		
+		/*
+		 * We need to drive the lift motors at a minimum of 70% to avoid stalling. At this point in the code the motor
+		 * value should be in the range -1 to 1. We'll map this to a value less than -0.7 or greater than 0.7, depending
+		 * on the desired direction.
+		 * 
+		 * To simplify calculations, we'll convert any negative values to positive ones before mapping between ranges.
+		 * After the mapping, we'll convert back to a negative number.
+		 */
+		boolean isWinchMotorSpeedNegative = (winchMotorSpeed < 0 ? true : false);
+		if (isWinchMotorSpeedNegative) {
+			winchMotorSpeed *= -1;
+		}
+
+		double scaledMotorSpeed;
+
+		if (winchMotorSpeed > LIFT_DEADBAND) {
+			scaledMotorSpeed = (winchMotorSpeed - LIFT_DEADBAND) / (1.0 - LIFT_DEADBAND) * (1.0 - 0.7) + 0.7;
+		} else {
+			scaledMotorSpeed = 0;
+		}
+
+		// If necessary, convert back to a negative number.
+		if (isWinchMotorSpeedNegative) {
+			scaledMotorSpeed *= -1;
+		}
+
+		// Invert the output so we go in the right direction
+		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(scaledMotorSpeed * -1));
+		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(scaledMotorSpeed * -1));
+
 		// The pawl is engaged when the solenoid is false (piston retracted = pawl engaged)
 		getOutput(OutputManager.PAWL_RELEASE_INDEX).set(new Boolean(!pawlEngaged));
 
-		potVal = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
-
-		LogManager.getInstance().addObject("Winch", winchMotorSpeed);
-		SmartDashboard.putNumber("Winch", winchMotorSpeed);
+		LogManager.getInstance().addObject("Winch", scaledMotorSpeed);
 		LogManager.getInstance().addObject("Lift Pot", potVal);
-		SmartDashboard.putNumber("Lift Pot", potVal);
 		LogManager.getInstance().addObject("Pawl Engaged", pawlEngaged);
+
+		SmartDashboard.putNumber("Winch", scaledMotorSpeed);
+		SmartDashboard.putNumber("Lift Pot", potVal);
 		SmartDashboard.putBoolean("Pawl Release", pawlEngaged);
+		SmartDashboard.putBoolean("At top", atTop);
+		SmartDashboard.putBoolean("At bottom", atBottom);
+		SmartDashboard.putNumber("Selected hall effect", selectedHallEffectSensor);
 	}
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
-		if (subjectThatCaused.equals(getSensorInput(InputManager.LIFT_BOTTOM_LIMIT_SWITCH_INDEX).getSubject())) {
+		// Limit switch values are pulled low when they are triggered
+		if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_BOTTOM).getSubject())) {
 			atBottom = !((BooleanSubject) subjectThatCaused).getValue();
-		} else if (subjectThatCaused.equals(getSensorInput(InputManager.LIFT_TOP_LIMIT_SWITCH_INDEX).getSubject())) {
+		} else if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_TOP).getSubject())) {
 			atTop = !((BooleanSubject) subjectThatCaused).getValue();
+		} else if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject())) {
+			// Update from the arduino for the hall effect
+			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
 		}
 	}
 }
