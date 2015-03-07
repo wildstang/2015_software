@@ -13,7 +13,7 @@ org.wildstang.logger.Logger.logLevel="DEBUG"
 
 //Lift and lift presets
 org.wildstang.subsystems.Lift.pot_top_voltage=3.000
-org.wildstang.subsystems.Lift.pot_bottom_voltage=1.550
+org.wildstang.subsystems.Lift.pot_bottom_voltage=1.52
 org.wildstang.subsystems.Lift.top_slow_down_radius=0.2
 org.wildstang.subsystems.Lift.bottom_slow_down_radius=0.4
 org.wildstang.subsystems.Lift.pawl_engage_time_millis=50
@@ -24,15 +24,15 @@ org.wildstang.subsystems.Lift.deadband=0.05
 
 
 //Drive Base
-org.wildstang.subsystems.DriveBase.wheel_diameter=4.25
+org.wildstang.subsystems.DriveBase.wheel_diameter=6.0
 org.wildstang.subsystems.DriveBase.ticks_per_rotation=360.0
-org.wildstang.subsystems.DriveBase.throttle_low_gear_accel_factor=0.25
+org.wildstang.subsystems.DriveBase.throttle_low_gear_accel_factor=0.6
 org.wildstang.subsystems.DriveBase.heading_low_gear_accel_factor=0.5
-org.wildstang.subsystems.DriveBase.throttle_high_gear_accel_factor=0.125
+org.wildstang.subsystems.DriveBase.throttle_high_gear_accel_factor=0.35
 org.wildstang.subsystems.DriveBase.heading_high_gear_accel_factor=0.25
 org.wildstang.subsystems.DriveBase.strafe_accel_factor=0.25
 org.wildstang.subsystems.DriveBase.max_high_gear_percent=0.8
-org.wildstang.subsystems.DriveBase.encoder_gear_ratio=5.8333
+org.wildstang.subsystems.DriveBase.encoder_gear_ratio=6.6
 org.wildstang.subsystems.DriveBase.slow_turn_forward_speed=0.16
 org.wildstang.subsystems.DriveBase.slow_turn_backward_speed=-0.19
 org.wildstang.subsystems.DriveBase.feed_forward_velocity_constant=1.0
