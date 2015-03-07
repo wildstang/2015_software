@@ -170,7 +170,7 @@ public class InputManager {
 		sensorInputs.put(HALL_EFFECT_BOTTOM, new WsDigitalInput(8));
 		sensorInputs.put(HALL_EFFECT_LOAD, new WsDigitalInput(7));
 		sensorInputs.put(HALL_EFFECT_TOP, new WsDigitalInput(6));
-		sensorInputs.put(HALL_EFFECT_INDEX, new WsHallEffectInput(Port.kMXP, 0x10));
+		sensorInputs.put(HALL_EFFECT_INDEX, new WsHallEffectInput(Port.kOnboard, 0x10));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());

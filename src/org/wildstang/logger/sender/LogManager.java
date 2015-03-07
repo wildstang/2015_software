@@ -53,16 +53,8 @@ public class LogManager {
 	}
 
 	private void init() {
-		//new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
-		//new Thread(debugDataSender = new LogSender("beaglebone.local", 1112)).start();
-		//sendCommand("startlogwithname", "" + System.currentTimeMillis());
-	}
-	
-	private void sendCommand(String command, String data) {
-		/*
-		logDataSender.addCommandToQueue(command + ":" + data);
-		debugDataSender.addCommandToQueue(command + ":" + data);
-		*/
+		new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
+		new Thread(debugDataSender = new LogSender("beaglebone.local", 1112)).start();
 	}
 
 	/**
@@ -71,7 +63,6 @@ public class LogManager {
 	 * been added via one of the add methods.
 	 */
 	public void queueCurrentLogsForSending() {
-		// for sending subsystem data
 		/*Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for (LogObject object : objects) {
@@ -88,8 +79,7 @@ public class LogManager {
 		debugDataSender.addToQueue(map);
 
 		objects.clear();
-		debugs.clear();
-		*/
+		debugs.clear();*/
 	}
 
 	public void addDebug(Object message) {
@@ -112,7 +102,6 @@ public class LogManager {
 		private ObjectOutputStream outputStream;
 		// Limit queue to 20 objects; if we don't we'll run out of memory after a while.
 		private BlockingDeque<Object> queue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
-		private BlockingDeque<String> commandQueue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
 		private String host;
 		private int port;
 
@@ -127,37 +116,28 @@ public class LogManager {
 			}
 			queue.addFirst(o);
 		}
-		
-		public void addCommandToQueue(String command) {
-			while(commandQueue.size() >= QUEUE_MAX_SIZE) {
-				commandQueue.removeLast();
-			}
-			commandQueue.addFirst(command);
-		}
 
 		@Override
 		public void run() {
 			while (true) {
 				// If we lose connection or the connection attempt times out, continually retry.
-				try {
+				/*try {
 					socket = new Socket(host, port);
 					outputStream = new ObjectOutputStream(socket.getOutputStream());
 
-					while (true) {
-						
-						// And now, any log data
+					while (true) {						
 						Object o;
 						try {
 							while ((o = queue.takeLast()) != null) {
 								outputStream.writeObject(o);
 							}
 						} catch (InterruptedException e) {
-							e.printStackTrace();;
+							//e.printStackTrace();;
 						}
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
-				}
+					//e.printStackTrace();
+				}*/
 			}
 		}
 	}

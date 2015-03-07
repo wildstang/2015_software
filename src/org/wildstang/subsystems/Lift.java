@@ -1,5 +1,8 @@
 package org.wildstang.subsystems;
 
+import org.omg.PortableServer.ServantLocatorOperations;
+import org.wildstang.config.DoubleConfigFileParameter;
+import org.wildstang.config.IntegerConfigFileParameter;
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.logger.sender.LogManager;
@@ -13,13 +16,20 @@ import org.wildstang.subsystems.base.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends Subsystem implements IObserver {
+	
+	private static DoubleConfigFileParameter LIFT_POT_BOTTOM_VOLTAGE_CONFIG, LIFT_POT_TOP_VOLTAGE_CONFIG, TOP_SLOW_DOWN_RADIUS_CONFIG, BOTTOM_SLOW_DOWN_RADIUS_CONFIG;
+	private static IntegerConfigFileParameter PAWL_ENGAGE_TIME_MILLIS_CONFIG, PAWL_DISENGAGE_TIME_MILLIS_CONFIG, MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG;
+	private static DoubleConfigFileParameter LIFT_DEADBAND_CONFIG;
 
-	private static final long PAWL_ENGAGE_TIME_MILLIS = 100;
-	private static final long PAWL_DISENGAGE_TIME_MILLIS = 100;
-	private static final double LIFT_DEADBAND = 0.05;
-	// 100 ms
-	private static final long MIN_CYCLES_WINCH_MOTOR_AT_ZERO = 5;
-
+	private static long PAWL_ENGAGE_TIME_MILLIS;
+	private static long PAWL_DISENGAGE_TIME_MILLIS;
+	private static int MIN_CYCLES_WINCH_MOTOR_AT_ZERO;
+	private static double LIFT_DEADBAND;
+	private static double BOTTOM_VOLTAGE;
+	private static double TOP_VOLTAGE;
+	private static double TOP_SLOW_DOWN_RADIUS;
+	private static double BOTTOM_SLOW_DOWN_RADIUS;
+	
 	boolean atBottom;
 	boolean atTop;
 	double potVal;
@@ -37,6 +47,26 @@ public class Lift extends Subsystem implements IObserver {
 
 	public Lift(String name) {
 		super(name);
+		
+		// Initialize config parameters
+		LIFT_POT_BOTTOM_VOLTAGE_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "pot_bottom_voltage", 0.0);
+		LIFT_POT_TOP_VOLTAGE_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "pot_top_voltage", 5.0);
+		// If the current pot voltage gets within this amount of the max or min voltage, we'll slow down the lift motor
+		TOP_SLOW_DOWN_RADIUS_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "top_slow_down_radius", 0.2);
+		BOTTOM_SLOW_DOWN_RADIUS_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "bottom_slow_down_radius", 0.4);
+		PAWL_ENGAGE_TIME_MILLIS_CONFIG = new IntegerConfigFileParameter(this.getClass().getName(), "pawl_engage_time_millis", 100);
+		PAWL_DISENGAGE_TIME_MILLIS_CONFIG = new IntegerConfigFileParameter(this.getClass().getName(), "pawl_disengage_time_millis", 100);
+		MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG = new IntegerConfigFileParameter(this.getClass().getName(), "min_cycles_winch_motor_at_zero", 5);
+		LIFT_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "deadband", 0.05);
+		
+		BOTTOM_VOLTAGE = LIFT_POT_BOTTOM_VOLTAGE_CONFIG.getValue();
+		TOP_VOLTAGE = LIFT_POT_TOP_VOLTAGE_CONFIG.getValue();
+		LIFT_DEADBAND = LIFT_DEADBAND_CONFIG.getValue();
+		PAWL_ENGAGE_TIME_MILLIS = PAWL_ENGAGE_TIME_MILLIS_CONFIG.getValue();
+		PAWL_DISENGAGE_TIME_MILLIS = PAWL_DISENGAGE_TIME_MILLIS_CONFIG.getValue();
+		MIN_CYCLES_WINCH_MOTOR_AT_ZERO = MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG.getValue();
+		TOP_SLOW_DOWN_RADIUS = TOP_SLOW_DOWN_RADIUS_CONFIG.getValue();
+		BOTTOM_SLOW_DOWN_RADIUS = BOTTOM_SLOW_DOWN_RADIUS_CONFIG.getValue();
 
 		registerForSensorNotification(InputManager.HALL_EFFECT_BOTTOM);
 		registerForSensorNotification(InputManager.HALL_EFFECT_TOP);
@@ -51,7 +81,7 @@ public class Lift extends Subsystem implements IObserver {
 	public void update() {
 		potVal = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 
-		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LEFT_JOYSTICK_Y))).doubleValue();
+		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LIFT))).doubleValue();
 		double winchMotorSpeed = 0;
 
 		if ((atBottom && winchJoystickValue < 0) || (atTop && winchJoystickValue > 0)) {
@@ -144,6 +174,29 @@ public class Lift extends Subsystem implements IObserver {
 		if (isWinchMotorSpeedNegative) {
 			scaledMotorSpeed *= -1;
 		}
+		
+		System.out.println("Scaled motor speed before: " + scaledMotorSpeed);
+		
+		// If we're trying to move down and we're close to the bottom of the lift, slow down.
+		if(potVal < (BOTTOM_VOLTAGE + BOTTOM_SLOW_DOWN_RADIUS) && potVal > BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
+			double scaleFactor = (potVal - BOTTOM_VOLTAGE) / (BOTTOM_SLOW_DOWN_RADIUS);
+			scaledMotorSpeed *= scaleFactor;
+			System.out.println("Scale factor (at bot): " + scaleFactor);
+		} else if (potVal <= BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
+			scaledMotorSpeed = 0;
+		}
+		
+		// If we're trying to move up and we're close to the top of the lift, slow down
+		if (potVal > (TOP_VOLTAGE - TOP_SLOW_DOWN_RADIUS) && potVal < TOP_VOLTAGE && scaledMotorSpeed > 0) {
+			double scaleFactor = (TOP_VOLTAGE - potVal) / TOP_SLOW_DOWN_RADIUS;
+			scaledMotorSpeed *= scaleFactor;
+			System.out.println("Scale factor (at top): " + scaleFactor);
+		} else if (potVal >= TOP_VOLTAGE && scaledMotorSpeed > 0) {
+			scaledMotorSpeed = 0;
+		}
+		
+		System.out.println("Scaled motor speed after: " + scaledMotorSpeed);
+
 
 		// Invert the output so we go in the right direction
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(scaledMotorSpeed * -1));
@@ -175,5 +228,17 @@ public class Lift extends Subsystem implements IObserver {
 			// Update from the arduino for the hall effect
 			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
 		}
+	}
+	
+	@Override
+	public void notifyConfigChange() {
+		BOTTOM_VOLTAGE = LIFT_POT_BOTTOM_VOLTAGE_CONFIG.getValue();
+		TOP_VOLTAGE = LIFT_POT_TOP_VOLTAGE_CONFIG.getValue();
+		LIFT_DEADBAND = LIFT_DEADBAND_CONFIG.getValue();
+		PAWL_ENGAGE_TIME_MILLIS = PAWL_ENGAGE_TIME_MILLIS_CONFIG.getValue();
+		PAWL_DISENGAGE_TIME_MILLIS = PAWL_DISENGAGE_TIME_MILLIS_CONFIG.getValue();
+		MIN_CYCLES_WINCH_MOTOR_AT_ZERO = MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG.getValue();
+		TOP_SLOW_DOWN_RADIUS = TOP_SLOW_DOWN_RADIUS_CONFIG.getValue();
+		BOTTOM_SLOW_DOWN_RADIUS = BOTTOM_SLOW_DOWN_RADIUS_CONFIG.getValue();
 	}
 }

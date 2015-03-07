@@ -93,6 +93,10 @@ public class ConfigManager {
 		InputManager.getInstance().notifyConfigChange();
 		OutputManager.getInstance().notifyConfigChange();
 		SubsystemContainer.getInstance().notifyConfigChange();
+		// Dump everything to sout
+		for(DataElement e : config) {
+			System.out.println(e.getKey() + ":" + e.getValue());
+		}
 
 	}
 
@@ -112,7 +116,6 @@ public class ConfigManager {
 			}
 		}
 		throw new ConfigManagerException("Config Param " + name + " not found");
-
 	}
 
 	public String dumpConfigData() {

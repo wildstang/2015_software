@@ -21,7 +21,7 @@ import org.wildstang.types.DataElement;
  */
 public final class ConfigManagerImpl {
 
-	static String myClassName = "ConfigManagerimpl";
+	static String myClassName = "ConfigManagerImpl";
 
 	private ConfigManagerImpl() {
 	}
@@ -42,8 +42,7 @@ public final class ConfigManagerImpl {
 		String configLine;
 		byte[] b;
 		int i;
-		String path = "file://";
-		path += fileName;
+		String path = "/" + fileName;
 		File file = new File(path);
 		if (!file.exists()) {
 			return null;

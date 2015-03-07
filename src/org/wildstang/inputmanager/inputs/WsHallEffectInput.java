@@ -18,16 +18,16 @@ public class WsHallEffectInput implements IInput {
 
 	private IntegerSubject activeSensor;
 	I2C i2c;
-	
+
 	private int selectedHallEffectSensor = -1;
 
 	private java.util.Timer updater;
-	
+
 	private Object lock = new Object();
 
 	public WsHallEffectInput(Port port, int address) {
 		activeSensor = new IntegerSubject();
-		
+
 		i2c = new I2C(port, address);
 
 		updater = new java.util.Timer();
@@ -75,15 +75,7 @@ public class WsHallEffectInput implements IInput {
 
 	@Override
 	public void pullData() {
-		synchronized (lock) {
-			/*byte[] buffer = new byte[1];
-			i2c.readOnly(buffer, 1);
-			ByteBuffer bufferWrap = ByteBuffer.wrap(buffer);
-			bufferWrap.order(ByteOrder.LITTLE_ENDIAN);
-			this.selectedHallEffectSensor = bufferWrap.getInt();*/
-			activeSensor.setValue(selectedHallEffectSensor);
-			SmartDashboard.putNumber("READ HALL POSITION", selectedHallEffectSensor);
-		}
+		// This is all handled by the thread that polls the Arduino over I2C.
 	}
 
 	@Override
@@ -95,10 +87,12 @@ public class WsHallEffectInput implements IInput {
 	private void updateSensor() {
 		byte[] buffer = new byte[1];
 		i2c.readOnly(buffer, 1);
-		ByteBuffer bufferWrap = ByteBuffer.wrap(buffer);
-		bufferWrap.order(ByteOrder.LITTLE_ENDIAN);
-		synchronized (lock) {
-			this.selectedHallEffectSensor = bufferWrap.getInt();
+		try {
+			synchronized (lock) {
+				this.selectedHallEffectSensor = buffer[0];
+			}
+		} catch (Exception e) {
+			//e.printStackTrace();
 		}
 		SmartDashboard.putNumber("READ HALL POSITION", selectedHallEffectSensor);
 	}

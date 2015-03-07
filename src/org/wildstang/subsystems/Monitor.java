@@ -17,10 +17,6 @@ public class Monitor extends Subsystem implements IObserver {
 
 	PowerDistributionPanel pdp;
 
-	/**
-	 * @author Noah Allows the code to use the pdp.getCurrent and the input.getAverageVoltage command.
-	 */
-
 	public Monitor(String name) {
 		super(name);
 	}
@@ -50,15 +46,20 @@ public class Monitor extends Subsystem implements IObserver {
 		SmartDashboard.putNumber("Temperature", pdpTemp);
 
 		DriverJoystick driverJoystick = ((DriverJoystick) InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX));
+		ManipulatorJoystick manipulatorJoystick = ((ManipulatorJoystick) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX));
+
 		// Log joystick values
 		logManager.addObject(JoystickAxisEnum.DRIVER_THROTTLE.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_THROTTLE).getValueAsObject()));
+		logManager.addObject(JoystickAxisEnum.DRIVER_HEADING.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_HEADING).getValueAsObject()));
+		logManager.addObject(JoystickAxisEnum.DRIVER_STRAFE.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_STRAFE).getValueAsObject()));
+		logManager.addObject(JoystickAxisEnum.MANIPULATOR_LIFT.toString(), ((Double) manipulatorJoystick.getSubject(JoystickAxisEnum.MANIPULATOR_LIFT).getValueAsObject()));
+
 
 		// Log button presses
 		for (int i = 0; i < 12; i++) {
 			logManager.addObject("Driver Button " + (i + 1), ((Boolean) driverJoystick.getSubject(JoystickButtonEnum.getEnumFromIndex(true, i)).getValueAsObject()));
 		}
 
-		ManipulatorJoystick manipulatorJoystick = ((ManipulatorJoystick) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX));
 		for (int i = 0; i < 12; i++) {
 			logManager.addObject("Manipulator Button " + (i + 1), ((Boolean) manipulatorJoystick.getSubject(JoystickButtonEnum.getEnumFromIndex(false, i)).getValueAsObject()));
 		}

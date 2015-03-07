@@ -53,12 +53,13 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double STOPPING_DISTANCE_AT_MAX_SPEED_LOWGEAR = 10.0;
 	private static double QUICK_TURN_CAP;
 	private static double QUICK_TURN_ANTITURBO;
+	private static double SUPER_ANTITURBO_FACTOR = 0.50;
 	private static double driveBaseThrottleValue = 0.0;
 	private static double driveBaseHeadingValue = 0.0;
 	private static double driveBaseStrafeValue = 0.0;
 	private static boolean antiTurboFlag = false;
+	private static boolean superAntiTurboFlag = false;
 	private static boolean turboFlag = false;
-	private static boolean hBackupFlag = false;
 	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
 	private static boolean quickTurnFlag = false;
 	private static Encoder leftDriveEncoder;
@@ -120,6 +121,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static DoubleConfigFileParameter QUICK_TURN_CAP_config;
 	private static DoubleConfigFileParameter QUICK_TURN_ANTITURBO_config;
 	private static BooleanConfigFileParameter USE_LEFT_SIDE_FOR_OFFSET_config;
+	private static DoubleConfigFileParameter SUPER_ANTITURBO_FACTOR_config;
 
 	public DriveBase(String name) {
 		super(name);
@@ -147,6 +149,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		USE_LEFT_SIDE_FOR_OFFSET_config = new AutonomousBooleanConfigFileParameter("UseLeftDriveForOffset", true);
 		QUICK_TURN_CAP_config = new DoubleConfigFileParameter(this.getClass().getName(), "quick_turn_cap", 10.0);
 		QUICK_TURN_ANTITURBO_config = new DoubleConfigFileParameter(this.getClass().getName(), "quick_turn_antiturbo", 10.0);
+		SUPER_ANTITURBO_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "super_antiturbo_factor", 0.5);
 
 		// Anti-Turbo button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_8);
@@ -154,6 +157,8 @@ public class DriveBase extends Subsystem implements IObserver {
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_7);
 		// Shifter Button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_6);
+		// Super anti-turbo button
+		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_5);
 
 		// Initialize the drive base encoders
 		leftDriveEncoder = new Encoder(0, 1, true, EncodingType.k4X);
@@ -176,6 +181,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		driveBaseThrottleValue = 0.0;
 		driveBaseHeadingValue = 0.0;
 		antiTurboFlag = false;
+		superAntiTurboFlag = false;
 		turboFlag = false;
 		// Default to low gear
 		shifterFlag = DoubleSolenoid.Value.kReverse;
@@ -203,8 +209,6 @@ public class DriveBase extends Subsystem implements IObserver {
 	public void update() {
 		updateSpeedAndAccelerationCalculations();
 		if (true == motionProfileActive) {
-
-			getOutput(OutputManager.H_BACKUP_INDEX).set(new Boolean(hBackupFlag));
 
 			// Update PID using profile velocity as setpoint and measured
 			// velocity as PID input
@@ -349,7 +353,9 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		// Taking into account Anti-Turbo
 		double new_throttle = tValue;
-		if (true == antiTurboFlag) {
+		if (true == superAntiTurboFlag) {
+			new_throttle *= SUPER_ANTITURBO_FACTOR;
+		} else if (true == antiTurboFlag) {
 			new_throttle *= ANTI_TURBO_MAX_DEFLECTION;
 
 			// Cap the throttle at the maximum deflection allowed for anti-turbo
@@ -401,7 +407,9 @@ public class DriveBase extends Subsystem implements IObserver {
 
 	public void setStrafeValue(double sValue) {
 		double newStrafe = sValue;
-		if (antiTurboFlag) {
+		if (superAntiTurboFlag) {
+			newStrafe *= SUPER_ANTITURBO_FACTOR;
+		} else if (antiTurboFlag) {
 			newStrafe *= ANTI_TURBO_MAX_DEFLECTION;
 
 			if (newStrafe > ANTI_TURBO_MAX_DEFLECTION) {
@@ -482,6 +490,8 @@ public class DriveBase extends Subsystem implements IObserver {
 			angularPower = driveBaseThrottleValue * driveBaseHeadingValue * HEADING_SENSITIVITY;
 		}
 
+		SmartDashboard.putNumber("Angular power", angularPower);
+
 		rightMotorSpeed = driveBaseThrottleValue - angularPower;
 		leftMotorSpeed = driveBaseThrottleValue + angularPower;
 
@@ -538,8 +548,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		}
 
 		// If our throttle is within the zero deadband and our velocity is above
-		// the threshold,
-		// use deceleration to slow us down
+		// the threshold, use deceleration to slow us down
 		if ((Math.abs(driveBaseThrottleValue) < DEADBAND) && (Math.abs(currentVelocity) > DECELERATION_VELOCITY_THRESHOLD) && !quickTurnFlag) {
 			// We are above the velocity threshold, apply a small inverse motor
 			// speed to decelerate
@@ -730,6 +739,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		STOPPING_DISTANCE_AT_MAX_SPEED_LOWGEAR = STOPPING_DISTANCE_AT_MAX_SPEED_LOWGEAR_config.getValue();
 		QUICK_TURN_CAP = QUICK_TURN_CAP_config.getValue();
 		QUICK_TURN_ANTITURBO = QUICK_TURN_ANTITURBO_config.getValue();
+		SUPER_ANTITURBO_FACTOR = SUPER_ANTITURBO_FACTOR_config.getValue();
 		driveSpeedPid.notifyConfigChange();
 	}
 
@@ -743,7 +753,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_7) {
 			turboFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_5) {
-			hBackupFlag = ((BooleanSubject) subjectThatCaused).getValue();
+			superAntiTurboFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 
