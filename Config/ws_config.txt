@@ -21,6 +21,10 @@ org.wildstang.subsystems.Lift.pawl_disengage_time_millis=50
 // 5 cycles corresponds to 100ms
 org.wildstang.subsystems.Lift.min_cycles_winch_motor_at_zero=5
 org.wildstang.subsystems.Lift.deadband=0.05
+org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=3.000
+org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=1.52
+org.wildstang.subsystems.lift.LiftPreset.one_bin.wanted_voltage=2.000
+
 
 
 //Drive Base

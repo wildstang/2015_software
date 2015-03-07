@@ -6,7 +6,6 @@ import java.util.Map;
 import org.wildstang.subsystems.Arms;
 import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.BinGrabber;
-import org.wildstang.subsystems.Containment;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.LED;
@@ -119,7 +118,6 @@ public class SubsystemContainer {
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
-		//subsystems.put(CONTAINMENT_INDEX, new Containment("Containment"));
 		subsystems.put(ARMS_INDEX, new Arms("71 Arms"));
 		subsystems.put(BIN_GRABBER_INDEX, new BinGrabber("Bin Grabber"));
 	}

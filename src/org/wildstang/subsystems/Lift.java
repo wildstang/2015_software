@@ -1,9 +1,5 @@
 package org.wildstang.subsystems;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.omg.PortableServer.ServantLocatorOperations;
 import org.wildstang.config.DoubleConfigFileParameter;
 import org.wildstang.config.IntegerConfigFileParameter;
 import org.wildstang.inputmanager.base.InputManager;
@@ -14,7 +10,6 @@ import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.pid.controller.base.PidController;
 import org.wildstang.pid.inputs.LiftPotPidInput;
 import org.wildstang.pid.outputs.LiftVictorPidOutput;
-import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.IntegerSubject;
 import org.wildstang.subjects.base.Subject;
@@ -40,8 +35,7 @@ public class Lift extends Subsystem implements IObserver {
 
 	private static LiftPreset topPreset = new LiftPreset(0, "top");
 	private static LiftPreset bottomPreset = new LiftPreset(180, "bottom");
-	private static LiftPreset oneBinPreset = new LiftPreset(150, "oneBin");
-	private static LiftPreset currentPreset;
+	private static LiftPreset oneBinPreset = new LiftPreset(150, "one_bin");
 
 	private static LiftPotPidInput pidInput;
 	private static PidController pid;
@@ -87,11 +81,11 @@ public class Lift extends Subsystem implements IObserver {
 
 		// arbitrary number for now
 		// down
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_1);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 		// up
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_2);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_7);
 		// 1 bin
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_3);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_8);
 
 		pidInput = new LiftPotPidInput(InputManager.LIFT_POT_INDEX);
 		pid = new PidController(pidInput, new LiftVictorPidOutput(OutputManager.LIFT_A_INDEX, OutputManager.LIFT_B_INDEX), "Lift Pid");
@@ -105,7 +99,6 @@ public class Lift extends Subsystem implements IObserver {
 	}
 	
 	public void setPreset(LiftPreset preset) {
-		currentPreset = preset;
 		pid.enable();
 		pid.setSetPoint(preset.getWantedVoltage());
 	}
@@ -265,11 +258,11 @@ public class Lift extends Subsystem implements IObserver {
 		if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject())) {
 			// Update from the arduino for the hall effect
 			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_1) {
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
 			setPreset(bottomPreset);
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_2) {
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {
 			setPreset(topPreset);
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_3) {
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) {
 			setPreset(oneBinPreset);
 		}
 	}
