@@ -145,13 +145,7 @@ public class InputManager {
 	public static final int START_POSITION_SELECTOR_INDEX = 5;
 	// Sensor Inputs
 	public static final int LIDAR_INDEX = 12;
-	public static final int LIFT_BOTTOM_LIMIT_SWITCH_INDEX = 10;
-	public static final int LIFT_TOP_LIMIT_SWITCH_INDEX = 11;
 	public static final int LIFT_POT_INDEX = 12;
-	public static final int CHUTE_LIGHT_SENSOR_INDEX = 13;
-	public static final int HALL_EFFECT_BOTTOM = 14;
-	public static final int HALL_EFFECT_LOAD = 15;
-	public static final int HALL_EFFECT_TOP = 16;
 	public static final int HALL_EFFECT_INDEX = 17;
 
 	/**
@@ -163,13 +157,7 @@ public class InputManager {
 		// Add the facade data elements
 		sensorInputs.put(UNKNOWN_INDEX, new NoInput());
 		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
-		//sensorInputs.put(LIFT_BOTTOM_LIMIT_SWITCH_INDEX, new WsDigitalInput(8));
-		//sensorInputs.put(LIFT_TOP_LIMIT_SWITCH_INDEX, new WsDigitalInput(9));
 		sensorInputs.put(LIFT_POT_INDEX, new WsAnalogInput(0));
-		//sensorInputs.put(CHUTE_LIGHT_SENSOR_INDEX, new WsDigitalInput(7));
-		sensorInputs.put(HALL_EFFECT_BOTTOM, new WsDigitalInput(8));
-		sensorInputs.put(HALL_EFFECT_LOAD, new WsDigitalInput(7));
-		sensorInputs.put(HALL_EFFECT_TOP, new WsDigitalInput(6));
 		sensorInputs.put(HALL_EFFECT_INDEX, new WsHallEffectInput(Port.kOnboard, 0x10));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());

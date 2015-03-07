@@ -40,6 +40,9 @@ public class PidController implements IPidController {
 	private IPidInput pidSource;
 	private IPidOutput pidOutput;
 	private String controllerName;
+	private double output;
+	// Prevents the output value from being written directly to the output
+	private boolean outputEnabled;
 	DoubleConfigFileParameter p_config;
 	DoubleConfigFileParameter i_config;
 	DoubleConfigFileParameter d_config;
@@ -185,6 +188,14 @@ public class PidController implements IPidController {
 
 	public void resetErrorSum() {
 		errorSum = 0.0;
+	}
+	
+	public double getCurrentOutput() {
+		return output;
+	}
+	
+	public void setOutputEnabled(boolean outputEnabled) {
+		this.outputEnabled = outputEnabled;
 	}
 
 	public void calcPid() {
@@ -384,11 +395,15 @@ public class PidController implements IPidController {
 		// Clip the output to the allowable region
 		output = this.limitOutput(output);
 
-		// Write to the PidOutput object
+		// Update smart dashboard
 		SmartDashboard.putNumber(this.getName() + " PID output", output);
 		SmartDashboard.putNumber(this.getName() + " PID error", currentError);
 		SmartDashboard.putNumber(this.getName() + " PID input", current_pv);
-		pidOutput.pidWrite(output);
+		
+		// Write the pid output, if it's enabled
+		if(outputEnabled) {
+			pidOutput.pidWrite(output);
+		}
 
 		// Save the current error for next cycle's D calculation.
 		previousError = currentError;
