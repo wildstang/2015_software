@@ -487,7 +487,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		if (Math.abs(driveBaseHeadingValue) > 0.05) {
 			// Absolute value on driveBaseThrottleValue, creates a S curve, none
 			// is banana
-			angularPower = driveBaseThrottleValue * driveBaseHeadingValue * HEADING_SENSITIVITY;
+			angularPower = Math.abs(driveBaseThrottleValue) * driveBaseHeadingValue * HEADING_SENSITIVITY;
 		}
 
 		SmartDashboard.putNumber("Angular power", angularPower);
