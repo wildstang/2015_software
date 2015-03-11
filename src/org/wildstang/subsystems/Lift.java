@@ -10,6 +10,7 @@ import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.pid.controller.base.PidController;
 import org.wildstang.pid.inputs.LiftPotPidInput;
 import org.wildstang.pid.outputs.LiftVictorPidOutput;
+import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.IntegerSubject;
 import org.wildstang.subjects.base.Subject;
@@ -33,15 +34,19 @@ public class Lift extends Subsystem implements IObserver {
 	private static double TOP_SLOW_DOWN_RADIUS;
 	private static double BOTTOM_SLOW_DOWN_RADIUS;
 
-	private static LiftPreset topPreset = new LiftPreset(0, "top");
-	private static LiftPreset bottomPreset = new LiftPreset(180, "bottom");
-	private static LiftPreset oneBinPreset = new LiftPreset(150, "one_bin");
+	private static LiftPreset bottomPreset = new LiftPreset("bottom", 0, -1);
+	private static LiftPreset levelTwoPreset = new LiftPreset("level_two", 1, 2);
+	private static LiftPreset levelThreePreset = new LiftPreset("level_three", 150, 3);
+	private static LiftPreset levelFourPreset = new LiftPreset("level_four", 150, 4);
+	private static LiftPreset topPreset = new LiftPreset("top", 5, -1);
 
 	private static LiftPotPidInput pidInput;
 	private static PidController pid;
 
 	double potVoltage;
 	int selectedHallEffectSensor;
+
+	boolean manualOverride;
 
 	// PAWL STUFF
 
@@ -79,7 +84,8 @@ public class Lift extends Subsystem implements IObserver {
 
 		registerForSensorNotification(InputManager.HALL_EFFECT_INDEX);
 
-		// arbitrary number for now
+		// Manual override
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_4);
 		// down
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 		// up
@@ -88,7 +94,7 @@ public class Lift extends Subsystem implements IObserver {
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_8);
 
 		pidInput = new LiftPotPidInput(InputManager.LIFT_POT_INDEX);
-		pid = new PidController(pidInput, new LiftVictorPidOutput(OutputManager.LIFT_A_INDEX, OutputManager.LIFT_B_INDEX), "Lift Pid");
+		pid = new PidController(pidInput, new LiftVictorPidOutput(OutputManager.LIFT_A_INDEX, OutputManager.LIFT_B_INDEX), "LiftPid");
 		// We'll write the output ourselves
 		pid.setOutputEnabled(false);
 		pid.disable();
@@ -97,10 +103,11 @@ public class Lift extends Subsystem implements IObserver {
 	public void init() {
 
 	}
-	
+
 	public void setPreset(LiftPreset preset) {
 		pid.enable();
 		pid.setSetPoint(preset.getWantedVoltage());
+		System.out.println("Preset set with voltage " + preset.getWantedVoltage());
 	}
 
 	public void update() {
@@ -108,17 +115,24 @@ public class Lift extends Subsystem implements IObserver {
 
 		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LIFT))).doubleValue();
 		double winchMotorSpeed;
-		if (winchJoystickValue > 0) {
+
+		if (Math.abs(winchJoystickValue) > 0) {
 			// Immediately disable pid if the manipulator wants manual control.
 			pid.disable();
 			winchMotorSpeed = winchJoystickValue;
 		} else if (pid.isEnabled()) {
+			System.out.println("Pid enabled.");
+			System.out.println("Pid state: " + pid.getState().toString());
+
 			// The pid is enabled, use its output as the winch speed
 			pid.calcPid();
 			winchMotorSpeed = pid.getCurrentOutput();
+			
+			System.out.println("Pid motor speed: " + winchMotorSpeed);
 
 			if (pid.isStabilized()) {
 				// Pid is stabilized, disable it and zero the output
+				System.out.println("Pid stabilized");
 				pid.disable();
 				winchMotorSpeed = 0.0;
 			}
@@ -184,14 +198,12 @@ public class Lift extends Subsystem implements IObserver {
 		}
 
 		/*
-		 * We need to drive the lift motors at a minimum of 70% to avoid
-		 * stalling. At this point in the code the motor value should be in the
-		 * range -1 to 1. We'll map this to a value less than -0.7 or greater
-		 * than 0.7, depending on the desired direction.
+		 * We need to drive the lift motors at a minimum of 70% to avoid stalling. At this point in the code the motor
+		 * value should be in the range -1 to 1. We'll map this to a value less than -0.7 or greater than 0.7, depending
+		 * on the desired direction.
 		 * 
-		 * To simplify calculations, we'll convert any negative values to
-		 * positive ones before mapping between ranges. After the mapping, we'll
-		 * convert back to a negative number.
+		 * To simplify calculations, we'll convert any negative values to positive ones before mapping between ranges.
+		 * After the mapping, we'll convert back to a negative number.
 		 */
 		boolean isWinchMotorSpeedNegative = (winchMotorSpeed < 0 ? true : false);
 		if (isWinchMotorSpeedNegative) {
@@ -211,29 +223,28 @@ public class Lift extends Subsystem implements IObserver {
 			scaledMotorSpeed *= -1;
 		}
 
-		System.out.println("Scaled motor speed before: " + scaledMotorSpeed);
+		// If we're in manual override mode, don't stop at the top or bottom
+		if (!manualOverride) {
+			// If we're trying to move down and we're close to the bottom of the
+			// lift, slow down.
+			if (potVoltage < (BOTTOM_VOLTAGE + BOTTOM_SLOW_DOWN_RADIUS) && potVoltage > BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
+				double scaleFactor = (potVoltage - BOTTOM_VOLTAGE) / (BOTTOM_SLOW_DOWN_RADIUS);
+				scaledMotorSpeed *= scaleFactor;
+				System.out.println("Scale factor (at bot): " + scaleFactor);
+			} else if (potVoltage <= BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
+				scaledMotorSpeed = 0;
+			}
 
-		// If we're trying to move down and we're close to the bottom of the
-		// lift, slow down.
-		if (potVoltage < (BOTTOM_VOLTAGE + BOTTOM_SLOW_DOWN_RADIUS) && potVoltage > BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
-			double scaleFactor = (potVoltage - BOTTOM_VOLTAGE) / (BOTTOM_SLOW_DOWN_RADIUS);
-			scaledMotorSpeed *= scaleFactor;
-			System.out.println("Scale factor (at bot): " + scaleFactor);
-		} else if (potVoltage <= BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
-			scaledMotorSpeed = 0;
+			// If we're trying to move up and we're close to the top of the lift,
+			// slow down
+			if (potVoltage > (TOP_VOLTAGE - TOP_SLOW_DOWN_RADIUS) && potVoltage < TOP_VOLTAGE && scaledMotorSpeed > 0) {
+				double scaleFactor = (TOP_VOLTAGE - potVoltage) / TOP_SLOW_DOWN_RADIUS;
+				scaledMotorSpeed *= scaleFactor;
+				System.out.println("Scale factor (at top): " + scaleFactor);
+			} else if (potVoltage >= TOP_VOLTAGE && scaledMotorSpeed > 0) {
+				scaledMotorSpeed = 0;
+			}
 		}
-
-		// If we're trying to move up and we're close to the top of the lift,
-		// slow down
-		if (potVoltage > (TOP_VOLTAGE - TOP_SLOW_DOWN_RADIUS) && potVoltage < TOP_VOLTAGE && scaledMotorSpeed > 0) {
-			double scaleFactor = (TOP_VOLTAGE - potVoltage) / TOP_SLOW_DOWN_RADIUS;
-			scaledMotorSpeed *= scaleFactor;
-			System.out.println("Scale factor (at top): " + scaleFactor);
-		} else if (potVoltage >= TOP_VOLTAGE && scaledMotorSpeed > 0) {
-			scaledMotorSpeed = 0;
-		}
-
-		System.out.println("Scaled motor speed after: " + scaledMotorSpeed);
 
 		// Invert the output so we go in the right direction
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(scaledMotorSpeed * -1));
@@ -259,11 +270,19 @@ public class Lift extends Subsystem implements IObserver {
 			// Update from the arduino for the hall effect
 			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
-			setPreset(bottomPreset);
+			manualOverride = ((BooleanSubject) subjectThatCaused).getValue();
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
+			if (((BooleanSubject) subjectThatCaused).getValue()) {
+				setPreset(bottomPreset);
+			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {
-			setPreset(topPreset);
+			if (((BooleanSubject) subjectThatCaused).getValue()) {
+				setPreset(topPreset);
+			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) {
-			setPreset(oneBinPreset);
+			if (((BooleanSubject) subjectThatCaused).getValue()) {
+				setPreset(levelFourPreset);
+			}
 		}
 	}
 
@@ -277,5 +296,12 @@ public class Lift extends Subsystem implements IObserver {
 		MIN_CYCLES_WINCH_MOTOR_AT_ZERO = MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG.getValue();
 		TOP_SLOW_DOWN_RADIUS = TOP_SLOW_DOWN_RADIUS_CONFIG.getValue();
 		BOTTOM_SLOW_DOWN_RADIUS = BOTTOM_SLOW_DOWN_RADIUS_CONFIG.getValue();
+
+		// Notify presets
+		bottomPreset.notifyConfigChange();
+		levelTwoPreset.notifyConfigChange();
+		levelThreePreset.notifyConfigChange();
+		levelFourPreset.notifyConfigChange();
+		topPreset.notifyConfigChange();
 	}
 }

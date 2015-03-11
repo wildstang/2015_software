@@ -47,8 +47,8 @@ public class BinGrabber extends Subsystem implements IObserver {
 			openVal = false;
 		}
 
-		getOutput(OutputManager.BIN_GRABBER_DELPOY_INDEX).set(new Boolean(deployedVal));
-		getOutput(OutputManager.BIN_GRABBER_INDEX).set(new Boolean(openVal));
+		//getOutput(OutputManager.BIN_GRABBER_DEPLOY_INDEX).set(new Boolean(deployedVal));
+		//getOutput(OutputManager.BIN_GRABBER_INDEX).set(new Boolean(openVal));
 
 		SmartDashboard.putBoolean("Bin Grabber Deployed", deployed);
 		SmartDashboard.putBoolean("Bin Grabber", open);

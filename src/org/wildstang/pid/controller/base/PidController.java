@@ -209,7 +209,7 @@ public class PidController implements IPidController {
 
 		// Calculate the current error term
 		currentError = setPoint - current_pv;
-		// System.out.println(this.controllerName + " error: " + currentError);
+		System.out.println(this.controllerName + " error: " + currentError);
 		// System.out.println(this.controllerName + " errorSum: " + errorSum);
 
 		//
@@ -404,6 +404,7 @@ public class PidController implements IPidController {
 		if(outputEnabled) {
 			pidOutput.pidWrite(output);
 		}
+		this.output = output;
 
 		// Save the current error for next cycle's D calculation.
 		previousError = currentError;

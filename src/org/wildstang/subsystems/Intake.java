@@ -8,15 +8,14 @@ import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IntakeWheels extends Subsystem implements IObserver {
+public class Intake extends Subsystem implements IObserver {
 	boolean intakeWheelsIn = false;
 	boolean intakeWheelsOut = false;
 	boolean intakePistonsOut = false;
 
-	public IntakeWheels(String name) {
+	public Intake(String name) {
 		super(name);
 	}
 

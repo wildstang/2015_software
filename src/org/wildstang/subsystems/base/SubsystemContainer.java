@@ -4,11 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wildstang.subsystems.Arms;
-import org.wildstang.subsystems.AutoMovementControl;
 import org.wildstang.subsystems.BinGrabber;
+import org.wildstang.subsystems.BinGrippers;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.IntakeWheels;
-import org.wildstang.subsystems.LED;
+import org.wildstang.subsystems.Intake;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Monitor;
 import org.wildstang.subsystems.Test;
@@ -103,7 +102,7 @@ public class SubsystemContainer {
 	public static final int TOTE_ALIGNMENT_INDEX = 11;
 	public static final int ARMS_INDEX = 12;
 	public static final int BIN_GRABBER_INDEX = 13;
-
+	public static final int BIN_GRIPPERS_INDEX = 14;
 	/*
 	 * Constructor for the subsystem container.
 	 * 
@@ -117,8 +116,9 @@ public class SubsystemContainer {
 		subsystems.put(TEST_INDEX, new Test());
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
-		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
+		subsystems.put(INTAKE_WHEELS_INDEX, new Intake("Intake"));
 		subsystems.put(ARMS_INDEX, new Arms("71 Arms"));
 		subsystems.put(BIN_GRABBER_INDEX, new BinGrabber("Bin Grabber"));
+		subsystems.put(BIN_GRIPPERS_INDEX, new BinGrippers("Bin Gripper"));
 	}
 }
