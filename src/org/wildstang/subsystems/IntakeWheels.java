@@ -4,6 +4,7 @@ import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
+import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
@@ -12,8 +13,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeWheels extends Subsystem implements IObserver {
-	boolean intakeWheelsIn = false;
-	boolean intakeWheelsOut = false;
+	double intakeWheelsValue = 0.0;
 	boolean intakePistonsOut = false;
 
 	public IntakeWheels(String name) {
@@ -21,22 +21,11 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 
 	public void init() {
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_1);
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_3);
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_2);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_5);
 	}
 
 	public void update() {
-		double intakeWheelsValue;
 		boolean intakePistonsValue;
-
-		if (intakeWheelsIn && !intakeWheelsOut) {
-			intakeWheelsValue = 1;
-		} else if (intakeWheelsOut && !intakeWheelsIn) {
-			intakeWheelsValue = -1;
-		} else {
-			intakeWheelsValue = 0;
-		}
 
 		if (intakePistonsOut) {
 			intakePistonsValue = true;
@@ -48,19 +37,13 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
 		LogManager.getInstance().addObject("Intake Pistons", intakePistonsValue);
-		SmartDashboard.putBoolean("Intake Wheels In", intakeWheelsIn);
-		SmartDashboard.putBoolean("Intake Wheels Out", intakeWheelsOut);
+		SmartDashboard.putNumber("Intake Wheels Speed", intakeWheelsValue);
 	}
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_3) {
-			intakeWheelsIn = ((BooleanSubject) subjectThatCaused).getValue();
-		}
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_1) {
-			intakeWheelsOut = ((BooleanSubject) subjectThatCaused).getValue();
-		}
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_2) {
+		
+		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_5) {
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				intakePistonsOut = !intakePistonsOut;
 			}
@@ -72,15 +55,12 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 
 	public void setWheels(boolean in, boolean out) {
-		if (in) {
-			intakeWheelsIn = true;
-			intakeWheelsOut = false;
-		} else if (out) {
-			intakeWheelsOut = true;
-			intakeWheelsIn = false;
+		if (in && !out) {
+			intakeWheelsValue = 1;
+		} else if (out && !in) {
+			intakeWheelsValue = -1;
 		} else {
-			intakeWheelsOut = false;
-			intakeWheelsIn = false;
+			intakeWheelsValue = 0;
 		}
 	}
 

@@ -43,8 +43,8 @@ public class Containment extends Subsystem implements IObserver {
 		}
 
 		// TODO THIS DOESN:T WORK
-		getOutput(OutputManager.CONTAINMENT_DOORS_INDEX).set(new Integer(flapVal));
-		getOutput(OutputManager.CONTAINMENT_FRONT_PISTON_INDEX).set(new Boolean(containmentVal));
+		//getOutput(OutputManager.CONTAINMENT_DOORS_INDEX).set(new Integer(flapVal));
+		//getOutput(OutputManager.CONTAINMENT_FRONT_PISTON_INDEX).set(new Boolean(containmentVal));
 		SmartDashboard.putBoolean("Containment Front", containmentOpen);
 		SmartDashboard.putBoolean("Containment Flaps", flapOpen);
 		LogManager.getInstance().addObject("Containment Doors", containmentOpen);

@@ -159,6 +159,8 @@ public class DriveBase extends Subsystem implements IObserver {
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_6);
 		// Super anti-turbo button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_5);
+		// Manipulator anti-turbo
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_7);
 
 		// Initialize the drive base encoders
 		leftDriveEncoder = new Encoder(0, 1, true, EncodingType.k4X);
@@ -754,6 +756,8 @@ public class DriveBase extends Subsystem implements IObserver {
 			turboFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_5) {
 			superAntiTurboFlag = ((BooleanSubject) subjectThatCaused).getValue();
+		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {
+			antiTurboFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 
