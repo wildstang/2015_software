@@ -103,6 +103,7 @@ public class SubsystemContainer {
 	public static final int ARMS_INDEX = 12;
 	public static final int BIN_GRABBER_INDEX = 13;
 	public static final int BIN_GRIPPERS_INDEX = 14;
+	public static final int BACK_GRABBER_INDEX = 15;
 	/*
 	 * Constructor for the subsystem container.
 	 * 
@@ -120,5 +121,6 @@ public class SubsystemContainer {
 		subsystems.put(ARMS_INDEX, new Arms("71 Arms"));
 		subsystems.put(BIN_GRABBER_INDEX, new BinGrabber("Bin Grabber"));
 		subsystems.put(BIN_GRIPPERS_INDEX, new BinGrippers("Bin Gripper"));
+		subsystems.put(BACK_GRABBER_INDEX, new BinGrippers("Back Grabber"));
 	}
 }

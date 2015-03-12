@@ -94,6 +94,7 @@ public class OutputManager {
 	public static final int TOTE_ALIGNMENT_INDEX = 18;
 	public static final int H_BACKUP_INDEX = 19;
 	public static final int BIN_GRIPPERS_INDEX = 20;
+	public static final int BACK_GRABBER_INDEX = 21;
 
 	/**
 	 * Constructor for OutputManager.
@@ -113,16 +114,12 @@ public class OutputManager {
 		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 8));
 		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
 
-		// PCM 0 SOLENOIDS
+		// SOLENOIDS
 		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 		outputs.put(PAWL_RELEASE_INDEX, new WsSolenoid("Pawl Release", 2));
-		outputs.put(CONTAINMENT_FRONT_PISTON_INDEX, new WsSolenoid("Containment Front", 3));
+		outputs.put(BACK_GRABBER_INDEX, new WsSolenoid("Back Grabber Thingy", 3));
 		outputs.put(INTAKE_PISTONS_INDEX, new WsSolenoid("Intake Pistons", 4));
-		//outputs.put(BIN_GRABBER_INDEX, new WsSolenoid("Bin Grabber", 5));
-		//outputs.put(BIN_GRABBER_DEPLOY_INDEX, new WsSolenoid("Bin Grabber Deploy", 6));
 		outputs.put(ARMS_INDEX, new WsSolenoid("71 Arms", 7));
 		outputs.put(BIN_GRIPPERS_INDEX, new WsSolenoid("Bin Grippers", 6));
-		// PCM 1 SOLENOIDS
-		//outputs.put(CONTAINMENT_DOORS_INDEX, new WsDoubleSolenoid("Containment doors", 1, 6, 7));
 	}
 }
