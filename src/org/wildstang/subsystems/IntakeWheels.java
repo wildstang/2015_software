@@ -1,5 +1,6 @@
 package org.wildstang.subsystems;
 
+import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
@@ -35,6 +36,8 @@ public class IntakeWheels extends Subsystem implements IObserver {
 		getOutput(OutputManager.INTAKE_WHEELS_INDEX).set(new Double(intakeWheelsValue));
 		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsValue));
 
+		intakeWheelsValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
+		
 		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
 		LogManager.getInstance().addObject("Intake Pistons", intakePistonsValue);
 		SmartDashboard.putNumber("Intake Wheels Speed", intakeWheelsValue);
