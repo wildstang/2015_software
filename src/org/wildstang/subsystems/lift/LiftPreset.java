@@ -39,7 +39,7 @@ public class LiftPreset {
 	}
 
 	public String toString() {
-		return "Wanted Voltage: " + this.wantedVoltage + "; Hall Effect Index: " + this.hallEffectIndex;
+		return "Name: " + presetName + "; Wanted Voltage: " + this.wantedVoltage + "; Hall Effect Index: " + this.hallEffectIndex;
 	}
 
 }

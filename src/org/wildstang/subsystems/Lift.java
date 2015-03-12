@@ -39,6 +39,8 @@ public class Lift extends Subsystem implements IObserver {
 	private static LiftPreset levelThreePreset = new LiftPreset("level_three", 150, 3);
 	private static LiftPreset levelFourPreset = new LiftPreset("level_four", 150, 4);
 	private static LiftPreset topPreset = new LiftPreset("top", 5, -1);
+	
+	private static LiftPreset currentPreset;
 
 	private static LiftPotPidInput pidInput;
 	private static PidController pid;
@@ -84,6 +86,7 @@ public class Lift extends Subsystem implements IObserver {
 
 		registerForSensorNotification(InputManager.HALL_EFFECT_INDEX);
 
+		SmartDashboard.putString("lift", "started");
 		// Manual override
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_4);
 		// down
@@ -105,11 +108,29 @@ public class Lift extends Subsystem implements IObserver {
 	}
 
 	public void setPreset(LiftPreset preset) {
+		currentPreset = preset;
+		SmartDashboard.putString("Preset", preset.toString());
 		pid.enable();
 		pid.setSetPoint(preset.getWantedVoltage());
+		pid.setOutputEnabled(true);
 		System.out.println("Preset set with voltage " + preset.getWantedVoltage());
 	}
 
+	public void setBottom()
+	{
+		setPreset(bottomPreset);
+	}
+	
+	public void setTop()
+	{
+		setPreset(topPreset);
+	}
+	
+	public void setFour()
+	{
+		setPreset(levelFourPreset);
+	}
+	
 	public void update() {
 		potVoltage = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 
@@ -269,17 +290,33 @@ public class Lift extends Subsystem implements IObserver {
 		if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject())) {
 			// Update from the arduino for the hall effect
 			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
+			if(currentPreset != null && pid.isEnabled())
+			{
+				if(selectedHallEffectSensor == currentPreset.getHallEffectIndex())
+				{
+					pid.disable();
+				}
+			}
+		} 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_4) 
+		{
 			manualOverride = ((BooleanSubject) subjectThatCaused).getValue();
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
-			if (((BooleanSubject) subjectThatCaused).getValue()) {
+		} 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) 
+		{
+			if (((BooleanSubject) subjectThatCaused).getValue()) 
+			{
 				setPreset(bottomPreset);
 			}
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {
+		} 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) 
+		{
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				setPreset(topPreset);
 			}
-		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) {
+		}
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) 
+		{
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				setPreset(levelFourPreset);
 			}
