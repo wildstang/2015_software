@@ -26,21 +26,16 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 
 	public void update() {
-		boolean intakePistonsValue;
-
-		if (intakePistonsOut) {
-			intakePistonsValue = true;
-		} else {
-			intakePistonsValue = false;
-		}
+		intakeWheelsValue = -((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
+		
 		getOutput(OutputManager.INTAKE_WHEELS_INDEX).set(new Double(intakeWheelsValue));
-		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsValue));
+		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsOut));
 
-		intakeWheelsValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
 		
 		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
-		LogManager.getInstance().addObject("Intake Pistons", intakePistonsValue);
+		LogManager.getInstance().addObject("Intake Pistons", intakePistonsOut);
 		SmartDashboard.putNumber("Intake Wheels Speed", intakeWheelsValue);
+		SmartDashboard.putBoolean("Intake Pistons Out", intakePistonsOut);
 	}
 
 	@Override

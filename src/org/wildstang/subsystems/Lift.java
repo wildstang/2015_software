@@ -88,13 +88,13 @@ public class Lift extends Subsystem implements IObserver {
 
 		SmartDashboard.putString("lift", "started");
 		// Manual override
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_4);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_1);
 		// down
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_2);
 		// up
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_7);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_4);
 		// 1 bin
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_8);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_3);
 
 		pidInput = new LiftPotPidInput(InputManager.LIFT_POT_INDEX);
 		pid = new PidController(pidInput, new LiftVictorPidOutput(OutputManager.LIFT_A_INDEX, OutputManager.LIFT_B_INDEX), "LiftPid");
@@ -298,24 +298,24 @@ public class Lift extends Subsystem implements IObserver {
 				}
 			}
 		} 
-		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_4) 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_1) 
 		{
 			manualOverride = ((BooleanSubject) subjectThatCaused).getValue();
 		} 
-		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_2) 
 		{
 			if (((BooleanSubject) subjectThatCaused).getValue()) 
 			{
 				setPreset(bottomPreset);
 			}
 		} 
-		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_4) 
 		{
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				setPreset(topPreset);
 			}
 		}
-		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) 
+		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_3) 
 		{
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				setPreset(levelFourPreset);

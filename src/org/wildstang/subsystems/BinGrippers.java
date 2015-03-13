@@ -15,7 +15,7 @@ public class BinGrippers extends Subsystem implements IObserver {
 
 	public BinGrippers(String name) {
 		super(name);
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_5);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class BinGrippers extends Subsystem implements IObserver {
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		// TODO Auto-generated method stub
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_5) {
+		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				binGripsEngaged = !binGripsEngaged;
 			}
