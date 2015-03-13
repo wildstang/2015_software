@@ -3,12 +3,9 @@ package org.wildstang.subsystems.base;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.wildstang.subsystems.Arms;
 import org.wildstang.subsystems.BackGrabber;
-import org.wildstang.subsystems.BinGrabber;
-import org.wildstang.subsystems.BinGrippers;
+import org.wildstang.subsystems.TopContainment;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.Intake;
 import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Monitor;
@@ -92,20 +89,15 @@ public class SubsystemContainer {
 	public static final String AUTO_MOVEMENT_CONTROLLER = "AutoMovementController";
 
 	public static final int DRIVE_BASE_INDEX = 0;
-	public static final int LED_INDEX = 2;
-	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 3;
-	public static final int CHUTE_INDEX = 4;
-	public static final int MONITOR_INDEX = 5;
-	public static final int LIFT_INDEX = 6;
-	public static final int TEST_INDEX = 7;
-	public static final int INTAKE_WHEELS_INDEX = 8;
-	public static final int HOOKS_SOLENOID_INDEX = 9;
-	public static final int CONTAINMENT_INDEX = 10;
-	public static final int TOTE_ALIGNMENT_INDEX = 11;
-	public static final int ARMS_INDEX = 12;
-	public static final int BIN_GRABBER_INDEX = 13;
-	public static final int BIN_GRIPPERS_INDEX = 14;
-	public static final int BACK_GRABBER_INDEX = 15;
+	public static final int LED_INDEX = 1;
+	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 2;
+	public static final int MONITOR_INDEX = 3;
+	public static final int LIFT_INDEX = 4;
+	public static final int TEST_INDEX = 5;
+	public static final int INTAKE_WHEELS_INDEX = 6;
+	public static final int ARMS_INDEX = 7;
+	public static final int TOP_CONTAINMENT_INDEX = 8;
+	public static final int BACK_GRABBER_INDEX = 9;
 	/*
 	 * Constructor for the subsystem container.
 	 * 
@@ -120,7 +112,7 @@ public class SubsystemContainer {
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
-		subsystems.put(BIN_GRIPPERS_INDEX, new BinGrippers("Bin Gripper"));
+		subsystems.put(TOP_CONTAINMENT_INDEX, new TopContainment("Bin Gripper"));
 		subsystems.put(BACK_GRABBER_INDEX, new BackGrabber("Back Grabber"));
 	}
 }

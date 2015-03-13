@@ -9,11 +9,11 @@ import org.wildstang.subsystems.base.Subsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class BinGrippers extends Subsystem implements IObserver {
+public class TopContainment extends Subsystem implements IObserver {
 
 	boolean binGripsEngaged;
 
-	public BinGrippers(String name) {
+	public TopContainment(String name) {
 		super(name);
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_6);
 	}
