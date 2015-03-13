@@ -81,20 +81,11 @@ public class OutputManager {
 	public static final int SHIFTER_INDEX = 4;
 	public static final int LIFT_A_INDEX = 5;
 	public static final int LIFT_B_INDEX = 6;
-	public static final int CHUTE_INDEX = 7;
-	public static final int INTAKE_WHEELS_INDEX = 8;
-	public static final int CONTAINMENT_DOORS_INDEX = 10;
-	public static final int CONTAINMENT_FRONT_PISTON_INDEX = 11;
-	public static final int INTAKE_PISTONS_INDEX = 12;
-	public static final int PAWL_RELEASE_INDEX = 13;
-	public static final int BIN_GRABBER_INDEX = 14;
-	public static final int BIN_GRABBER_DEPLOY_INDEX = 15;
-	public static final int ARMS_INDEX = 16;
-	public static final int HOOKS_RELEASE_INDEX = 17;
-	public static final int TOTE_ALIGNMENT_INDEX = 18;
-	public static final int H_BACKUP_INDEX = 19;
-	public static final int BIN_GRIPPERS_INDEX = 20;
-	public static final int BACK_GRABBER_INDEX = 21;
+	public static final int INTAKE_WHEELS_INDEX = 7;
+	public static final int INTAKE_PISTONS_INDEX = 8;
+	public static final int PAWL_RELEASE_INDEX = 9;
+	public static final int TOP_CONTAINMENT_INDEX = 10;
+	public static final int BACK_GRABBER_INDEX = 11;
 
 	/**
 	 * Constructor for OutputManager.
@@ -111,7 +102,6 @@ public class OutputManager {
 		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsDriveSpeed("Strafe Drive Speed", 4, 5));
 		outputs.put(LIFT_A_INDEX, new WsVictor("Lift A", 6));
 		outputs.put(LIFT_B_INDEX, new WsVictor("Lift B", 7));
-		outputs.put(CHUTE_INDEX, new WsVictor("Chute", 8));
 		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
 
 		// SOLENOIDS
@@ -119,7 +109,6 @@ public class OutputManager {
 		outputs.put(PAWL_RELEASE_INDEX, new WsSolenoid("Pawl Release", 2));
 		outputs.put(BACK_GRABBER_INDEX, new WsSolenoid("Back Grabber Thingy", 3));
 		outputs.put(INTAKE_PISTONS_INDEX, new WsSolenoid("Intake Pistons", 4));
-		outputs.put(ARMS_INDEX, new WsSolenoid("71 Arms", 7));
-		outputs.put(BIN_GRIPPERS_INDEX, new WsSolenoid("Bin Grippers", 6));
+		outputs.put(TOP_CONTAINMENT_INDEX, new WsSolenoid("Top Containment", 6));
 	}
 }
