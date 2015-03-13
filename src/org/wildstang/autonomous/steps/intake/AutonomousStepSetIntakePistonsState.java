@@ -1,7 +1,7 @@
 package org.wildstang.autonomous.steps.intake;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.subsystems.Intake;
+import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
 public class AutonomousStepSetIntakePistonsState extends AutonomousStep {
@@ -12,7 +12,7 @@ public class AutonomousStepSetIntakePistonsState extends AutonomousStep {
 	}
 
 	public void initialize() {
-		((Intake) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setPistons(open);
+		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setPistons(open);
 		finished = true;
 	}
 

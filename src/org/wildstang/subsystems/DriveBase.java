@@ -355,6 +355,7 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		// Taking into account Anti-Turbo
 		double new_throttle = tValue;
+		//why the hell does this use true == ...
 		if (true == superAntiTurboFlag) {
 			new_throttle *= SUPER_ANTITURBO_FACTOR;
 		} else if (true == antiTurboFlag) {
