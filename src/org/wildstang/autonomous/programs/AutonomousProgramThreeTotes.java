@@ -4,6 +4,7 @@ import org.wildstang.autonomous.AutonomousProgram;
 import org.wildstang.autonomous.steps.AutonomousSerialStepGroup;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepStartDriveUsingMotionProfile;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepStopDriveUsingMotionProfile;
+import org.wildstang.autonomous.steps.drivebase.AutonomousStepStrafe;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepWaitForDriveMotionProfile;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftBottom;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftMiddle;
@@ -28,16 +29,18 @@ public class AutonomousProgramThreeTotes extends AutonomousProgram
 		pickup.addStep(new AutonomousStepSetLiftBottom());
 		pickup.addStep(new AutonomousStepSetLiftMiddle());
 
-		AutonomousSerialStepGroup strafe = new AutonomousSerialStepGroup("Strafe");
-        strafe.addStep(new AutonomousStepStartDriveUsingMotionProfile(20, 1.0));
-        strafe.addStep(new AutonomousStepWaitForDriveMotionProfile());
-        strafe.addStep(new AutonomousStepStopDriveUsingMotionProfile());
+		AutonomousSerialStepGroup strafeLeft = new AutonomousSerialStepGroup("Strafe Left");
+        strafeLeft.addStep(new AutonomousStepStrafe(1, true, false));
+        
+		AutonomousSerialStepGroup strafeRight = new AutonomousSerialStepGroup("Strafe Right");
+        strafeRight.addStep(new AutonomousStepStrafe(1, false, true));
         
 		AutonomousSerialStepGroup driveToNext = new AutonomousSerialStepGroup("Drive To Next");
-		driveToNext.addStep(strafe);
+		driveToNext.addStep(strafeRight);
 		driveToNext.addStep(new AutonomousStepStartDriveUsingMotionProfile(20, 1.0));
 		driveToNext.addStep(new AutonomousStepWaitForDriveMotionProfile());
         driveToNext.addStep(new AutonomousStepStopDriveUsingMotionProfile());
+        driveToNext.addStep(strafeLeft);
 
 		addStep(pickup);
 		addStep(driveToNext);
@@ -50,7 +53,7 @@ public class AutonomousProgramThreeTotes extends AutonomousProgram
 	@Override
 	public String toString()
 	{
-		return "Pickup Tote";
+		return "Pickup Three Totes";
 	}
 
 }
