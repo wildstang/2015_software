@@ -158,7 +158,7 @@ public class InputManager {
 		sensorInputs.put(UNKNOWN_INDEX, new NoInput());
 		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
 		sensorInputs.put(LIFT_POT_INDEX, new WsAnalogInput(0));
-		sensorInputs.put(HALL_EFFECT_INDEX, new WsHallEffectInput(Port.kOnboard, 0x10));
+		sensorInputs.put(HALL_EFFECT_INDEX, new WsHallEffectInput(Port.kMXP, 0x10));
 
 		oiInputs.put(UNKNOWN_INDEX, new NoInput());
 		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
