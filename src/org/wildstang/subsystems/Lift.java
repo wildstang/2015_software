@@ -7,9 +7,6 @@ import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
-import org.wildstang.pid.controller.base.PidController;
-import org.wildstang.pid.inputs.LiftPotPidInput;
-import org.wildstang.pid.outputs.LiftVictorPidOutput;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.IntegerSubject;
@@ -40,10 +37,10 @@ public class Lift extends Subsystem implements IObserver {
 	private static LiftPreset levelFourPreset = new LiftPreset("level_four", 150, 4);
 	private static LiftPreset topPreset = new LiftPreset("top", 5, -1);
 	
-	private static LiftPreset currentPreset;
-
-	private static LiftPotPidInput pidInput;
-	private static PidController pid;
+	private static int wantedHallEffect;
+	private static double wantedPotVoltage;
+	private static double wantedPotVoltageBuffer = .1;
+	private static boolean goingToPosition;
 
 	double potVoltage;
 	int selectedHallEffectSensor;
@@ -96,11 +93,7 @@ public class Lift extends Subsystem implements IObserver {
 		// 1 bin
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_3);
 
-		pidInput = new LiftPotPidInput(InputManager.LIFT_POT_INDEX);
-		pid = new PidController(pidInput, new LiftVictorPidOutput(OutputManager.LIFT_A_INDEX, OutputManager.LIFT_B_INDEX), "LiftPid");
-		// We'll write the output ourselves
-		pid.setOutputEnabled(false);
-		pid.disable();
+		goingToPosition = false;
 	}
 
 	public void init() {
@@ -108,11 +101,10 @@ public class Lift extends Subsystem implements IObserver {
 	}
 
 	public void setPreset(LiftPreset preset) {
-		currentPreset = preset;
+		goingToPosition = true;
 		SmartDashboard.putString("Preset", preset.toString());
-		pid.enable();
-		pid.setSetPoint(preset.getWantedVoltage());
-		pid.setOutputEnabled(true);
+		wantedHallEffect = preset.getHallEffectIndex();
+		wantedPotVoltage = preset.getWantedVoltage();
 		System.out.println("Preset set with voltage " + preset.getWantedVoltage());
 	}
 
@@ -135,29 +127,54 @@ public class Lift extends Subsystem implements IObserver {
 		potVoltage = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 
 		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LIFT))).doubleValue();
-		double winchMotorSpeed;
+		double winchMotorSpeed = 0;
 
 		if (Math.abs(winchJoystickValue) > 0) {
 			// Immediately disable pid if the manipulator wants manual control.
-			pid.disable();
+			goingToPosition = false;
 			winchMotorSpeed = winchJoystickValue;
-		} else if (pid.isEnabled()) {
-			System.out.println("Pid enabled.");
-			System.out.println("Pid state: " + pid.getState().toString());
-
-			// The pid is enabled, use its output as the winch speed
-			pid.calcPid();
-			winchMotorSpeed = pid.getCurrentOutput();
-			
-			System.out.println("Pid motor speed: " + winchMotorSpeed);
-
-			if (pid.isStabilized()) {
-				// Pid is stabilized, disable it and zero the output
-				System.out.println("Pid stabilized");
-				pid.disable();
-				winchMotorSpeed = 0.0;
+		}
+		
+		else if (goingToPosition)
+		{
+			if((potVoltage > wantedPotVoltage && potVoltage < wantedPotVoltage) || selectedHallEffectSensor == wantedHallEffect)
+			{
+				//if in the wanted range stop
+				goingToPosition = false;
 			}
-		} else {
+			else
+			{
+				//otherwise keep on going
+				
+				if(potVoltage < wantedPotVoltage)
+				{
+					//go up
+					winchMotorSpeed = 1;
+					
+					if (potVoltage > (wantedPotVoltage - wantedPotVoltageBuffer) && winchMotorSpeed > 0)
+					{
+						double scaleFactor = (wantedPotVoltage - potVoltage) / wantedPotVoltageBuffer;
+						winchMotorSpeed *= scaleFactor;
+					}
+				}
+				else
+				{
+					//goDown
+					winchMotorSpeed = -1;
+					
+					if (potVoltage < (wantedPotVoltage + wantedPotVoltageBuffer) && winchMotorSpeed < 0)
+					{
+						double scaleFactor = (potVoltage - wantedPotVoltage) / wantedPotVoltageBuffer;
+						winchMotorSpeed *= scaleFactor;
+					}
+				}
+			}
+			
+			System.out.println("Preset motor speed: " + winchMotorSpeed);
+
+		}
+		else
+		{
 			// Pid is disabled, manipulator is not requesting any movement.
 			// Stop the winch
 			winchMotorSpeed = 0.0;
@@ -245,7 +262,7 @@ public class Lift extends Subsystem implements IObserver {
 		}
 
 		// If we're in manual override mode, don't stop at the top or bottom
-		if (!manualOverride) {
+		if (!manualOverride ) {
 			// If we're trying to move down and we're close to the bottom of the
 			// lift, slow down.
 			if (potVoltage < (BOTTOM_VOLTAGE + BOTTOM_SLOW_DOWN_RADIUS) && potVoltage > BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
@@ -290,13 +307,6 @@ public class Lift extends Subsystem implements IObserver {
 		if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject())) {
 			// Update from the arduino for the hall effect
 			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
-			if(currentPreset != null && pid.isEnabled())
-			{
-				if(selectedHallEffectSensor == currentPreset.getHallEffectIndex())
-				{
-					pid.disable();
-				}
-			}
 		} 
 		else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_1) 
 		{
