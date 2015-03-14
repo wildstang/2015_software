@@ -4,7 +4,7 @@ import org.wildstang.config.DoubleConfigFileParameter;
 import org.wildstang.config.IntegerConfigFileParameter;
 
 public class LiftPreset {
-	
+
 	protected String presetName;
 
 	protected DoubleConfigFileParameter WANTED_VOLTAGE_CONFIG;
@@ -14,10 +14,10 @@ public class LiftPreset {
 
 	public LiftPreset(String presetName, double defaultWantedVoltage, int defaultHallEffectIndex) {
 		this.presetName = presetName;
-		
+
 		this.WANTED_VOLTAGE_CONFIG = new DoubleConfigFileParameter(this.getClass().getName() + "." + presetName, "wanted_voltage", defaultWantedVoltage);
 		this.HALL_EFFECT_INDEX_CONFIG = new IntegerConfigFileParameter(this.getClass().getName() + "." + presetName, "hall_effect_index", defaultHallEffectIndex);
-		
+
 		System.out.println(WANTED_VOLTAGE_CONFIG.getFullParamName());
 		System.out.println(HALL_EFFECT_INDEX_CONFIG.getFullParamName());
 

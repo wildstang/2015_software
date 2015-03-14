@@ -63,31 +63,25 @@ public class LogManager {
 	 * been added via one of the add methods.
 	 */
 	public void queueCurrentLogsForSending() {
-		/*Map<String, Object> map = new HashMap<String, Object>();
-		map.put("Timestamp", System.currentTimeMillis() - startTime);
-		for (LogObject object : objects) {
-			map.put(object.getName(), object.getObject());
-		}
-		logDataSender.addToQueue(map);
-
-		// for sending debug messages
-		map = new HashMap<String, Object>();
-		map.put("Timestamp", System.currentTimeMillis() - startTime);
-		for (LogObject debug : debugs) {
-			map.put(debug.getName(), debug.getObject());
-		}
-		debugDataSender.addToQueue(map);
-
-		objects.clear();
-		debugs.clear();*/
+		/*
+		 * Map<String, Object> map = new HashMap<String, Object>(); map.put("Timestamp", System.currentTimeMillis() -
+		 * startTime); for (LogObject object : objects) { map.put(object.getName(), object.getObject()); }
+		 * logDataSender.addToQueue(map);
+		 * 
+		 * // for sending debug messages map = new HashMap<String, Object>(); map.put("Timestamp",
+		 * System.currentTimeMillis() - startTime); for (LogObject debug : debugs) { map.put(debug.getName(),
+		 * debug.getObject()); } debugDataSender.addToQueue(map);
+		 * 
+		 * objects.clear(); debugs.clear();
+		 */
 	}
 
 	public void addDebug(Object message) {
-		//debugs.add(new LogObject("Debug", message));
+		// debugs.add(new LogObject("Debug", message));
 	}
 
 	public void addObject(String name, Object obj) {
-		//objects.add(new LogObject(name, obj));
+		// objects.add(new LogObject(name, obj));
 	}
 
 	/**
@@ -111,7 +105,7 @@ public class LogManager {
 		}
 
 		public void addToQueue(Object o) {
-			while(queue.size() >= QUEUE_MAX_SIZE) {
+			while (queue.size() >= QUEUE_MAX_SIZE) {
 				queue.removeLast();
 			}
 			queue.addFirst(o);
@@ -121,23 +115,14 @@ public class LogManager {
 		public void run() {
 			while (true) {
 				// If we lose connection or the connection attempt times out, continually retry.
-				/*try {
-					socket = new Socket(host, port);
-					outputStream = new ObjectOutputStream(socket.getOutputStream());
-
-					while (true) {						
-						Object o;
-						try {
-							while ((o = queue.takeLast()) != null) {
-								outputStream.writeObject(o);
-							}
-						} catch (InterruptedException e) {
-							//e.printStackTrace();;
-						}
-					}
-				} catch (IOException e) {
-					//e.printStackTrace();
-				}*/
+				/*
+				 * try { socket = new Socket(host, port); outputStream = new
+				 * ObjectOutputStream(socket.getOutputStream());
+				 * 
+				 * while (true) { Object o; try { while ((o = queue.takeLast()) != null) { outputStream.writeObject(o);
+				 * } } catch (InterruptedException e) { //e.printStackTrace();; } } } catch (IOException e) {
+				 * //e.printStackTrace(); }
+				 */
 			}
 		}
 	}

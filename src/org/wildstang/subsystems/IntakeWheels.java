@@ -27,11 +27,10 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	public void update() {
 		intakeWheelsValue = -((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
-		
+
 		getOutput(OutputManager.INTAKE_WHEELS_INDEX).set(new Double(intakeWheelsValue));
 		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsOut));
 
-		
 		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
 		LogManager.getInstance().addObject("Intake Pistons", intakePistonsOut);
 		SmartDashboard.putNumber("Intake Wheels Speed", intakeWheelsValue);
@@ -40,7 +39,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
-		
+
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_5) {
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				intakePistonsOut = !intakePistonsOut;

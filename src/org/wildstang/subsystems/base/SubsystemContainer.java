@@ -98,6 +98,7 @@ public class SubsystemContainer {
 	public static final int ARMS_INDEX = 7;
 	public static final int TOP_CONTAINMENT_INDEX = 8;
 	public static final int BACK_GRABBER_INDEX = 9;
+
 	/*
 	 * Constructor for the subsystem container.
 	 * 

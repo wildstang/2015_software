@@ -189,11 +189,11 @@ public class PidController implements IPidController {
 	public void resetErrorSum() {
 		errorSum = 0.0;
 	}
-	
+
 	public double getCurrentOutput() {
 		return output;
 	}
-	
+
 	public void setOutputEnabled(boolean outputEnabled) {
 		this.outputEnabled = outputEnabled;
 	}
@@ -399,9 +399,9 @@ public class PidController implements IPidController {
 		SmartDashboard.putNumber(this.getName() + " PID output", output);
 		SmartDashboard.putNumber(this.getName() + " PID error", currentError);
 		SmartDashboard.putNumber(this.getName() + " PID input", current_pv);
-		
+
 		// Write the pid output, if it's enabled
-		if(outputEnabled) {
+		if (outputEnabled) {
 			pidOutput.pidWrite(output);
 		}
 		this.output = output;

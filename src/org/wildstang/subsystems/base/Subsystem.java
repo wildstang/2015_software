@@ -87,11 +87,11 @@ public abstract class Subsystem {
 		}
 	}
 
-	protected IOutput getOutput(int index) {
+	public static IOutput getOutput(int index) {
 		return OutputManager.getInstance().getOutput(index);
 	}
 
-	protected IInput getSensorInput(int index) {
+	public static IInput getSensorInput(int index) {
 		return InputManager.getInstance().getSensorInput(index);
 	}
 }

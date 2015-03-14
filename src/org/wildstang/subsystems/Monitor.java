@@ -54,7 +54,6 @@ public class Monitor extends Subsystem implements IObserver {
 		logManager.addObject(JoystickAxisEnum.DRIVER_STRAFE.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_STRAFE).getValueAsObject()));
 		logManager.addObject(JoystickAxisEnum.MANIPULATOR_LIFT.toString(), ((Double) manipulatorJoystick.getSubject(JoystickAxisEnum.MANIPULATOR_LIFT).getValueAsObject()));
 
-
 		// Log button presses
 		for (int i = 0; i < 12; i++) {
 			logManager.addObject("Driver Button " + (i + 1), ((Boolean) driverJoystick.getSubject(JoystickButtonEnum.getEnumFromIndex(true, i)).getValueAsObject()));
@@ -63,7 +62,7 @@ public class Monitor extends Subsystem implements IObserver {
 		for (int i = 0; i < 12; i++) {
 			logManager.addObject("Manipulator Button " + (i + 1), ((Boolean) manipulatorJoystick.getSubject(JoystickButtonEnum.getEnumFromIndex(false, i)).getValueAsObject()));
 		}
-		
+
 		Runtime rt = Runtime.getRuntime();
 		logManager.addObject("memory in use", new Double(rt.totalMemory() - rt.freeMemory()));
 	}

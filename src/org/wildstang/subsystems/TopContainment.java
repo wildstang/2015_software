@@ -26,7 +26,7 @@ public class TopContainment extends Subsystem implements IObserver {
 
 	@Override
 	public void update() {
-		// Closed Bin Grips means open piston	
+		// Closed Bin Grips means open piston
 		getOutput(OutputManager.TOP_CONTAINMENT_INDEX).set(new Boolean(binGripsEngaged));
 		SmartDashboard.putBoolean("Bin Grippers", binGripsEngaged);
 	}

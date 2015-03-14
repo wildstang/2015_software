@@ -5,23 +5,20 @@ import org.wildstang.autonomous.steps.AutonomousSerialStepGroup;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftBottom;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftMiddle;
 
-public class AutonomousProgramPickupTote extends AutonomousProgram
-{
+public class AutonomousProgramPickupTote extends AutonomousProgram {
 
 	@Override
-	protected void defineSteps()
-	{
+	protected void defineSteps() {
 		AutonomousSerialStepGroup pickup = new AutonomousSerialStepGroup("Pickup");
 		pickup.addStep(new AutonomousStepSetLiftMiddle());
 		pickup.addStep(new AutonomousStepSetLiftBottom());
 		pickup.addStep(new AutonomousStepSetLiftMiddle());
-		
+
 		addStep(pickup);
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "Pickup Tote";
 	}
 

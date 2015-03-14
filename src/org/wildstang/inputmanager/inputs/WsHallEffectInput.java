@@ -19,6 +19,7 @@ public class WsHallEffectInput implements IInput {
 	private IntegerSubject activeSensor;
 	I2C i2c;
 
+	private int lastHallEffectSensor = -1;
 	private int selectedHallEffectSensor = -1;
 
 	private java.util.Timer updater;
@@ -92,9 +93,13 @@ public class WsHallEffectInput implements IInput {
 				this.selectedHallEffectSensor = buffer[0];
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 		}
 		SmartDashboard.putNumber("READ HALL POSITION", selectedHallEffectSensor);
+		if(selectedHallEffectSensor != lastHallEffectSensor) {
+			System.out.println("READ HALL EFFECT: " + selectedHallEffectSensor);
+		}
+		lastHallEffectSensor = selectedHallEffectSensor;
 	}
 
 	// Start 10Hz polling

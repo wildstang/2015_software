@@ -11,11 +11,11 @@ import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
 
 public class BackGrabber extends Subsystem implements IObserver {
-	
+
 	boolean backGrabberEngaged;
 	int selectedHallEffectSensor = 600;
 	int wantedHallEffectSensor = 1;
-	
+
 	public BackGrabber(String name) {
 		super(name);
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_8);
@@ -23,23 +23,20 @@ public class BackGrabber extends Subsystem implements IObserver {
 
 	@Override
 	public void init() {
-		backGrabberEngaged = false;	
+		backGrabberEngaged = false;
 	}
 
 	@Override
 	public void update() {
-		if(selectedHallEffectSensor == wantedHallEffectSensor && backGrabberEngaged)
-		{
+		if (selectedHallEffectSensor == wantedHallEffectSensor && backGrabberEngaged) {
 			getOutput(OutputManager.BACK_GRABBER_INDEX).set(new Boolean(true));
-		}
-		else if(!backGrabberEngaged)
-		{
+		} else if (!backGrabberEngaged) {
 			getOutput(OutputManager.BACK_GRABBER_INDEX).set(new Boolean(false));
 		}
-		
+
 		LogManager.getInstance().addObject("Back Grabber", backGrabberEngaged);
 	}
-	
+
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) {

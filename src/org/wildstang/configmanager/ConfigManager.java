@@ -94,7 +94,7 @@ public class ConfigManager {
 		OutputManager.getInstance().notifyConfigChange();
 		SubsystemContainer.getInstance().notifyConfigChange();
 		// Dump everything to sout
-		for(DataElement e : config) {
+		for (DataElement e : config) {
 			System.out.println(e.getKey() + ":" + e.getValue());
 		}
 
