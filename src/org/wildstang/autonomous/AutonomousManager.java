@@ -3,7 +3,10 @@ package org.wildstang.autonomous;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.wildstang.autonomous.programs.AutonomousProgramDrive;
 import org.wildstang.autonomous.programs.AutonomousProgramSleeper;
+import org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStrafe;
+import org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight;
 import org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile;
 import org.wildstang.autonomous.programs.test.AutonomousProgramDrivePatterns;
 import org.wildstang.autonomous.programs.test.AutonomousProgramTestParallel;
@@ -14,6 +17,7 @@ import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -29,16 +33,19 @@ public class AutonomousManager implements IObserver {
 	private boolean programFinished, programRunning, lockInSwitch;
 	private static AutonomousManager instance = null;
 	private AutonomousStartPositionEnum currentPosition;
+	private SendableChooser chooser;
+	private SendableChooser lockinChooser;
 
 	private AutonomousManager() {
 		definePrograms();
-		InputManager.getInstance().getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX).getSubject().attach(this);
-		InputManager.getInstance().getOiInput(InputManager.LOCK_IN_SWITCH_INDEX).getSubject().attach(this);
-		InputManager.getInstance().getOiInput(InputManager.START_POSITION_SELECTOR_INDEX).getSubject().attach(this);
 		selectorSwitch = 0;
 		lockInSwitch = false;
 		positionSwitch = 0;
 		currentPosition = AutonomousStartPositionEnum.UNKNOWN;
+		chooser = new SendableChooser();
+		lockinChooser = new SendableChooser();
+		lockinChooser.addDefault("Unlocked", false);
+		lockinChooser.addObject("Locked", true);
 		clear();
 	}
 
@@ -53,10 +60,13 @@ public class AutonomousManager implements IObserver {
 		if (runningProgram.isFinished()) {
 			programFinished = true;
 		}
+		lockInSwitch = ((Boolean) lockinChooser.getSelected());
+		lockedProgram = !lockInSwitch ? currentProgram : 0;
+		SmartDashboard.putString("Locked Autonomous Program", programs.get(lockedProgram).toString());
 	}
 
 	public void startCurrentProgram() {
-		runningProgram = (AutonomousProgram) programs.get(lockedProgram);
+		runningProgram = (AutonomousProgram) chooser.getSelected();
 		Logger.getLogger().always("Auton", "Running Autonomous Program", runningProgram.toString());
 		runningProgram.initialize();
 		SmartDashboard.putString("Running Autonomous Program", runningProgram.toString());
@@ -159,9 +169,14 @@ public class AutonomousManager implements IObserver {
 		addProgram(new AutonomousProgramDriveDistanceMotionProfile());
 		addProgram(new AutonomousProgramDrivePatterns());
 		addProgram(new AutonomousProgramTestParallel());
+		addProgram(new AutonomousProgramThreeTotesStrafe());
+		addProgram(new AutonomousProgramThreeTotesStraight());
+		addProgram(new AutonomousProgramTestParallel());
+		addProgram(new AutonomousProgramDrive());
 	}
 
 	private void addProgram(AutonomousProgram program) {
 		programs.add(program);
+		chooser.addObject(program.toString(), program);
 	}
 }

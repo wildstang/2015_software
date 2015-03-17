@@ -11,7 +11,7 @@ import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftBottom;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftMiddle;
 import org.wildstang.config.DoubleConfigFileParameter;
 
-public class AutonomousProgramThreeTotes extends AutonomousProgram {
+public class AutonomousProgramThreeTotesStrafe extends AutonomousProgram {
 
 	protected final DoubleConfigFileParameter DISTANCE_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "DistanceToDrive", 175.0);
 
