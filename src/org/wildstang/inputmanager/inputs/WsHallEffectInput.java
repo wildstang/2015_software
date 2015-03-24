@@ -1,7 +1,5 @@
 package org.wildstang.inputmanager.inputs;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.TimerTask;
 
 import org.wildstang.inputmanager.base.IInput;
@@ -93,13 +91,14 @@ public class WsHallEffectInput implements IInput {
 				this.selectedHallEffectSensor = buffer[0];
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 		SmartDashboard.putNumber("READ HALL POSITION", selectedHallEffectSensor);
 		if(selectedHallEffectSensor != lastHallEffectSensor) {
 			System.out.println("READ HALL EFFECT: " + selectedHallEffectSensor);
 		}
 		lastHallEffectSensor = selectedHallEffectSensor;
+		activeSensor.setValue(selectedHallEffectSensor);
 	}
 
 	// Start 10Hz polling

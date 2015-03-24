@@ -81,7 +81,8 @@ public class OutputManager {
 	public static final int SHIFTER_INDEX = 4;
 	public static final int LIFT_A_INDEX = 5;
 	public static final int LIFT_B_INDEX = 6;
-	public static final int INTAKE_WHEELS_INDEX = 7;
+	public static final int INTAKE_WHEEL_LEFT_INDEX = 7;
+	public static final int INTAKE_WHEEL_RIGHT_INDEX = 12;
 	public static final int INTAKE_PISTONS_INDEX = 8;
 	public static final int PAWL_RELEASE_INDEX = 9;
 	public static final int TOP_CONTAINMENT_INDEX = 10;
@@ -102,7 +103,8 @@ public class OutputManager {
 		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsDriveSpeed("Strafe Drive Speed", 4, 5));
 		outputs.put(LIFT_A_INDEX, new WsVictor("Lift A", 6));
 		outputs.put(LIFT_B_INDEX, new WsVictor("Lift B", 7));
-		outputs.put(INTAKE_WHEELS_INDEX, new WsTalon("Intake Wheels", 9));
+		outputs.put(INTAKE_WHEEL_RIGHT_INDEX, new WsTalon("Right Intake Wheels", 9));
+		outputs.put(INTAKE_WHEEL_LEFT_INDEX, new WsTalon("Left Intake Wheel", 8));
 
 		// SOLENOIDS
 		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));

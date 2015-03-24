@@ -17,14 +17,9 @@ public class DriveBaseDistancePidInput implements IPidInput {
 	}
 
 	public double pidRead() {
-		double /* left_encoder_value, */right_encoder_value, final_encoder_value;
-		// left_encoder_value = ((DriveBase)
-		// SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE)).getLeftDistance();
+		double right_encoder_value;
 		right_encoder_value = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).getRightDistance();
-		final_encoder_value = (/* left_encoder_value + */right_encoder_value)/*
-																			 * / 2
-																			 */;
-		SmartDashboard.putNumber("Distance: ", final_encoder_value);
-		return final_encoder_value;
+		SmartDashboard.putNumber("Distance: ", right_encoder_value);
+		return right_encoder_value;
 	}
 }

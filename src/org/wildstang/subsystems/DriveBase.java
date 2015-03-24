@@ -60,6 +60,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static double driveBaseStrafeValue = 0.0;
 	private static boolean antiTurboFlag = false;
 	private static boolean superAntiTurboFlag = false;
+	private static boolean strafeReverseDirectionFlag = false;
 	private static boolean turboFlag = false;
 	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
 	private static boolean quickTurnFlag = false;
@@ -99,6 +100,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private double DECELERATION_VELOCITY_THRESHOLD = 48; // Velocity in in/sec
 	private double DECELERATION_MOTOR_SPEED = 0.3;
 	private static boolean driveDistancePidEnabled = false;
+	private static double outputScaleFactor = 1.0;
 	private static DoubleConfigFileParameter WHEEL_DIAMETER_config;
 	private static DoubleConfigFileParameter TICKS_PER_ROTATION_config;
 	private static DoubleConfigFileParameter THROTTLE_LOW_GEAR_ACCEL_FACTOR_config;
@@ -124,6 +126,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static BooleanConfigFileParameter USE_LEFT_SIDE_FOR_OFFSET_config;
 	private static DoubleConfigFileParameter SUPER_ANTITURBO_FACTOR_config;
 	private static BooleanConfigFileParameter ACCELERATION_ENABLED_config;
+	private static DoubleConfigFileParameter OUTPUT_SCALE_FACTOR_config;
 
 	public DriveBase(String name) {
 		super(name);
@@ -153,10 +156,11 @@ public class DriveBase extends Subsystem implements IObserver {
 		QUICK_TURN_ANTITURBO_config = new DoubleConfigFileParameter(this.getClass().getName(), "quick_turn_antiturbo", 10.0);
 		SUPER_ANTITURBO_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "super_antiturbo_factor", 0.5);
 		ACCELERATION_ENABLED_config = new BooleanConfigFileParameter(this.getClass().getName(), "acceleration_enabled", false);
+		OUTPUT_SCALE_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "output_scale_factor", 1.0);
 
 		// Anti-Turbo button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_8);
-		// Turbo button
+		// Strafe direction button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_7);
 		// Shifter Button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_6);
@@ -188,6 +192,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		antiTurboFlag = false;
 		superAntiTurboFlag = false;
 		turboFlag = false;
+		strafeReverseDirectionFlag = false;
 		// Default to low gear
 		shifterFlag = DoubleSolenoid.Value.kReverse;
 		quickTurnFlag = false;
@@ -429,6 +434,10 @@ public class DriveBase extends Subsystem implements IObserver {
 				newStrafe = -ANTI_TURBO_MAX_DEFLECTION;
 			}
 		}
+		
+		if(strafeReverseDirectionFlag) {
+			newStrafe *= -1;
+		}
 
 		if (ACCELERATION_ENABLED) {
 			// Use the acceleration factor based on the current shifter state
@@ -601,6 +610,9 @@ public class DriveBase extends Subsystem implements IObserver {
 			strafeMotorSpeed = 0.0;
 		}
 
+		leftMotorSpeed *= outputScaleFactor;
+		rightMotorSpeed *= outputScaleFactor;
+
 		SmartDashboard.putNumber("LeftDriveSpeed", leftMotorSpeed);
 		SmartDashboard.putNumber("RightDriveSpeed", rightMotorSpeed);
 		SmartDashboard.putNumber("StrafeDriveSpeed", strafeMotorSpeed);
@@ -760,6 +772,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		QUICK_TURN_ANTITURBO = QUICK_TURN_ANTITURBO_config.getValue();
 		SUPER_ANTITURBO_FACTOR = SUPER_ANTITURBO_FACTOR_config.getValue();
 		ACCELERATION_ENABLED = ACCELERATION_ENABLED_config.getValue();
+		outputScaleFactor = OUTPUT_SCALE_FACTOR_config.getValue();
 		driveSpeedPid.notifyConfigChange();
 	}
 
@@ -771,7 +784,7 @@ public class DriveBase extends Subsystem implements IObserver {
 				shifterFlag = shifterFlag.equals(DoubleSolenoid.Value.kForward) ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward;
 			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_7) {
-			turboFlag = ((BooleanSubject) subjectThatCaused).getValue();
+			strafeReverseDirectionFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_5) {
 			superAntiTurboFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_7) {

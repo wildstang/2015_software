@@ -7,7 +7,7 @@ import org.wildstang.subsystems.base.SubsystemContainer;
 public class AutonomousStepSetIntakeIn extends AutonomousStep {
 
 	public void initialize() {
-		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setWheels(true, false);
+		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setWheels(1.0);
 		finished = true;
 	}
 

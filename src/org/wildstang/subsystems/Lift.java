@@ -98,7 +98,7 @@ public class Lift extends Subsystem implements IObserver {
 	}
 
 	public void init() {
-
+		liftPresetController.clearPresetAndDisable();
 	}
 
 	public void setPreset(LiftPreset preset) {
@@ -192,7 +192,7 @@ public class Lift extends Subsystem implements IObserver {
 			break;
 		case PAWL_DISENGAGING:
 			// Disable the winch motor
-			winchMotorSpeed = 0;
+			winchMotorSpeed = 0.5;
 			// Make sure the pawl piston is still disengaged
 			pawlEngaged = false;
 			if (System.currentTimeMillis() > lastPawlStateChange + PAWL_DISENGAGE_TIME_MILLIS) {
@@ -326,6 +326,10 @@ public class Lift extends Subsystem implements IObserver {
 		}
 
 		public void moveToPreset(LiftPreset preset) {
+			// Reset the initial state variables
+			initiallyAboveTarget = false;
+			initiallyBelowTarget = false;
+			// Note the current preset
 			currentPreset = preset;
 			double initialPotVoltage = (double) Subsystem.getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 			if (initialPotVoltage > preset.getWantedVoltage()) {
@@ -344,11 +348,13 @@ public class Lift extends Subsystem implements IObserver {
 			double potVoltage = (double) Subsystem.getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 			int activeHallEffect = (int) Subsystem.getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject().getValueAsObject();
 			double winchMotorSpeed = 0.0;
+			System.out.println("Active hall effect: " + activeHallEffect + "; target he: " + currentPreset.getHallEffectIndex());
 			switch (currentState) {
 			case STATE_ENABLED:
 				if (activeHallEffect == currentPreset.getHallEffectIndex()) {
 					// We've reached the preset
 					currentState = PresetState.STATE_DISABLED;
+					currentWinchMotorSpeed = 0.0;
 				} else {
 					double wantedPotVoltage = currentPreset.getWantedVoltage();
 					if (initiallyBelowTarget) {
@@ -375,8 +381,8 @@ public class Lift extends Subsystem implements IObserver {
 							winchMotorSpeed *= scaleFactor;
 						}
 						
-						if(winchMotorSpeed > -0.2) {
-							winchMotorSpeed = -0.2;
+						if(winchMotorSpeed > -0.05) {
+							winchMotorSpeed = -0.05;
 						}
 					} else {
 						// We must have started exactly at the target

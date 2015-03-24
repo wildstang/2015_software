@@ -11,36 +11,40 @@ org.wildstang.logger.Logger.logLevel="DEBUG"
 //                                //
 //********************************//
 
+// Intake
+org.wildstang.subsystems.IntakeWheels.intake_turn_scale_factor=0.62
+org.wildstang.subsystems.IntakeWheels.intake_turn_horizontal_radius=0.15
+
 //Lift and lift presets
-org.wildstang.subsystems.Lift.pot_top_voltage=2.9
-org.wildstang.subsystems.Lift.pot_bottom_voltage=1.395
+org.wildstang.subsystems.Lift.pot_top_voltage=3.132
+org.wildstang.subsystems.Lift.pot_bottom_voltage=1.7
 org.wildstang.subsystems.Lift.top_slow_down_radius=0.2
 org.wildstang.subsystems.Lift.bottom_slow_down_radius=0.4
 org.wildstang.subsystems.Lift.preset_slow_down_radius=0.2
 org.wildstang.subsystems.Lift.pawl_engage_time_millis=50
-org.wildstang.subsystems.Lift.pawl_disengage_time_millis=150
+org.wildstang.subsystems.Lift.pawl_disengage_time_millis=50
 // 5 cycles corresponds to 100ms
 org.wildstang.subsystems.Lift.min_cycles_winch_motor_at_zero=3
 org.wildstang.subsystems.Lift.input_deadband=0.05
 org.wildstang.subsystems.Lift.output_deadband=0.15
-org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=1.395
+org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=1.7
 org.wildstang.subsystems.lift.LiftPreset.level_two.wanted_voltage=2.5
 org.wildstang.subsystems.lift.LiftPreset.level_two.hall_effect_index=2
 org.wildstang.subsystems.lift.LiftPreset.level_three.wanted_voltage=2.5
 org.wildstang.subsystems.lift.LiftPreset.level_three.hall_effect_index=3
-org.wildstang.subsystems.lift.LiftPreset.level_four.wanted_voltage=2.484
+org.wildstang.subsystems.lift.LiftPreset.level_four.wanted_voltage=2.419
 org.wildstang.subsystems.lift.LiftPreset.level_four.hall_effect_index=4
-org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=2.9
+org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=3.132
 org.wildstang.subsystems.lift.LiftPreset.one_bin.wanted_voltage=2.000
 
 
 //Drive Base
 org.wildstang.subsystems.DriveBase.wheel_diameter=6.0
 org.wildstang.subsystems.DriveBase.ticks_per_rotation=360.0
-org.wildstang.subsystems.DriveBase.throttle_low_gear_accel_factor=0.6
-org.wildstang.subsystems.DriveBase.heading_low_gear_accel_factor=0.5
-org.wildstang.subsystems.DriveBase.throttle_high_gear_accel_factor=0.35
-org.wildstang.subsystems.DriveBase.heading_high_gear_accel_factor=0.25
+org.wildstang.subsystems.DriveBase.throttle_low_gear_accel_factor=0.7
+org.wildstang.subsystems.DriveBase.heading_low_gear_accel_factor=0.6
+org.wildstang.subsystems.DriveBase.throttle_high_gear_accel_factor=0.45
+org.wildstang.subsystems.DriveBase.heading_high_gear_accel_factor=0.35
 org.wildstang.subsystems.DriveBase.strafe_accel_factor=0.25
 org.wildstang.subsystems.DriveBase.max_high_gear_percent=0.8
 org.wildstang.subsystems.DriveBase.encoder_gear_ratio=6.6
@@ -57,7 +61,8 @@ org.wildstang.subsystems.DriveBase.stopping_distance_at_max_speed_lowgear=10.0
 org.wildstang.subsystems.DriveBase.quick_turn_cap=10.0
 org.wildstang.subsystems.DriveBase.quick_turn_antiturbo=10.0
 org.wildstang.subsystems.DriveBase.super_antiturbo_factor=0.30
-org.wildstang.subsystems.DriveBase.acceleration_enabled=false
+org.wildstang.subsystems.DriveBase.acceleration_enabled=true
+org.wildstang.subsystems.DriveBase.output_scale_factor=0.5
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.p=0.0
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.i=0.0
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.d=0.0
@@ -86,21 +91,16 @@ org.wildstang.autonomous.programs.AutonomousProgramSleeper.ForceStopAtStep=0
 org.wildstang.autonomous.steps.catapult.AutonomousStepFireCatapult.DisableAutonomousCatapultFire=false
 
 //Testing Programs
+org.wildstang.autonomous.programs.AutonomousProgramDrive.DistanceToDrive=100
 org.wildstang.autonomous.programs.test.AutonomousProgramTestImages.TimeDelay=70
 org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile.unknown.distance=175.0
 org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile.unknown.heading=0.0
 org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile.ForceStopAtStep=0
-org.wildstang.subsystems.arm.ArmPreset.yPreset.WantedBackArmAngle=30
-org.wildstang.subsystems.arm.ArmPreset.yPreset.WantedFrontArmAngle=30
-org.wildstang.subsystems.arm.ArmPreset.mPreset.WantedBackArmAngle=144
-org.wildstang.subsystems.arm.ArmPreset.mPreset.WantedFrontArmAngle=144
-org.wildstang.subsystems.arm.ArmPreset.cPreset.WantedBackArmAngle=270
-org.wildstang.subsystems.arm.ArmPreset.cPreset.WantedFrontArmAngle=150
-org.wildstang.subsystems.arm.ArmPreset.aPreset.WantedBackArmAngle=200
-org.wildstang.subsystems.arm.ArmPreset.aPreset.WantedFrontArmAngle=200
-org.wildstang.autonomous.programs.AutonomousProgramYMCA.ForceStopAtStep=0
-org.wildstang.subsystems.arm.ArmPreset.DefaultPosition.WantedBackArmAngle=180
-org.wildstang.subsystems.arm.ArmPreset.DefaultPosition.WantedFrontArmAngle=180
+
+
+// Drive
+org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Duration=2000
+org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Speed=0.5
 
 
 //********************************//

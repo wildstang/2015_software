@@ -1,5 +1,6 @@
 package org.wildstang.subsystems;
 
+import org.wildstang.config.DoubleConfigFileParameter;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
@@ -14,26 +15,55 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeWheels extends Subsystem implements IObserver {
-	double intakeWheelsValue = 0.0;
+	
+	private static DoubleConfigFileParameter INTAKE_TURN_SCALE_FACTOR_CONFIG;
+	private static DoubleConfigFileParameter INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG;
+	
+	private static double INTAKE_TURN_SCALE_FACTOR = 0.5;
+	private static double INTAKE_TURN_HORIZONTAL_RADIUS = 0.15;
+	
 	boolean intakePistonsOut = false;
 
 	public IntakeWheels(String name) {
 		super(name);
-	}
-
-	public void init() {
+		
+		INTAKE_TURN_SCALE_FACTOR_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_turn_scale_factor", 0.5);
+		INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_turn_horizontal_radius", 0.15);
+		
 		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_5);
 	}
 
-	public void update() {
-		intakeWheelsValue = -((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
+	public void init() {
+		intakePistonsOut = false;
+		
+		INTAKE_TURN_SCALE_FACTOR = INTAKE_TURN_SCALE_FACTOR_CONFIG.getValue();
+		INTAKE_TURN_HORIZONTAL_RADIUS = INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG.getValue();
+	}
 
-		getOutput(OutputManager.INTAKE_WHEELS_INDEX).set(new Double(intakeWheelsValue));
+	public void update() {
+		double intakeValue = -((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
+		double turnValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_X))).doubleValue();
+		
+		double rightMotorSpeed, leftMotorSpeed;
+		if(Math.abs(turnValue) > INTAKE_TURN_HORIZONTAL_RADIUS) {
+			// Manipulator wants to turn the tote instead of intaking it
+			rightMotorSpeed = turnValue * INTAKE_TURN_SCALE_FACTOR;
+			leftMotorSpeed = (-turnValue) * INTAKE_TURN_SCALE_FACTOR;
+		} else {
+			// Do a straight intake
+			rightMotorSpeed = intakeValue;
+			leftMotorSpeed = intakeValue;
+		}
+
+		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(leftMotorSpeed));
+		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(rightMotorSpeed));
 		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsOut));
 
-		LogManager.getInstance().addObject("Intake Wheels", intakeWheelsValue);
+		LogManager.getInstance().addObject("Intake Wheel Right", rightMotorSpeed);
+		LogManager.getInstance().addObject("Intake Wheel Left", leftMotorSpeed);
 		LogManager.getInstance().addObject("Intake Pistons", intakePistonsOut);
-		SmartDashboard.putNumber("Intake Wheels Speed", intakeWheelsValue);
+		SmartDashboard.putNumber("Intake Wheel Right", rightMotorSpeed);
+		SmartDashboard.putNumber("Intake Wheel Left", leftMotorSpeed);
 		SmartDashboard.putBoolean("Intake Pistons Out", intakePistonsOut);
 	}
 
@@ -51,14 +81,18 @@ public class IntakeWheels extends Subsystem implements IObserver {
 		intakePistonsOut = state;
 	}
 
-	public void setWheels(boolean in, boolean out) {
-		if (in && !out) {
-			intakeWheelsValue = 1;
-		} else if (out && !in) {
-			intakeWheelsValue = -1;
-		} else {
-			intakeWheelsValue = 0;
-		}
+	public void setWheels(double speed) {
+		//intakeWheelsValue = speed;
+	}
+	
+	public void setWheels(double rightSpeed, double leftSpeed) {
+		
+	}
+	
+	@Override
+	public void notifyConfigChange() {
+		INTAKE_TURN_SCALE_FACTOR = INTAKE_TURN_SCALE_FACTOR_CONFIG.getValue();
+		INTAKE_TURN_HORIZONTAL_RADIUS = INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG.getValue();
 	}
 
 }

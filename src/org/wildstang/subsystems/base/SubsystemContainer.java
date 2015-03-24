@@ -30,14 +30,10 @@ public class SubsystemContainer {
 	}
 
 	public void init() {
-		SmartDashboard.putString("subsystems-init", "Initing subsystems!");
 		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
 			Subsystem sys = entry.getValue();
-			if (sys != null) {
-				SmartDashboard.putString("subsystems-init", "Ayyy, subsystem not null, inited!");
+			if(sys != null) {
 				sys.init();
-			} else {
-				SmartDashboard.putString("subsystems-init", "Damn, it's null.");
 			}
 		}
 	}
@@ -58,14 +54,10 @@ public class SubsystemContainer {
 	 * Triggers all subsystems to be updated.
 	 */
 	public void update() {
-		SmartDashboard.putString("subsystems-update", "Updating subsystems!");
 		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
 			Subsystem sys = entry.getValue();
-			if (sys != null) {
-				SmartDashboard.putString("subsystems-update", "Ayyy, subsystem not null, updated!");
+			if(sys != null) {
 				sys.update();
-			} else {
-				SmartDashboard.putString("subsystems-update", "Damn, it's null.");
 			}
 		}
 	}
@@ -109,7 +101,7 @@ public class SubsystemContainer {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
 		// subsystems.put(LED_INDEX, new LED(LED));
 		// subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
-		subsystems.put(TEST_INDEX, new Test());
+		//subsystems.put(TEST_INDEX, new Test());
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
