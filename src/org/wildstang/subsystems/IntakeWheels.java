@@ -18,15 +18,18 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	
 	private static DoubleConfigFileParameter INTAKE_TURN_SCALE_FACTOR_CONFIG;
 	private static DoubleConfigFileParameter INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG;
+	private static DoubleConfigFileParameter INTAKE_DEADBAND_CONFIG;
 	
 	private static double INTAKE_TURN_SCALE_FACTOR = 0.5;
 	private static double INTAKE_TURN_HORIZONTAL_RADIUS = 0.15;
+	private static double INTAKE_DEADBAND = .05;
 	
 	boolean intakePistonsOut = false;
 
 	public IntakeWheels(String name) {
 		super(name);
-		
+
+		INTAKE_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_deadband", 0.05);
 		INTAKE_TURN_SCALE_FACTOR_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_turn_scale_factor", 0.5);
 		INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_turn_horizontal_radius", 0.15);
 		
@@ -51,6 +54,14 @@ public class IntakeWheels extends Subsystem implements IObserver {
 			leftMotorSpeed = (-turnValue) * INTAKE_TURN_SCALE_FACTOR;
 		} else {
 			// Do a straight intake
+			if(1 - INTAKE_DEADBAND <= intakeValue)
+			{
+				intakeValue = 1;
+			}
+			if(-1 + INTAKE_DEADBAND >= intakeValue)
+			{
+				intakeValue = -1;
+			}
 			rightMotorSpeed = intakeValue;
 			leftMotorSpeed = intakeValue;
 		}
@@ -82,11 +93,13 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 
 	public void setWheels(double speed) {
-		//intakeWheelsValue = speed;
+		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(-speed));
+		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(-speed));
 	}
 	
 	public void setWheels(double rightSpeed, double leftSpeed) {
-		
+		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(-leftSpeed));
+		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(-rightSpeed));
 	}
 	
 	@Override
