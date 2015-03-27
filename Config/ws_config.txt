@@ -104,11 +104,9 @@ org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Duration=
 org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Speed=0.5
 
 // Three Tote
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Init_Duration=500;
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Init_Speed=0.5;
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Between_Duration=1500;
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Between_Speed=0.5;
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Duration=2000;
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Between_Duration=2500;
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Between_Speed=0.6;
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Duration=3000;
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Speed=0.5;
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Back_Duration=250;
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Back_Speed=-0.25;

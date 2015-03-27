@@ -24,6 +24,8 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	private static double INTAKE_TURN_HORIZONTAL_RADIUS = 0.15;
 	private static double INTAKE_DEADBAND = .05;
 	
+	private static boolean auto = false;
+	
 	boolean intakePistonsOut = false;
 
 	public IntakeWheels(String name) {
@@ -46,36 +48,43 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	public void update() {
 		double intakeValue = -((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_Y))).doubleValue();
 		double turnValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_RIGHT_JOYSTICK_X))).doubleValue();
-		
-		double rightMotorSpeed, leftMotorSpeed;
-		if(Math.abs(turnValue) > INTAKE_TURN_HORIZONTAL_RADIUS) {
-			// Manipulator wants to turn the tote instead of intaking it
-			rightMotorSpeed = turnValue * INTAKE_TURN_SCALE_FACTOR;
-			leftMotorSpeed = (-turnValue) * INTAKE_TURN_SCALE_FACTOR;
-		} else {
-			// Do a straight intake
-			if(1 - INTAKE_DEADBAND <= intakeValue)
-			{
-				intakeValue = 1;
-			}
-			if(-1 + INTAKE_DEADBAND >= intakeValue)
-			{
-				intakeValue = -1;
-			}
-			rightMotorSpeed = intakeValue;
-			leftMotorSpeed = intakeValue;
+		if(intakeValue != 0 || turnValue != 0)
+		{
+			auto = false;
 		}
+		
+		if(!auto)
+		{
+			
+			double rightMotorSpeed, leftMotorSpeed;
+			if(Math.abs(turnValue) > INTAKE_TURN_HORIZONTAL_RADIUS) {
+				// Manipulator wants to turn the tote instead of intaking it
+				rightMotorSpeed = turnValue * INTAKE_TURN_SCALE_FACTOR;
+				leftMotorSpeed = (-turnValue) * INTAKE_TURN_SCALE_FACTOR;
+			} else {
+				// Do a straight intake
+				if(1 - INTAKE_DEADBAND <= intakeValue)
+				{
+					intakeValue = 1;
+				}
+				if(-1 + INTAKE_DEADBAND >= intakeValue)
+				{
+					intakeValue = -1;
+				}
+				rightMotorSpeed = intakeValue;
+				leftMotorSpeed = intakeValue;
+			}
 
-		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(leftMotorSpeed));
-		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(rightMotorSpeed));
+			getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(leftMotorSpeed));
+			getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(rightMotorSpeed));
+			LogManager.getInstance().addObject("Intake Wheel Right", rightMotorSpeed);
+			LogManager.getInstance().addObject("Intake Wheel Left", leftMotorSpeed);
+			SmartDashboard.putNumber("Intake Wheel Right", rightMotorSpeed);
+			SmartDashboard.putNumber("Intake Wheel Left", leftMotorSpeed);
+		}
 		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsOut));
-
-		LogManager.getInstance().addObject("Intake Wheel Right", rightMotorSpeed);
-		LogManager.getInstance().addObject("Intake Wheel Left", leftMotorSpeed);
-		LogManager.getInstance().addObject("Intake Pistons", intakePistonsOut);
-		SmartDashboard.putNumber("Intake Wheel Right", rightMotorSpeed);
-		SmartDashboard.putNumber("Intake Wheel Left", leftMotorSpeed);
 		SmartDashboard.putBoolean("Intake Pistons Out", intakePistonsOut);
+		LogManager.getInstance().addObject("Intake Pistons", intakePistonsOut);
 	}
 
 	@Override
@@ -91,8 +100,14 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	public void setPistons(boolean state) {
 		intakePistonsOut = state;
 	}
-
+	
+	public void endAuto()
+	{
+		auto = false;
+	}
+	
 	public void setWheels(double speed) {
+		auto = true;
 		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(-speed));
 		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(-speed));
 	}
