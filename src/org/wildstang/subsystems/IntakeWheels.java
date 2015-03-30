@@ -22,7 +22,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	
 	private static double INTAKE_TURN_SCALE_FACTOR = 0.5;
 	private static double INTAKE_TURN_HORIZONTAL_RADIUS = 0.15;
-	private static double INTAKE_DEADBAND = .05;
+	private static double INTAKE_DEADBAND = .2;
 	
 	private static boolean auto = false;
 	
@@ -31,7 +31,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	public IntakeWheels(String name) {
 		super(name);
 
-		INTAKE_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_deadband", 0.05);
+		INTAKE_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_deadband", 0.2);
 		INTAKE_TURN_SCALE_FACTOR_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_turn_scale_factor", 0.5);
 		INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "intake_turn_horizontal_radius", 0.15);
 		
@@ -113,6 +113,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 	
 	public void setWheels(double rightSpeed, double leftSpeed) {
+		auto = true;
 		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(-leftSpeed));
 		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(-rightSpeed));
 	}

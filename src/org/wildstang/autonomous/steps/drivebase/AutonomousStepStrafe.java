@@ -16,14 +16,14 @@ public class AutonomousStepStrafe extends AutonomousStep {
 	}
 
 	public void initialize() {
-		finished = true;
 		if (left) {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, new Double(Math.max(Math.min(throttle, 1.0), -1.0)));
+			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, -Math.abs(throttle));
 		} else if (right) {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, new Double(Math.max(Math.min(throttle, 1.0), -1.0)));
+			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, Math.abs(throttle));
 		} else {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, new Double(Math.max(Math.min(throttle, 1.0), -1.0)));
+			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, 0);
 		}
+		finished = true;
 	}
 
 	public void update() {
