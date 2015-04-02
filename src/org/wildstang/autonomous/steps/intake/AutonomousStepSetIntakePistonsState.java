@@ -9,7 +9,6 @@ public class AutonomousStepSetIntakePistonsState extends AutonomousStep {
 
 	public AutonomousStepSetIntakePistonsState(boolean open) {
 		this.open = open;
-		
 	}
 
 	public void initialize() {

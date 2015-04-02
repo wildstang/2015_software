@@ -40,6 +40,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	public void init() {
 		intakePistonsOut = false;
+		auto = false;
 		
 		INTAKE_TURN_SCALE_FACTOR = INTAKE_TURN_SCALE_FACTOR_CONFIG.getValue();
 		INTAKE_TURN_HORIZONTAL_RADIUS = INTAKE_TURN_HORIZONTAL_RADIUS_CONFIG.getValue();

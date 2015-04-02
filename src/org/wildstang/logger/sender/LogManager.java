@@ -63,7 +63,7 @@ public class LogManager {
 	 * been added via one of the add methods.
 	 */
 	public void queueCurrentLogsForSending() {
-
+/*
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for (LogObject object : objects) {
@@ -78,6 +78,7 @@ public class LogManager {
 			map.put(debug.getName(), debug.getObject());
 		}
 		debugDataSender.addToQueue(map);
+		*/
 
 		objects.clear();
 		debugs.clear();
@@ -123,7 +124,7 @@ public class LogManager {
 		public void run() {
 			while (true) {
 				// If we lose connection or the connection attempt times out, continually retry.
-
+/*
 				try {
 					socket = new Socket(host, port);
 					outputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -140,7 +141,7 @@ public class LogManager {
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+				}*/
 
 			}
 		}

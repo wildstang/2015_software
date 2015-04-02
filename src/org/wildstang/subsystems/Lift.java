@@ -342,6 +342,7 @@ public class Lift extends Subsystem implements IObserver {
 
 		public void computePresetState() {
 			if(currentPreset == null) {
+				System.out.println("IT'S NULL.");
 				currentWinchMotorSpeed = 0.0;
 				return;
 			}
@@ -349,6 +350,7 @@ public class Lift extends Subsystem implements IObserver {
 			int activeHallEffect = (int) Subsystem.getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject().getValueAsObject();
 			double winchMotorSpeed = 0.0;
 			System.out.println("Active hall effect: " + activeHallEffect + "; target he: " + currentPreset.getHallEffectIndex());
+			System.out.println("Current preset state: " + currentState.name());
 			switch (currentState) {
 			case STATE_ENABLED:
 				if (activeHallEffect == currentPreset.getHallEffectIndex()) {

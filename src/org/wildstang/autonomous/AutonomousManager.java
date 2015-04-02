@@ -6,7 +6,6 @@ import java.util.List;
 import org.wildstang.autonomous.programs.AutonomousProgramDrive;
 import org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime;
 import org.wildstang.autonomous.programs.AutonomousProgramSleeper;
-import org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStrafe;
 import org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight;
 import org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile;
 import org.wildstang.autonomous.programs.test.AutonomousProgramDrivePatterns;
