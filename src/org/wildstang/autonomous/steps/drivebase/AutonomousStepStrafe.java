@@ -1,28 +1,20 @@
 package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.inputmanager.base.InputManager;
-import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.subsystems.DriveBase;
+import org.wildstang.subsystems.base.SubsystemContainer;
 
 public class AutonomousStepStrafe extends AutonomousStep {
 
-	private double throttle;
-	private boolean left, right;
+	private double strafe;
 
-	public AutonomousStepStrafe(double throttle, boolean left, boolean right) {
-		this.throttle = throttle;
-		this.left = left;
-		this.right = right;
+	// Left is negative, right is positive
+	public AutonomousStepStrafe(double strafe) {
+		this.strafe = strafe;
 	}
 
 	public void initialize() {
-		if (left) {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, -Math.abs(throttle));
-		} else if (right) {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, Math.abs(throttle));
-		} else {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_STRAFE, 0);
-		}
+		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).overrideStrafeValue(strafe);
 		finished = true;
 	}
 

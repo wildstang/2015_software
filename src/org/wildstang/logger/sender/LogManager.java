@@ -63,7 +63,7 @@ public class LogManager {
 	 * been added via one of the add methods.
 	 */
 	public void queueCurrentLogsForSending() {
-/*
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for (LogObject object : objects) {
@@ -78,7 +78,7 @@ public class LogManager {
 			map.put(debug.getName(), debug.getObject());
 		}
 		debugDataSender.addToQueue(map);
-		*/
+		
 
 		objects.clear();
 		debugs.clear();
@@ -86,11 +86,11 @@ public class LogManager {
 	}
 
 	public void addDebug(Object message) {
-		// debugs.add(new LogObject("Debug", message));
+		debugs.add(new LogObject("Debug", message));
 	}
 
 	public void addObject(String name, Object obj) {
-		// objects.add(new LogObject(name, obj));
+		objects.add(new LogObject(name, obj));
 	}
 
 	/**

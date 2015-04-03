@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.wildstang.subsystems.BackGrabber;
-import org.wildstang.subsystems.TopContainment;
+import org.wildstang.subsystems.Containment;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.Lift;
@@ -105,7 +105,7 @@ public class SubsystemContainer {
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
-		subsystems.put(TOP_CONTAINMENT_INDEX, new TopContainment("Bin Gripper"));
+		subsystems.put(TOP_CONTAINMENT_INDEX, new Containment("Bin Gripper"));
 		subsystems.put(BACK_GRABBER_INDEX, new BackGrabber("Back Grabber"));
 	}
 }

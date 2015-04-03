@@ -1,25 +1,17 @@
 package org.wildstang.autonomous.programs;
 
 import org.wildstang.autonomous.AutonomousProgram;
-import org.wildstang.autonomous.steps.AutonomousParallelStepGroup;
-import org.wildstang.autonomous.steps.AutonomousSerialStepGroup;
 import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveManual;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepQuickTurn;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepSetShifter;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepStartDriveUsingMotionProfile;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepStopDriveUsingMotionProfile;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepStrafe;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepWaitForDriveMotionProfile;
 import org.wildstang.autonomous.steps.intake.AutonomousStepIntakeEndAuto;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakeIn;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakeOff;
-import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakeOut;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakePistonsState;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSpinIntakeLeft;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSpinIntakeRight;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftBottom;
-import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftMiddle;
 import org.wildstang.autonomous.steps.lift.AutonomousStepSetLiftTop;
 import org.wildstang.config.DoubleConfigFileParameter;
 import org.wildstang.config.IntegerConfigFileParameter;
@@ -108,9 +100,9 @@ public class AutonomousProgramThreeTotesStraight  extends AutonomousProgram
 		
 		//scores tote
 		//strafes over to scoring zone (doesn't work)
-		addStep(new AutonomousStepStrafe(SCORE_SPEED.getValue(), false, true));
+		addStep(new AutonomousStepStrafe(SCORE_SPEED.getValue()));
 		addStep(new AutonomousStepDelay(SCORE_TIME.getValue()));
-		addStep(new AutonomousStepStrafe(0.0, false, false));
+		addStep(new AutonomousStepStrafe(0.0));
 		//sets down totes (may be unneeded, just dragging totes)
 		addStep(new AutonomousStepSetLiftBottom());
 		addStep(new AutonomousStepDelay(2000));

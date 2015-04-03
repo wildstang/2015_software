@@ -12,6 +12,7 @@ import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.IntegerSubject;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.subsystems.base.SubsystemContainer;
 import org.wildstang.subsystems.lift.LiftPreset;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -163,6 +164,8 @@ public class Lift extends Subsystem implements IObserver {
 					pawlState = PawlState.PAWL_ENGAGING;
 					lastPawlStateChange = System.currentTimeMillis();
 					pawlEngaged = true;
+					// Engage containment
+					((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).setContainmentEngaged(true);
 				}
 			} else {
 				// Winch is still moving, reset cycle count
@@ -186,13 +189,16 @@ public class Lift extends Subsystem implements IObserver {
 				// We should disengage the pawl
 				pawlState = PawlState.PAWL_DISENGAGING;
 				lastPawlStateChange = System.currentTimeMillis();
+				// Disengage containment
+				((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).setContainmentEngaged(false);
 			}
 			// Disable the winch until the pawl is disengaged
 			winchMotorSpeed = 0;
 			break;
 		case PAWL_DISENGAGING:
-			// Disable the winch motor
-			winchMotorSpeed = 0.5;
+			// Run the winch motor slightly up so that the pawl doesn't get caught
+			// winchMotorSpeed = 0.5;
+			winchMotorSpeed = 0.0;
 			// Make sure the pawl piston is still disengaged
 			pawlEngaged = false;
 			if (System.currentTimeMillis() > lastPawlStateChange + PAWL_DISENGAGE_TIME_MILLIS) {
@@ -229,7 +235,8 @@ public class Lift extends Subsystem implements IObserver {
 		}
 
 		// If we're in manual override mode, don't stop at the top or bottom
-		if (!manualOverride) {
+		// If the pawl is disengaging, allow the winch to run up no matter what
+		if (!manualOverride && !(pawlState == PawlState.PAWL_DISENGAGING)) {
 			// If we're trying to move down and we're close to the bottom of the
 			// lift, slow down.
 			if (potVoltage < (BOTTOM_VOLTAGE + BOTTOM_SLOW_DOWN_RADIUS) && potVoltage > BOTTOM_VOLTAGE && scaledMotorSpeed < 0) {
