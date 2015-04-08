@@ -26,7 +26,7 @@ public class AutonomousProgramOneTote extends AutonomousProgram {
 		pickup.addStep(new AutonomousStepSetLiftBottom());
 		pickup.addStep(new AutonomousStepSetLiftMiddle());
 		drive.addStep(pickup);
-		
+
 		AutonomousSerialStepGroup score = new AutonomousSerialStepGroup("Score Totes");
 		score.addStep(new AutonomousStepQuickTurn(45));
 		score.addStep(new AutonomousStepStartDriveUsingMotionProfile(15, 1.0));

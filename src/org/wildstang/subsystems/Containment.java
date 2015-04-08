@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Containment extends Subsystem implements IObserver {
 
-	boolean containmentEngaged;
-	boolean containmentToggleRequested;
-	boolean containmentOverride;
+	boolean engaged = false;
+	boolean manipulatorRequestedToggle = false;
+	boolean newStateRequested = false;
+	boolean requestedState = false;
+	boolean overrideEnabled = false;
 
 	public Containment(String name) {
 		super(name);
@@ -25,37 +27,60 @@ public class Containment extends Subsystem implements IObserver {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		containmentEngaged = false;
-		containmentOverride = false;
-		containmentToggleRequested = false;
+		engaged = false;
+		manipulatorRequestedToggle = false;
+		newStateRequested = false;
+		requestedState = false;
+		overrideEnabled = false;
 	}
 
 	@Override
 	public void update() {
-		// If override is pressed and a toggle was requested, toggle the containment state
-		if(containmentOverride && containmentToggleRequested) {
-			containmentEngaged = !containmentEngaged;
+		if (overrideEnabled && manipulatorRequestedToggle) {
+			// If override is pressed and a toggle was requested by the manipulator, toggle the containment state.
+			engaged = !engaged;
+		} else if (!overrideEnabled && newStateRequested) {
+			// If override is not pressed and requestContainmentEngaged/Disengaged() was called, accept the requested
+			// state.
+			engaged = requestedState;
 		}
-		containmentToggleRequested = false;
-		// Closed Bin Grips means open piston
-		getOutput(OutputManager.TOP_CONTAINMENT_INDEX).set(new Boolean(containmentEngaged));
-		SmartDashboard.putBoolean("Containment Engaged", containmentEngaged);
+
+		// Reset temporary variables
+		manipulatorRequestedToggle = false;
+		newStateRequested = false;
+
+		getOutput(OutputManager.TOP_CONTAINMENT_INDEX).set(new Boolean(engaged));
+		SmartDashboard.putBoolean("Containment Engaged", engaged);
 	}
-	
-	public void setContainmentEngaged(boolean engaged) {
-		this.containmentEngaged = engaged;
+
+	/**
+	 * Requests the containment to engage. Based on the state of the override button, this request may or may not be
+	 * honored.
+	 */
+	public void requestContainmentEngaged() {
+		this.newStateRequested = true;
+		this.requestedState = true;
+	}
+
+	/**
+	 * Requests the containment to disengage. Based on the state of the override button, this request may or may not be
+	 * honored.
+	 */
+	public void requestContainmentDisengaged() {
+		this.newStateRequested = true;
+		this.requestedState = false;
 	}
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
 		// TODO Auto-generated method stub
 		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_6) {
-			if (((BooleanSubject) subjectThatCaused).getValue()) {
-				containmentToggleRequested = true;
+			if (((BooleanSubject) subjectThatCaused).getValue() == true) {
+				// Watch for a false-to-true transition to catch a button press
+				manipulatorRequestedToggle = true;
 			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8) {
-			containmentOverride = ((BooleanSubject) subjectThatCaused).getValue();
+			overrideEnabled = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
 }

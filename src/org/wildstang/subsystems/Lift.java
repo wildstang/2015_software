@@ -21,7 +21,8 @@ public class Lift extends Subsystem implements IObserver {
 
 	private static DoubleConfigFileParameter LIFT_POT_BOTTOM_VOLTAGE_CONFIG, LIFT_POT_TOP_VOLTAGE_CONFIG, TOP_SLOW_DOWN_RADIUS_CONFIG, BOTTOM_SLOW_DOWN_RADIUS_CONFIG, PRESET_SLOW_DOWN_RADIUS_CONFIG;
 	private static IntegerConfigFileParameter PAWL_ENGAGE_TIME_MILLIS_CONFIG, PAWL_DISENGAGE_TIME_MILLIS_CONFIG, MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG;
-	private static DoubleConfigFileParameter LIFT_INPUT_DEADBAND_CONFIG, LIFT_OUTPUT_DEADBAND_CONFIG;
+	private static DoubleConfigFileParameter LIFT_INPUT_DEADBAND_CONFIG, LIFT_OUTPUT_DEADBAND_CONFIG, LIFT_PAWL_ENABLE_DEADBAND_CONFIG;
+	private static DoubleConfigFileParameter LIFT_DOWN_ACCELERATION_FACTOR_CONFIG;
 
 	private static long PAWL_ENGAGE_TIME_MILLIS;
 	private static long PAWL_DISENGAGE_TIME_MILLIS;
@@ -32,22 +33,25 @@ public class Lift extends Subsystem implements IObserver {
 	private static double TOP_SLOW_DOWN_RADIUS;
 	private static double BOTTOM_SLOW_DOWN_RADIUS;
 	private static double PRESET_SLOW_DOWN_RADIUS;
+	private static double LIFT_DOWN_ACCELERATION_FACTOR;
+	private static double PAWL_ENABLE_DEADBAND;
 
 	private static LiftPreset BOTTOM_PRESET = new LiftPreset("bottom", 0, 1);
 	private static LiftPreset LEVEL_TWO_PRESET = new LiftPreset("level_two", 1, 2);
 	private static LiftPreset LEVEL_THREE_PRESET = new LiftPreset("level_three", 150, 3);
 	private static LiftPreset LEVEL_FOUR_PRESET = new LiftPreset("level_four", 2.484, 4);
 	private static LiftPreset TOP_PRESET = new LiftPreset("top", 5, 5);
-	
+
 	private static LiftPresetController liftPresetController = new LiftPresetController();
 
 	double potVoltage;
 	int selectedHallEffectSensor;
 
 	boolean manualOverride;
+	
+	double winchSpeed = 0;
 
 	// PAWL STUFF
-
 	private enum PawlState {
 		PAWL_DISENGAGED, PAWL_ENGAGING, PAWL_ENGAGED, PAWL_DISENGAGING
 	}
@@ -72,6 +76,8 @@ public class Lift extends Subsystem implements IObserver {
 		MIN_CYCLES_WINCH_MOTOR_AT_ZERO_CONFIG = new IntegerConfigFileParameter(this.getClass().getName(), "min_cycles_winch_motor_at_zero", 5);
 		LIFT_INPUT_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "input_deadband", 0.05);
 		LIFT_OUTPUT_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "output_deadband", 0.2);
+		LIFT_PAWL_ENABLE_DEADBAND_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "pawl_enable_deadband", 0.02);
+		LIFT_DOWN_ACCELERATION_FACTOR_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "down_acceleration_factor", 0.5);
 
 		BOTTOM_VOLTAGE = LIFT_POT_BOTTOM_VOLTAGE_CONFIG.getValue();
 		TOP_VOLTAGE = LIFT_POT_TOP_VOLTAGE_CONFIG.getValue();
@@ -83,6 +89,8 @@ public class Lift extends Subsystem implements IObserver {
 		TOP_SLOW_DOWN_RADIUS = TOP_SLOW_DOWN_RADIUS_CONFIG.getValue();
 		BOTTOM_SLOW_DOWN_RADIUS = BOTTOM_SLOW_DOWN_RADIUS_CONFIG.getValue();
 		PRESET_SLOW_DOWN_RADIUS = PRESET_SLOW_DOWN_RADIUS_CONFIG.getValue();
+		LIFT_DOWN_ACCELERATION_FACTOR = LIFT_DOWN_ACCELERATION_FACTOR_CONFIG.getValue();
+		PAWL_ENABLE_DEADBAND = LIFT_PAWL_ENABLE_DEADBAND_CONFIG.getValue();
 
 		registerForSensorNotification(InputManager.HALL_EFFECT_INDEX);
 
@@ -124,28 +132,28 @@ public class Lift extends Subsystem implements IObserver {
 		potVoltage = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
 
 		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LIFT))).doubleValue();
-		double winchMotorSpeed = 0;
+		double newWinchSpeed = 0;
 
 		if (Math.abs(winchJoystickValue) > 0) {
 			// Immediately disable presets if the manipulator wants manual control.
 			liftPresetController.clearPresetAndDisable();
-			winchMotorSpeed = winchJoystickValue;
+			newWinchSpeed = winchJoystickValue;
 		} else if (liftPresetController.isPresetRunning()) {
 			System.out.println("preset active");
 			liftPresetController.computePresetState();
-			winchMotorSpeed = liftPresetController.getMotorOutput();
+			newWinchSpeed = liftPresetController.getMotorOutput();
 
-			System.out.println("Preset motor speed: " + winchMotorSpeed);
+			System.out.println("Preset motor speed: " + newWinchSpeed);
 
 		} else {
 			// Pid is disabled, manipulator is not requesting any movement.
 			// Stop the winch
-			winchMotorSpeed = 0.0;
+			newWinchSpeed = 0.0;
 		}
-		
+
 		// Run the output through the deadband
-		if(Math.abs(winchMotorSpeed) < LIFT_OUTPUT_DEADBAND) {
-			winchMotorSpeed = 0.0;
+		if (Math.abs(newWinchSpeed) < LIFT_OUTPUT_DEADBAND) {
+			newWinchSpeed = 0.0;
 		}
 
 		// State machine time!
@@ -155,7 +163,7 @@ public class Lift extends Subsystem implements IObserver {
 		case PAWL_DISENGAGED:
 			// the pawl is not engaged, allow the winch to turn freely
 			pawlEngaged = false;
-			if (Math.abs(winchMotorSpeed) < LIFT_INPUT_DEADBAND) {
+			if (Math.abs(newWinchSpeed) < LIFT_INPUT_DEADBAND) {
 				// Begin counting cycles that the motor speed is within deadband
 				numCyclesWinchMotorAtZero++;
 				if (numCyclesWinchMotorAtZero > MIN_CYCLES_WINCH_MOTOR_AT_ZERO) {
@@ -165,7 +173,7 @@ public class Lift extends Subsystem implements IObserver {
 					lastPawlStateChange = System.currentTimeMillis();
 					pawlEngaged = true;
 					// Engage containment
-					((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).setContainmentEngaged(true);
+					((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).requestContainmentEngaged();
 				}
 			} else {
 				// Winch is still moving, reset cycle count
@@ -174,7 +182,7 @@ public class Lift extends Subsystem implements IObserver {
 			break;
 		case PAWL_ENGAGING:
 			// Disable the winch motor
-			winchMotorSpeed = 0;
+			newWinchSpeed = 0;
 			// Make sure the pawl piston is still engaged
 			pawlEngaged = true;
 			if (System.currentTimeMillis() > lastPawlStateChange + PAWL_ENGAGE_TIME_MILLIS) {
@@ -185,20 +193,20 @@ public class Lift extends Subsystem implements IObserver {
 		case PAWL_ENGAGED:
 			// Make sure the pawl piston is still engaged
 			pawlEngaged = true;
-			if (Math.abs(winchMotorSpeed) > LIFT_INPUT_DEADBAND) {
+			if (Math.abs(newWinchSpeed) > LIFT_INPUT_DEADBAND) {
 				// We should disengage the pawl
 				pawlState = PawlState.PAWL_DISENGAGING;
 				lastPawlStateChange = System.currentTimeMillis();
 				// Disengage containment
-				((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).setContainmentEngaged(false);
+				((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).requestContainmentDisengaged();
 			}
 			// Disable the winch until the pawl is disengaged
-			winchMotorSpeed = 0;
+			newWinchSpeed = 0;
 			break;
 		case PAWL_DISENGAGING:
 			// Run the winch motor slightly up so that the pawl doesn't get caught
 			// winchMotorSpeed = 0.5;
-			winchMotorSpeed = 0.0;
+			newWinchSpeed = 0.0;
 			// Make sure the pawl piston is still disengaged
 			pawlEngaged = false;
 			if (System.currentTimeMillis() > lastPawlStateChange + PAWL_DISENGAGE_TIME_MILLIS) {
@@ -206,6 +214,11 @@ public class Lift extends Subsystem implements IObserver {
 				pawlState = PawlState.PAWL_DISENGAGED;
 			}
 			break;
+		}
+		
+		// Apply acceleration when moving down
+		if(newWinchSpeed < 0) {
+			newWinchSpeed = winchSpeed + (newWinchSpeed - winchSpeed) * LIFT_DOWN_ACCELERATION_FACTOR;
 		}
 
 		/*
@@ -216,15 +229,15 @@ public class Lift extends Subsystem implements IObserver {
 		 * To simplify calculations, we'll convert any negative values to positive ones before mapping between ranges.
 		 * After the mapping, we'll convert back to a negative number.
 		 */
-		boolean isWinchMotorSpeedNegative = (winchMotorSpeed < 0 ? true : false);
+		boolean isWinchMotorSpeedNegative = (newWinchSpeed < 0 ? true : false);
 		if (isWinchMotorSpeedNegative) {
-			winchMotorSpeed *= -1;
+			newWinchSpeed *= -1;
 		}
 
 		double scaledMotorSpeed;
 
-		if (winchMotorSpeed > LIFT_INPUT_DEADBAND) {
-			scaledMotorSpeed = (winchMotorSpeed - LIFT_INPUT_DEADBAND) / (1.0 - LIFT_INPUT_DEADBAND) * (1.0 - 0.7) + 0.7;
+		if (newWinchSpeed > LIFT_INPUT_DEADBAND) {
+			scaledMotorSpeed = (newWinchSpeed - LIFT_INPUT_DEADBAND) / (1.0 - LIFT_INPUT_DEADBAND) * (1.0 - 0.7) + 0.7;
 		} else {
 			scaledMotorSpeed = 0;
 		}
@@ -257,6 +270,9 @@ public class Lift extends Subsystem implements IObserver {
 				scaledMotorSpeed = 0;
 			}
 		}
+		
+		// Store the new winch speed for use with acceleration
+		winchSpeed = scaledMotorSpeed;
 
 		// Invert the output so we go in the right direction
 		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(scaledMotorSpeed * -1));
@@ -266,9 +282,9 @@ public class Lift extends Subsystem implements IObserver {
 		// pawl engaged)
 		getOutput(OutputManager.PAWL_RELEASE_INDEX).set(new Boolean(!pawlEngaged));
 
-		LogManager.getInstance().addObject("Winch", scaledMotorSpeed);
-		LogManager.getInstance().addObject("Lift Pot", potVoltage);
-		LogManager.getInstance().addObject("Pawl Engaged", pawlEngaged);
+		LogManager.getInstance().addLog("Winch", scaledMotorSpeed);
+		LogManager.getInstance().addLog("Lift Pot", potVoltage);
+		LogManager.getInstance().addLog("Pawl Engaged", pawlEngaged);
 
 		SmartDashboard.putNumber("Winch", scaledMotorSpeed);
 		SmartDashboard.putNumber("Lift Pot", potVoltage);
@@ -311,6 +327,8 @@ public class Lift extends Subsystem implements IObserver {
 		TOP_SLOW_DOWN_RADIUS = TOP_SLOW_DOWN_RADIUS_CONFIG.getValue();
 		BOTTOM_SLOW_DOWN_RADIUS = BOTTOM_SLOW_DOWN_RADIUS_CONFIG.getValue();
 		PRESET_SLOW_DOWN_RADIUS = PRESET_SLOW_DOWN_RADIUS_CONFIG.getValue();
+		LIFT_DOWN_ACCELERATION_FACTOR = LIFT_DOWN_ACCELERATION_FACTOR_CONFIG.getValue();
+		PAWL_ENABLE_DEADBAND = LIFT_PAWL_ENABLE_DEADBAND_CONFIG.getValue();
 
 		// Notify presets
 		BOTTOM_PRESET.notifyConfigChange();
@@ -348,7 +366,7 @@ public class Lift extends Subsystem implements IObserver {
 		}
 
 		public void computePresetState() {
-			if(currentPreset == null) {
+			if (currentPreset == null) {
 				System.out.println("IT'S NULL.");
 				currentWinchMotorSpeed = 0.0;
 				return;
@@ -389,8 +407,8 @@ public class Lift extends Subsystem implements IObserver {
 							double scaleFactor = (potVoltage - wantedPotVoltage) / PRESET_SLOW_DOWN_RADIUS;
 							winchMotorSpeed *= scaleFactor;
 						}
-						
-						if(winchMotorSpeed > -0.05) {
+
+						if (winchMotorSpeed > -0.05) {
 							winchMotorSpeed = -0.05;
 						}
 					} else {
@@ -398,7 +416,7 @@ public class Lift extends Subsystem implements IObserver {
 						currentState = PresetState.STATE_DISABLED;
 					}
 				}
-				
+
 				currentWinchMotorSpeed = winchMotorSpeed;
 				break;
 			case STATE_DISABLED:
@@ -415,7 +433,7 @@ public class Lift extends Subsystem implements IObserver {
 		public boolean isPresetRunning() {
 			return (currentState != PresetState.STATE_DISABLED);
 		}
-		
+
 		public void clearPresetAndDisable() {
 			currentPreset = null;
 			currentState = PresetState.STATE_DISABLED;

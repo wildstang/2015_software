@@ -3,13 +3,7 @@ package org.wildstang.autonomous;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wildstang.autonomous.programs.AutonomousProgramDrive;
-import org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime;
-import org.wildstang.autonomous.programs.AutonomousProgramSleeper;
-import org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight;
-import org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile;
-import org.wildstang.autonomous.programs.test.AutonomousProgramDrivePatterns;
-import org.wildstang.autonomous.programs.test.AutonomousProgramTestParallel;
+import org.wildstang.autonomous.programs.*;
 import org.wildstang.logger.Logger;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
@@ -37,12 +31,12 @@ public class AutonomousManager implements IObserver {
 		lockinChooser = new SendableChooser();
 		lockinChooser.addDefault("Unlocked", false);
 		lockinChooser.addObject("Locked", true);
-		
+
 		definePrograms();
-		
+
 		SmartDashboard.putData("Select Autonomous Program", chooser);
 		SmartDashboard.putData("Lock in auto program", lockinChooser);
-		
+
 		clear();
 	}
 
@@ -68,7 +62,7 @@ public class AutonomousManager implements IObserver {
 		runningProgram.initialize();
 		SmartDashboard.putString("Running Autonomous Program", runningProgram.toString());
 	}
-	
+
 	public void startSleeper() {
 		runningProgram = programs.get(0);
 		runningProgram.initialize();
@@ -97,49 +91,33 @@ public class AutonomousManager implements IObserver {
 		return runningProgram.toString();
 	}
 
-	/*public String getSelectedProgramName() {
-		return programs.get(currentProgram).toString();
-	}
-
-	public String getLockedProgramName() {
-		return programs.get(lockedProgram).toString();
-	}*/
+	/*
+	 * public String getSelectedProgramName() { return programs.get(currentProgram).toString(); }
+	 * 
+	 * public String getLockedProgramName() { return programs.get(lockedProgram).toString(); }
+	 */
 
 	public AutonomousStartPositionEnum getStartPosition() {
 		return currentPosition;
 	}
 
-	
 	public void acceptNotification(Subject cause) {
 		/*
-		if (cause instanceof DoubleSubject) {
-			if (cause == InputManager.getInstance().getOiInput(InputManager.START_POSITION_SELECTOR_INDEX).getSubject()) {
-				positionSwitch = (float) ((DoubleSubject) cause).getValue();
-				if (positionSwitch >= 3.3) {
-					positionSwitch = 3.3f;
-				}
-				if (positionSwitch < 0) {
-					positionSwitch = 0;
-				}
-				currentPosition = AutonomousStartPositionEnum.getEnumFromValue((int) (Math.floor((positionSwitch / 3.4) * AutonomousStartPositionEnum.POSITION_COUNT)));
-				SmartDashboard.putString("Current Start Position", currentPosition.toString());
-			} else if (cause == InputManager.getInstance().getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX).getSubject()) {
-				selectorSwitch = (float) ((DoubleSubject) cause).getValue();
-				if (selectorSwitch >= 3.3) {
-					selectorSwitch = 3.3f;
-				}
-				if (selectorSwitch < 0) {
-					selectorSwitch = 0;
-				}
-				currentProgram = (int) (Math.floor((selectorSwitch / 3.4) * programs.size()));
-				SmartDashboard.putString("Current Autonomous Program", programs.get(currentProgram).toString());
-			}
-		} else if (cause instanceof BooleanSubject) {
-			lockInSwitch = ((BooleanSubject) cause).getValue();
-			lockedProgram = !lockInSwitch ? currentProgram : 0;
-			SmartDashboard.putString("Locked Autonomous Program", programs.get(lockedProgram).toString());
-		}
-		*/
+		 * if (cause instanceof DoubleSubject) { if (cause ==
+		 * InputManager.getInstance().getOiInput(InputManager.START_POSITION_SELECTOR_INDEX).getSubject()) {
+		 * positionSwitch = (float) ((DoubleSubject) cause).getValue(); if (positionSwitch >= 3.3) { positionSwitch =
+		 * 3.3f; } if (positionSwitch < 0) { positionSwitch = 0; } currentPosition =
+		 * AutonomousStartPositionEnum.getEnumFromValue((int) (Math.floor((positionSwitch / 3.4) *
+		 * AutonomousStartPositionEnum.POSITION_COUNT))); SmartDashboard.putString("Current Start Position",
+		 * currentPosition.toString()); } else if (cause ==
+		 * InputManager.getInstance().getOiInput(InputManager.AUTO_PROGRAM_SELECTOR_INDEX).getSubject()) {
+		 * selectorSwitch = (float) ((DoubleSubject) cause).getValue(); if (selectorSwitch >= 3.3) { selectorSwitch =
+		 * 3.3f; } if (selectorSwitch < 0) { selectorSwitch = 0; } currentProgram = (int) (Math.floor((selectorSwitch /
+		 * 3.4) * programs.size())); SmartDashboard.putString("Current Autonomous Program",
+		 * programs.get(currentProgram).toString()); } } else if (cause instanceof BooleanSubject) { lockInSwitch =
+		 * ((BooleanSubject) cause).getValue(); lockedProgram = !lockInSwitch ? currentProgram : 0;
+		 * SmartDashboard.putString("Locked Autonomous Program", programs.get(lockedProgram).toString()); }
+		 */
 	}
 
 	public static AutonomousManager getInstance() {
@@ -150,14 +128,9 @@ public class AutonomousManager implements IObserver {
 	}
 
 	/*
-	public void setProgram(int index) {
-		if (index >= programs.size() || index < 0) {
-			index = 0;
-		}
-		currentProgram = index;
-		lockedProgram = currentProgram;
-	}
-	*/
+	 * public void setProgram(int index) { if (index >= programs.size() || index < 0) { index = 0; } currentProgram =
+	 * index; lockedProgram = currentProgram; }
+	 */
 
 	public void setPosition(int index) {
 		if (index >= AutonomousStartPositionEnum.POSITION_COUNT) {
@@ -170,14 +143,15 @@ public class AutonomousManager implements IObserver {
 		addProgram(new AutonomousProgramSleeper()); // Always leave Sleeper as
 													// 0. Other parts of the
 													// code assume 0 is Sleeper.
-		addProgram(new AutonomousProgramDriveDistanceMotionProfile());
-		//addProgram(new AutonomousProgramDrivePatterns());
-		//addProgram(new AutonomousProgramTestParallel());
-		//addProgram(new AutonomousProgramThreeTotesStrafe());
+		//addProgram(new AutonomousProgramDriveDistanceMotionProfile());
+		// addProgram(new AutonomousProgramDrivePatterns());
+		// addProgram(new AutonomousProgramTestParallel());
+		// addProgram(new AutonomousProgramThreeTotesStrafe());
 		addProgram(new AutonomousProgramThreeTotesStraight());
-		addProgram(new AutonomousProgramTestParallel());
-		addProgram(new AutonomousProgramDrive());
+		//addProgram(new AutonomousProgramTestParallel());
+		// addProgram(new AutonomousProgramDrive());
 		addProgram(new AutonomousProgramDriveAtSpeedForTime());
+		addProgram(new AutonomousProgramKnockOverBin());
 	}
 
 	private void addProgram(AutonomousProgram program) {

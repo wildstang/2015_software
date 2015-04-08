@@ -32,7 +32,7 @@ public class SubsystemContainer {
 	public void init() {
 		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
 			Subsystem sys = entry.getValue();
-			if(sys != null) {
+			if (sys != null) {
 				sys.init();
 			}
 		}
@@ -56,7 +56,7 @@ public class SubsystemContainer {
 	public void update() {
 		for (Map.Entry<Integer, Subsystem> entry : subsystems.entrySet()) {
 			Subsystem sys = entry.getValue();
-			if(sys != null) {
+			if (sys != null) {
 				sys.update();
 			}
 		}
@@ -101,7 +101,7 @@ public class SubsystemContainer {
 		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
 		// subsystems.put(LED_INDEX, new LED(LED));
 		// subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
-		//subsystems.put(TEST_INDEX, new Test());
+		// subsystems.put(TEST_INDEX, new Test());
 		subsystems.put(LIFT_INDEX, new Lift("Lift"));
 		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
 		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));

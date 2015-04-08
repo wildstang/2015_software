@@ -116,7 +116,6 @@ public class Logger {
 		}
 
 		logMessage(Level.DEBUG, c, id, message);
-		LogManager.getInstance().addDebug(message);
 	}
 
 	/**

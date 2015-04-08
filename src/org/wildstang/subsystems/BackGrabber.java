@@ -34,7 +34,7 @@ public class BackGrabber extends Subsystem implements IObserver {
 			getOutput(OutputManager.BACK_GRABBER_INDEX).set(new Boolean(false));
 		}
 
-		LogManager.getInstance().addObject("Back Grabber", backGrabberEngaged);
+		LogManager.getInstance().addLog("Back Grabber", backGrabberEngaged);
 	}
 
 	@Override

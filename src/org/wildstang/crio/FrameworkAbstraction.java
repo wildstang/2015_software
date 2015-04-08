@@ -18,7 +18,7 @@ import org.wildstang.subsystems.base.SubsystemContainer;
  * @author Alex
  */
 public class FrameworkAbstraction {
-	
+
 	private static long lastCycleTime = 0;
 
 	public static void robotInit(String fileName) {
@@ -47,6 +47,7 @@ public class FrameworkAbstraction {
 
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
+		LogManager.getInstance().endLog();
 	}
 
 	public static void disabledPeriodic() {
@@ -58,6 +59,7 @@ public class FrameworkAbstraction {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance().startCurrentProgram();
+		LogManager.getInstance().startLog();
 	}
 
 	public static void autonomousPeriodic() {
@@ -72,6 +74,7 @@ public class FrameworkAbstraction {
 	public static void teleopInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
+		LogManager.getInstance().startLog();
 	}
 
 	public static void teleopPeriodic() {

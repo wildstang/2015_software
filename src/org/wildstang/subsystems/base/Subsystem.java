@@ -94,7 +94,7 @@ public abstract class Subsystem {
 	public static IInput getSensorInput(int index) {
 		return InputManager.getInstance().getSensorInput(index);
 	}
-	
+
 	public static Subsystem getSubsystem(int index) {
 		return SubsystemContainer.getInstance().getSubsystem(index);
 	}
