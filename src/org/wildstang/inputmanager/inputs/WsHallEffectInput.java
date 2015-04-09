@@ -94,7 +94,7 @@ public class WsHallEffectInput implements IInput {
 			e.printStackTrace();
 		}
 		SmartDashboard.putNumber("READ HALL POSITION", selectedHallEffectSensor);
-		if(selectedHallEffectSensor != lastHallEffectSensor) {
+		if (selectedHallEffectSensor != lastHallEffectSensor) {
 			System.out.println("READ HALL EFFECT: " + selectedHallEffectSensor);
 		}
 		lastHallEffectSensor = selectedHallEffectSensor;

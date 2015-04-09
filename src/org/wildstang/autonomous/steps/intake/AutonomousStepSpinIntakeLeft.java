@@ -4,10 +4,10 @@ import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
-public class AutonomousStepSetIntakeOut extends AutonomousStep {
+public class AutonomousStepSpinIntakeLeft extends AutonomousStep {
 
 	public void initialize() {
-		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setWheels(1.0);
+		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setWheels(-1.0, 1.0);
 		finished = true;
 	}
 
@@ -15,7 +15,7 @@ public class AutonomousStepSetIntakeOut extends AutonomousStep {
 	}
 
 	public String toString() {
-		return "Set intake out";
+		return "Spin Intake Left";
 	}
 
 }

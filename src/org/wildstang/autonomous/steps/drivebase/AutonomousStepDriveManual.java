@@ -5,8 +5,8 @@
 package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.inputmanager.base.InputManager;
-import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.subsystems.DriveBase;
+import org.wildstang.subsystems.base.SubsystemContainer;
 
 /**
  *
@@ -23,13 +23,9 @@ public class AutonomousStepDriveManual extends AutonomousStep {
 	}
 
 	public void initialize() {
+		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).overrideThrottleValue(throttle);
+		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).overrideHeadingValue(heading);
 		finished = true;
-		if (throttle != KEEP_PREVIOUS_STATE) {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_THROTTLE, new Double(Math.max(Math.min(throttle, 1.0), -1.0)));
-		}
-		if (heading != KEEP_PREVIOUS_STATE) {
-			InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_HEADING, new Double(Math.max(Math.min(heading, 1.0), -1.0)));
-		}
 	}
 
 	public void update() {

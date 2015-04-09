@@ -19,6 +19,8 @@ import org.wildstang.subsystems.base.SubsystemContainer;
  */
 public class FrameworkAbstraction {
 
+	private static long lastCycleTime = 0;
+
 	public static void robotInit(String fileName) {
 		try {
 			ConfigManager.getInstance().setConfigFileName(fileName);
@@ -45,6 +47,7 @@ public class FrameworkAbstraction {
 
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
+		LogManager.getInstance().endLog();
 	}
 
 	public static void disabledPeriodic() {
@@ -56,6 +59,7 @@ public class FrameworkAbstraction {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance().startCurrentProgram();
+		LogManager.getInstance().startLog();
 	}
 
 	public static void autonomousPeriodic() {
@@ -70,14 +74,21 @@ public class FrameworkAbstraction {
 	public static void teleopInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
+		LogManager.getInstance().startLog();
 	}
 
 	public static void teleopPeriodic() {
+		long cycleStartTime = System.currentTimeMillis();
+		System.out.println("Cycle separation time: " + (cycleStartTime - lastCycleTime));
 		InputManager.getInstance().updateOiData();
 		InputManager.getInstance().updateSensorData();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
 		LogManager.getInstance().queueCurrentLogsForSending();
+		long cycleEndTime = System.currentTimeMillis();
+		long cycleLength = cycleEndTime - cycleStartTime;
+		System.out.println("Cycle time: " + cycleLength);
+		lastCycleTime = cycleEndTime;
 	}
 
 }

@@ -31,7 +31,7 @@ import java.util.concurrent.LinkedBlockingDeque;
  * 
  * To queue the current logs for sending, call the (aptly-named) method queueCurrentLogsForSending(). This will send all
  * the current logs to a background thread, which will queue them to be sent over to the offboard processor. To avoid
- * any issues with running out of memory, the queue is limited to 20 objects.
+ * any issues with running out of memory, the queue is limited to storing 20 objects at any given time.
  * 
  * @author Nathan
  *
@@ -39,10 +39,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class LogManager {
 	private static LogManager instance = null;
 	private List<LogObject> objects = new ArrayList<>();
-	private List<LogObject> debugs = new ArrayList<>();
 	private long startTime = System.currentTimeMillis();
 	private LogSender logDataSender;
-	private LogSender debugDataSender;
 
 	public static LogManager getInstance() {
 		if (instance == null) {
@@ -54,7 +52,6 @@ public class LogManager {
 
 	private void init() {
 		new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
-		new Thread(debugDataSender = new LogSender("beaglebone.local", 1112)).start();
 	}
 
 	/**
@@ -69,27 +66,23 @@ public class LogManager {
 		for (LogObject object : objects) {
 			map.put(object.getName(), object.getObject());
 		}
-		logDataSender.addToQueue(map);
-
-		// for sending debug messages
-		map = new HashMap<String, Object>();
-		map.put("Timestamp", System.currentTimeMillis() - startTime);
-		for (LogObject debug : debugs) {
-			map.put(debug.getName(), debug.getObject());
-		}
-		debugDataSender.addToQueue(map);
+		logDataSender.addLogToQueue(map);
 
 		objects.clear();
-		debugs.clear();
 
 	}
 
-	public void addDebug(Object message) {
-		// debugs.add(new LogObject("Debug", message));
+	public void addLog(String name, Object obj) {
+		objects.add(new LogObject(name, obj));
 	}
-
-	public void addObject(String name, Object obj) {
-		// objects.add(new LogObject(name, obj));
+	
+	
+	public void startLog() {
+		logDataSender.addCommandToQueue("startlog");
+	}
+	
+	public void endLog() {
+		logDataSender.addCommandToQueue("endlog");
 	}
 
 	/**
@@ -103,7 +96,8 @@ public class LogManager {
 		private Socket socket;
 		private ObjectOutputStream outputStream;
 		// Limit queue to 20 objects; if we don't we'll run out of memory after a while.
-		private BlockingDeque<Object> queue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
+		private BlockingDeque<Object> logQueue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
+		private BlockingDeque<Object> commandQueue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
 		private String host;
 		private int port;
 
@@ -112,11 +106,18 @@ public class LogManager {
 			this.host = host;
 		}
 
-		public void addToQueue(Object o) {
-			while (queue.size() >= QUEUE_MAX_SIZE) {
-				queue.removeLast();
+		public void addLogToQueue(Object o) {
+			while (logQueue.size() >= QUEUE_MAX_SIZE) {
+				logQueue.removeLast();
 			}
-			queue.addFirst(o);
+			logQueue.addFirst(o);
+		}
+
+		public void addCommandToQueue(Object o) {
+			while (commandQueue.size() >= QUEUE_MAX_SIZE) {
+				commandQueue.removeLast();
+			}
+			commandQueue.addFirst(o);
 		}
 
 		@Override
@@ -131,14 +132,32 @@ public class LogManager {
 					while (true) {
 						Object o;
 						try {
-							while ((o = queue.takeLast()) != null) {
+							// send commands first
+							while ((o = commandQueue.takeLast()) != null) {
+								outputStream.writeObject(o);
+							}
+							
+							// now send any logs
+							while ((o = logQueue.takeLast()) != null) {
 								outputStream.writeObject(o);
 							}
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
-				} catch (IOException e) {
+				} catch (IOException e) { //
+					e.printStackTrace();
+					System.out.println("Unable to open socket. Retrying in a few seconds.");
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException ex) {
+						ex.printStackTrace();
+					}
+				}
+
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 

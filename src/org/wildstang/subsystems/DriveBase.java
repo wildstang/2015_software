@@ -128,6 +128,9 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static BooleanConfigFileParameter ACCELERATION_ENABLED_config;
 	private static DoubleConfigFileParameter OUTPUT_SCALE_FACTOR_config;
 
+	private double overriddenThrottle, overriddenHeading, overriddenStrafe;
+	private boolean driveOverrideEnabled = false;
+
 	public DriveBase(String name) {
 		super(name);
 
@@ -215,6 +218,10 @@ public class DriveBase extends Subsystem implements IObserver {
 		// Clear encoders
 		resetLeftEncoder();
 		resetRightEncoder();
+
+		// Clear overrides
+		overriddenHeading = overriddenThrottle = overriddenStrafe = 0.0;
+		driveOverrideEnabled = false;
 	}
 
 	public void update() {
@@ -278,10 +285,15 @@ public class DriveBase extends Subsystem implements IObserver {
 			SmartDashboard.putNumber("Throttle Joystick Value", throttleValue);
 			SmartDashboard.putNumber("Heading Joystick Value", headingValue);
 			SmartDashboard.putNumber("Strafe Joystick Value", strafeValue);
-
-			setThrottleValue(throttleValue);
-			setHeadingValue(headingValue);
-			setStrafeValue(strafeValue);
+			if (!driveOverrideEnabled) {
+				setThrottleValue(throttleValue);
+				setHeadingValue(headingValue);
+				setStrafeValue(strafeValue);
+			} else {
+				setThrottleValue(overriddenThrottle);
+				setHeadingValue(overriddenHeading);
+				setStrafeValue(overriddenStrafe);
+			}
 
 			// Use updated values to update the quickTurnFlag
 			checkAutoQuickTurn();
@@ -305,6 +317,26 @@ public class DriveBase extends Subsystem implements IObserver {
 		SmartDashboard.putNumber("Right Distance: ", this.getRightDistance());
 		SmartDashboard.putNumber("Left Distance: ", this.getLeftDistance());
 		SmartDashboard.putNumber("Gyro angle", this.getGyroAngle());
+	}
+
+	public void overrideThrottleValue(double throttle) {
+		overriddenThrottle = throttle;
+		driveOverrideEnabled = true;
+	}
+
+	public void overrideHeadingValue(double heading) {
+		overriddenHeading = heading;
+		driveOverrideEnabled = true;
+	}
+
+	public void overrideStrafeValue(double strafe) {
+		overriddenStrafe = strafe;
+		driveOverrideEnabled = true;
+	}
+
+	public void disableDriveOverride() {
+		driveOverrideEnabled = false;
+		overriddenHeading = overriddenThrottle = overriddenStrafe = 0.0;
 	}
 
 	private void updateSpeedAndAccelerationCalculations() {
@@ -435,8 +467,8 @@ public class DriveBase extends Subsystem implements IObserver {
 				newStrafe = -ANTI_TURBO_MAX_DEFLECTION;
 			}
 		}
-		
-		if(strafeReverseDirectionFlag) {
+
+		if (strafeReverseDirectionFlag) {
 			newStrafe *= -1;
 		}
 
@@ -492,15 +524,6 @@ public class DriveBase extends Subsystem implements IObserver {
 			driveBaseHeadingValue = new_heading;
 		}
 
-		if (driveBaseHeadingValue > MAX_INPUT_HEADING_VALUE) {
-			driveBaseHeadingValue = MAX_INPUT_HEADING_VALUE;
-		} else if (driveBaseHeadingValue < -MAX_INPUT_HEADING_VALUE) {
-			driveBaseHeadingValue = -MAX_INPUT_HEADING_VALUE;
-		}
-	}
-
-	public void overrideHeadingValue(double newHeading) {
-		driveBaseHeadingValue = newHeading;
 		if (driveBaseHeadingValue > MAX_INPUT_HEADING_VALUE) {
 			driveBaseHeadingValue = MAX_INPUT_HEADING_VALUE;
 		} else if (driveBaseHeadingValue < -MAX_INPUT_HEADING_VALUE) {
