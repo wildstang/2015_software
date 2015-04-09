@@ -25,7 +25,7 @@ public class BinGrabber extends Subsystem implements IObserver
 	@Override
 	public void update()
 	{
-		getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(enabled));
+		getOutput(OutputManager.BIN_GRABBER_INDEX).set(new Boolean(enabled));
 	}
 	
 	public void releaseBinGrabber()
