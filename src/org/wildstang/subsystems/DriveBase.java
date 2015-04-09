@@ -646,14 +646,16 @@ public class DriveBase extends Subsystem implements IObserver {
 		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
 		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
 		
-		if(Math.abs(strafeMotorSpeed) > 0.05)
-		{
-			getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(false));
+		// true is "h retracted"; default to that
+		boolean hPistonState = true;
+		if(Math.abs(strafeMotorSpeed) > 0.05) {
+			hPistonState = false;
+		} else {
+			hPistonState = true;
 		}
-		else
-		{
-			getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(true));
-		}
+		
+		getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(hPistonState));
+		SmartDashboard.putBoolean("H piston enaged", !hPistonState);
 	}
 
 	public void checkAutoQuickTurn() {
