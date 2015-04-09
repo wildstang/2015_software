@@ -86,8 +86,9 @@ public class OutputManager {
 	public static final int INTAKE_PISTONS_INDEX = 8;
 	public static final int PAWL_RELEASE_INDEX = 9;
 	public static final int TOP_CONTAINMENT_INDEX = 10;
-	public static final int BACK_GRABBER_INDEX = 11;
-
+	public static final int H_PISTON_INDEX = 14;
+	public static final int BIN_GRABBER_INDEX = 13;
+	
 	/**
 	 * Constructor for OutputManager.
 	 *
@@ -103,14 +104,15 @@ public class OutputManager {
 		outputs.put(STRAFE_DRIVE_SPEED_INDEX, new WsDriveSpeed("Strafe Drive Speed", 4, 5));
 		outputs.put(LIFT_A_INDEX, new WsVictor("Lift A", 6));
 		outputs.put(LIFT_B_INDEX, new WsVictor("Lift B", 7));
-		outputs.put(INTAKE_WHEEL_RIGHT_INDEX, new WsTalon("Right Intake Wheels", 9));
-		outputs.put(INTAKE_WHEEL_LEFT_INDEX, new WsTalon("Left Intake Wheel", 8));
+		outputs.put(INTAKE_WHEEL_RIGHT_INDEX, new WsVictor("Right Intake Wheels", 9));
+		outputs.put(INTAKE_WHEEL_LEFT_INDEX, new WsVictor("Left Intake Wheel", 8));
 
 		// SOLENOIDS
 		outputs.put(SHIFTER_INDEX, new WsDoubleSolenoid("Shifter", 0, 1));
 		outputs.put(PAWL_RELEASE_INDEX, new WsSolenoid("Pawl Release", 2));
-		outputs.put(BACK_GRABBER_INDEX, new WsSolenoid("Back Grabber Thingy", 3));
 		outputs.put(INTAKE_PISTONS_INDEX, new WsSolenoid("Intake Pistons", 4));
 		outputs.put(TOP_CONTAINMENT_INDEX, new WsSolenoid("Top Containment", 6));
+		outputs.put(H_PISTON_INDEX, new WsSolenoid("H Piston", 3));
+		outputs.put(BIN_GRABBER_INDEX, new WsSolenoid("Bin Grabbers", 5));
 	}
 }

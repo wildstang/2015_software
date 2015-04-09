@@ -295,6 +295,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			SmartDashboard.putBoolean("Anti-Turbo Flag", antiTurboFlag);
 			SmartDashboard.putBoolean("Quickturn", quickTurnFlag);
 
+			
 			// Set gear shift output
 			getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(shifterFlag.value));
 		}
@@ -621,6 +622,15 @@ public class DriveBase extends Subsystem implements IObserver {
 		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
 		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
 		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
+		
+		if(Math.abs(strafeMotorSpeed) > 0.05)
+		{
+			getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(false));
+		}
+		else
+		{
+			getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(true));
+		}
 	}
 
 	public void checkAutoQuickTurn() {

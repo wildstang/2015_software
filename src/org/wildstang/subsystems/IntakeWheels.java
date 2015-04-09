@@ -5,6 +5,7 @@ import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
+import org.wildstang.outputmanager.outputs.WsVictor;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.IObserver;
