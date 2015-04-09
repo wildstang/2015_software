@@ -3,13 +3,8 @@ package org.wildstang.subsystems.base;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
 import org.wildstang.subsystems.BinGrabber;
-import org.wildstang.subsystems.TopContainment;
-=======
-import org.wildstang.subsystems.BackGrabber;
 import org.wildstang.subsystems.Containment;
->>>>>>> refs/remotes/origin/master
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.Lift;
