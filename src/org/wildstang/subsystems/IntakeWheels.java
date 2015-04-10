@@ -27,7 +27,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	private static boolean auto = false;
 
-	boolean intakePistonsOut = false;
+	boolean intakePistonsOut;
 
 	public IntakeWheels(String name) {
 		super(name);

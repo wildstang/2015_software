@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Containment extends Subsystem implements IObserver {
 
-	boolean engaged = false;
-	boolean manipulatorRequestedToggle = false;
-	boolean newStateRequested = false;
-	boolean requestedState = false;
-	boolean overrideEnabled = false;
+	boolean engaged;
+	boolean manipulatorRequestedToggle;
+	boolean newStateRequested;
+	boolean requestedState;
+	boolean overrideEnabled;
 
 	public Containment(String name) {
 		super(name);
