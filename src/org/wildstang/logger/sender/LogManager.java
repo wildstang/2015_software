@@ -75,12 +75,11 @@ public class LogManager {
 	public void addLog(String name, Object obj) {
 		objects.add(new LogObject(name, obj));
 	}
-	
-	
+
 	public void startLog() {
 		logDataSender.addCommandToQueue("startlog");
 	}
-	
+
 	public void endLog() {
 		logDataSender.addCommandToQueue("endlog");
 	}
@@ -131,18 +130,14 @@ public class LogManager {
 
 					while (true) {
 						Object o;
-						try {
-							// send commands first
-							while ((o = commandQueue.takeLast()) != null) {
-								outputStream.writeObject(o);
-							}
-							
-							// now send any logs
-							while ((o = logQueue.takeLast()) != null) {
-								outputStream.writeObject(o);
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						// send commands first
+						while ((o = commandQueue.pollLast()) != null) {
+							outputStream.writeObject(o);
+						}
+
+						// now send any logs
+						while ((o = logQueue.pollLast()) != null) {
+							outputStream.writeObject(o);
 						}
 					}
 				} catch (IOException e) { //
