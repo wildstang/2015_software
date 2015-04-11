@@ -62,6 +62,8 @@ public class LogManager {
 	public void queueCurrentLogsForSending() {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("Objects", objects.size());
+		System.out.println("Objects: " + objects.size());
 		map.put("Timestamp", System.currentTimeMillis() - startTime);
 		for (LogObject object : objects) {
 			map.put(object.getName(), object.getObject());
@@ -109,6 +111,7 @@ public class LogManager {
 			while (logQueue.size() >= QUEUE_MAX_SIZE) {
 				logQueue.removeLast();
 			}
+			System.out.println("Log Q: " + logQueue.size());
 			logQueue.addFirst(o);
 		}
 
@@ -116,6 +119,7 @@ public class LogManager {
 			while (commandQueue.size() >= QUEUE_MAX_SIZE) {
 				commandQueue.removeLast();
 			}
+			System.out.println("Cmd Q: " + commandQueue.size());
 			commandQueue.addFirst(o);
 		}
 
@@ -139,6 +143,7 @@ public class LogManager {
 						while ((o = logQueue.pollLast()) != null) {
 							outputStream.writeObject(o);
 						}
+						outputStream.flush();
 					}
 				} catch (IOException e) { //
 					e.printStackTrace();

@@ -1,6 +1,7 @@
 package org.wildstang.subsystems;
 
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
@@ -51,6 +52,7 @@ public class Containment extends Subsystem implements IObserver {
 
 		getOutput(OutputManager.TOP_CONTAINMENT_INDEX).set(new Boolean(engaged));
 		SmartDashboard.putBoolean("Containment Engaged", engaged);
+		LogManager.getInstance().addLog("Containment Engaged", engaged);
 	}
 
 	/**

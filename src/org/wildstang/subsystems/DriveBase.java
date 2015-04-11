@@ -654,7 +654,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			hPistonState = true;
 		}
 		
-		getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(hPistonState));
+		//getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(hPistonState));
 		SmartDashboard.putBoolean("H piston enaged", !hPistonState);
 	}
 
