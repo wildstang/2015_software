@@ -139,9 +139,10 @@ public class LogManager {
 						while ((o = logQueue.pollLast()) != null) {
 							outputStream.writeObject(o);
 						}
+						//this fixed the memory leak
 						outputStream.flush();
 					}
-				} catch (IOException e) { //
+				} catch (IOException e) {
 					e.printStackTrace();
 					System.out.println("Unable to open socket. Retrying in a few seconds.");
 					try {
