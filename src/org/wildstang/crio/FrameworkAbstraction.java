@@ -13,6 +13,8 @@ import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
+import edu.wpi.first.wpilibj.CameraServer;
+
 /**
  *
  * @author Alex
@@ -35,6 +37,10 @@ public class FrameworkAbstraction {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance();
+		//sets up the USB camera for streaming to the smartdashboard
+		//this is unneeded if using an Ethernet camera (or no camera)
+		CameraServer.getInstance().setQuality(50); //the percent quality of the image
+		CameraServer.getInstance().startAutomaticCapture("cam0"); //the camera name, found in the webdashboard
 	}
 
 	public static void disabledInit() {
