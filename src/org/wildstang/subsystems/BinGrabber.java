@@ -3,6 +3,7 @@ package org.wildstang.subsystems;
 import org.wildstang.inputmanager.inputs.joystick.JoystickButtonEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
+import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
@@ -23,7 +24,7 @@ public class BinGrabber extends Subsystem implements IObserver
 	public void init()
 	{
 		enabled = false;
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_12);
+		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_8);
 	}
 
 	@Override
@@ -32,14 +33,14 @@ public class BinGrabber extends Subsystem implements IObserver
 		int state;
 		if(enabled)
 		{
-			state = DoubleSolenoid.Value.kForward_val;
+			state = DoubleSolenoid.Value.kReverse_val;
 		}
 		else
 		{
 
-			state = DoubleSolenoid.Value.kReverse_val;
+			state = DoubleSolenoid.Value.kForward_val;
 		}
-		getOutput(OutputManager.H_PISTON_INDEX).set(new Integer(state));
+		getOutput(OutputManager.BIN_GRABBER_INDEX).set(new Integer(state));
 		SmartDashboard.putBoolean("Bin Grabber", enabled);
 		LogManager.getInstance().addLog("Bin Grabber", enabled);
 	}
@@ -57,9 +58,11 @@ public class BinGrabber extends Subsystem implements IObserver
 	@Override
 	public void acceptNotification(Subject subjectThatCaused)
 	{
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_12)
+		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8)
 		{
-			enabled = !enabled;
+			if (((BooleanSubject) subjectThatCaused).getValue()) {
+				enabled = !enabled;
+			}
 		}
 	}
 
