@@ -39,9 +39,13 @@ public class FrameworkAbstraction {
 		AutonomousManager.getInstance();
 		//sets up the USB camera for streaming to the smartdashboard
 		//this is unneeded if using an Ethernet camera (or no camera)
-		CameraServer.getInstance().setQuality(50); //the percent quality of the image
-		CameraServer.getInstance().setSize(1);
-		CameraServer.getInstance().startAutomaticCapture("cam0"); //the camera name, found in the webdashboard
+		try
+		{
+			CameraServer.getInstance().setQuality(50); //the percent quality of the image
+			CameraServer.getInstance().setSize(1);
+			CameraServer.getInstance().startAutomaticCapture("cam0"); //the camera name, found in the webdashboard
+		}
+		catch(Exception e){}
 	}
 
 	public static void disabledInit() {
