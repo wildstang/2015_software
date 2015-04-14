@@ -65,7 +65,7 @@ org.wildstang.subsystems.DriveBase.quick_turn_antiturbo=10.0
 org.wildstang.subsystems.DriveBase.super_antiturbo_factor=0.30
 org.wildstang.subsystems.DriveBase.acceleration_enabled=true
 // 0.75 for proto, 0.5 for real robot
-org.wildstang.subsystems.DriveBase.output_scale_factor=0.75
+org.wildstang.subsystems.DriveBase.output_scale_factor=1.00
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.p=0.0
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.i=0.0
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.d=0.0
