@@ -80,8 +80,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 			SmartDashboard.putNumber("Intake Wheel Right", rightMotorSpeed);
 			SmartDashboard.putNumber("Intake Wheel Left", leftMotorSpeed);
 		}
-		// We invert the state of the pistons because they're backwards on the robot
-		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(!intakePistonsOut));
+		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsOut));
 		SmartDashboard.putBoolean("Intake Pistons Out", intakePistonsOut);
 		LogManager.getInstance().addLog("Intake Pistons", intakePistonsOut);
 	}

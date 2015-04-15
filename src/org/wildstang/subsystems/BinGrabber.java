@@ -11,32 +11,25 @@ import org.wildstang.subsystems.base.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class BinGrabber extends Subsystem implements IObserver
-{
+public class BinGrabber extends Subsystem implements IObserver {
 	boolean enabled;
-	
-	public BinGrabber(String name)
-	{
+
+	public BinGrabber(String name) {
 		super(name);
 	}
 
 	@Override
-	public void init()
-	{
+	public void init() {
 		enabled = false;
-		registerForJoystickButtonNotification(JoystickButtonEnum.MANIPULATOR_BUTTON_8);
+		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_8);
 	}
 
 	@Override
-	public void update()
-	{
+	public void update() {
 		int state;
-		if(enabled)
-		{
+		if (enabled) {
 			state = DoubleSolenoid.Value.kReverse_val;
-		}
-		else
-		{
+		} else {
 
 			state = DoubleSolenoid.Value.kForward_val;
 		}
@@ -44,22 +37,18 @@ public class BinGrabber extends Subsystem implements IObserver
 		SmartDashboard.putBoolean("Bin Grabber", enabled);
 		LogManager.getInstance().addLog("Bin Grabber", enabled);
 	}
-	
-	public void releaseBinGrabber()
-	{
+
+	public void releaseBinGrabber() {
 		enabled = true;
 	}
-	
-	public void retractBinGrabber()
-	{
+
+	public void retractBinGrabber() {
 		enabled = false;
 	}
 
 	@Override
-	public void acceptNotification(Subject subjectThatCaused)
-	{
-		if (subjectThatCaused.getType() == JoystickButtonEnum.MANIPULATOR_BUTTON_8)
-		{
+	public void acceptNotification(Subject subjectThatCaused) {
+		if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_8) {
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				enabled = !enabled;
 			}

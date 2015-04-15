@@ -303,7 +303,7 @@ public class DriveBase extends Subsystem implements IObserver {
 
 			SmartDashboard.putNumber("Throttle Value", driveBaseThrottleValue);
 			SmartDashboard.putNumber("Heading Value", driveBaseHeadingValue);
-			SmartDashboard.putBoolean("Shifter State", shifterFlag.equals(DoubleSolenoid.Value.kReverse));
+			SmartDashboard.putBoolean("High Gear", shifterFlag.equals(DoubleSolenoid.Value.kForward));
 			SmartDashboard.putBoolean("Anti-Turbo Flag", antiTurboFlag);
 			SmartDashboard.putBoolean("Quickturn", quickTurnFlag);
 

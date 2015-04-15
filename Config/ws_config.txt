@@ -18,10 +18,10 @@ org.wildstang.subsystems.IntakeWheels.intake_deadband=0.53
 
 //Lift and lift presets
 //Normal Setup Stuff
-org.wildstang.subsystems.Lift.pot_top_voltage=2.911
-org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=3.0
-org.wildstang.subsystems.Lift.pot_bottom_voltage=1.415
-org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=1.400
+org.wildstang.subsystems.Lift.pot_top_voltage=2.834
+org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=2.834
+org.wildstang.subsystems.Lift.pot_bottom_voltage=1.482
+org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=1.482
 org.wildstang.subsystems.lift.LiftPreset.level_four.wanted_voltage=2.580
 //
 org.wildstang.subsystems.Lift.top_slow_down_radius=0.2
@@ -103,12 +103,14 @@ org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfi
 org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile.ForceStopAtStep=0
 
 // Drive
-org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Duration=2000
+org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Duration=81
 org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Speed=0.5
 
 // Three Tote
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Between_Duration=4000
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Between_Speed=0.5
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.time_to_second_tote=2250
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.time_to_third_tote=2500
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.drive_speed=0.5
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Intake_Duration=800
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Duration=3000
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Speed=0.75
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Back_Duration=1000
