@@ -152,6 +152,7 @@ public class AutonomousManager implements IObserver {
 		// addProgram(new AutonomousProgramDrive());
 		addProgram(new AutonomousProgramDriveAtSpeedForTime());
 		addProgram(new AutonomousProgramKnockOverBin());
+		addProgram(new AutonomousProgramThreeTotesParallel());
 	}
 
 	private void addProgram(AutonomousProgram program) {

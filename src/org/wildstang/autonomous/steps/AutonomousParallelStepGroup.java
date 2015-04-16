@@ -37,12 +37,18 @@ public class AutonomousParallelStepGroup extends AutonomousStep {
 	}
 
 	public void update() {
+		List<AutonomousStep> toRemove = new ArrayList<>();
 		for (AutonomousStep step : steps) {
 			step.update();
 			if (step.isFinished()) {
-				steps.remove(step);
+				toRemove.add(step);
 			}
 		}
+		
+		for (AutonomousStep removeStep : toRemove) {
+			steps.remove(removeStep);
+		}
+		
 		if (steps.isEmpty()) {
 			finished = true;
 		}
