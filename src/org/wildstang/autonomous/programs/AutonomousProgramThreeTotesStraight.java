@@ -2,6 +2,7 @@ package org.wildstang.autonomous.programs;
 
 import org.wildstang.autonomous.AutonomousProgram;
 import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
+import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveDistanceAtSpeed;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveManual;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepSetShifter;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepStrafe;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 	protected final IntegerConfigFileParameter BETWEEN_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Between_Duration", 2750);
 	protected final DoubleConfigFileParameter DRIVE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed", 0.5);
+	protected final DoubleConfigFileParameter DRIVE_SPEED_LOW = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed_low", 0.5);
 	
 	protected final IntegerConfigFileParameter TIME_TO_SECOND_TOTE = new IntegerConfigFileParameter(this.getClass().getName(), "time_to_second_tote", 3000);
 	protected final IntegerConfigFileParameter TIME_TO_THIRD_TOTE = new IntegerConfigFileParameter(this.getClass().getName(), "time_to_third_tote", 2500);
@@ -32,8 +34,11 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 	protected final DoubleConfigFileParameter SCORE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Score_Speed", 0.75);
 
 	protected final IntegerConfigFileParameter BACK_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Back_Duration", 1000);
-	protected final DoubleConfigFileParameter BACK_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Back_Speed", -0.5);
+	protected final DoubleConfigFileParameter BACKUP_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Back_Speed", -0.5);
 
+	protected final DoubleConfigFileParameter TOTES_DISTANCE_A = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_A", 35);
+	protected final DoubleConfigFileParameter TOTES_DISTANCE_B = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_B", 40);
+	protected final DoubleConfigFileParameter BACKUP_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Distance", 42);
 	@Override
 	protected void defineSteps() {
 		// picks up first bin
@@ -53,17 +58,19 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 		// picks up second bin
 		// shifts into high gear and begins driving
 		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kForward));
-		addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// closes intake starts spinning left
 		addStep(new AutonomousStepSpinIntakeLeft());
 		addStep(new AutonomousStepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDelay(TIME_TO_SECOND_TOTE.getValue() / 2));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue()));
+		////addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// opens intake (attempt to knock bins)
+		addStep(new AutonomousStepDelay(250));
 		addStep(new AutonomousStepSetIntakePistonsState(false));
-		addStep(new AutonomousStepDelay(TIME_TO_SECOND_TOTE.getValue() / 2));
+		addStep(new AutonomousStepDelay(500));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
 		// stops driving closes intake and spins intake in
 		addStep(new AutonomousStepSetIntakeIn());
-		addStep(new AutonomousStepDriveManual(0.0, 0));
+		////addStep(new AutonomousStepDriveManual(0.0, 0));
 		addStep(new AutonomousStepSetIntakePistonsState(true));
 		addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
 		// opens intake stops spinning
@@ -78,18 +85,19 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 		addStep(new AutonomousStepDelay(2000));
 
 		// picks up third tote
-		// begins driving
-		addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
-		// closes intake starts spinning right
-		addStep(new AutonomousStepSpinIntakeRight());
+		// closes intake starts spinning left
+		addStep(new AutonomousStepSpinIntakeLeft());
 		addStep(new AutonomousStepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDelay(TIME_TO_THIRD_TOTE.getValue() / 2));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue()));
+		////addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// opens intake (attempt to knock bins)
+		addStep(new AutonomousStepDelay(250));
 		addStep(new AutonomousStepSetIntakePistonsState(false));
-		addStep(new AutonomousStepDelay(TIME_TO_THIRD_TOTE.getValue() / 2));
+		addStep(new AutonomousStepDelay(500));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
 		// stops driving closes intake and spins intake in
 		addStep(new AutonomousStepSetIntakeIn());
-		addStep(new AutonomousStepDriveManual(0.0, 0));
+		////addStep(new AutonomousStepDriveManual(0.0, 0));
 		addStep(new AutonomousStepSetIntakePistonsState(true));
 		addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
 		// opens intake stops spinning
@@ -110,9 +118,10 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 		addStep(new AutonomousStepSetLiftBottom());
 		addStep(new AutonomousStepDelay(2000));
 		// backs off of totes
-		addStep(new AutonomousStepDriveManual(BACK_SPEED.getValue(), 0));
-		addStep(new AutonomousStepDelay(BACK_TIME.getValue()));
-		addStep(new AutonomousStepDriveManual(0.0, 0));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue()));
+		////addStep(new AutonomousStepDriveManual(BACK_SPEED.getValue(), 0));
+		////addStep(new AutonomousStepDelay(BACKUP_TIME.getValue()));
+		////addStep(new AutonomousStepDriveManual(0.0, 0));
 
 		addStep(new AutonomousStepIntakeEndAuto());
 	}

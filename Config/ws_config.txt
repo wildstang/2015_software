@@ -109,12 +109,16 @@ org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Speed=0.5
 // Three Tote
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.time_to_second_tote=2250
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.time_to_third_tote=2500
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.drive_speed=0.5
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Intake_Duration=800
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.drive_speed=.5
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.drive_speed_low=.5
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Intake_Duration=1000
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Duration=3000
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Score_Speed=0.75
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Back_Duration=1000
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Back_Speed=-0.5
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Tote_Distance_A=35
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Tote_Distance_B=25
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Backup_Distance=30
 
 // Knock over bin
 org.wildstang.autonomous.programs.AutonomousProgramKnockOverBin.drive_duration=500

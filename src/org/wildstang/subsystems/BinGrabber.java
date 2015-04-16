@@ -21,7 +21,7 @@ public class BinGrabber extends Subsystem implements IObserver {
 	@Override
 	public void init() {
 		enabled = false;
-		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_8);
+		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_9);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class BinGrabber extends Subsystem implements IObserver {
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
-		if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_8) {
+		if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_9) {
 			if (((BooleanSubject) subjectThatCaused).getValue()) {
 				enabled = !enabled;
 			}
