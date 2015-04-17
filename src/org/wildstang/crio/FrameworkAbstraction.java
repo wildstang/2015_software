@@ -13,7 +13,11 @@ import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -22,6 +26,8 @@ import edu.wpi.first.wpilibj.CameraServer;
 public class FrameworkAbstraction {
 
 	private static long lastCycleTime = 0;
+	private static int session;
+	private static Image frame;
 
 	public static void robotInit(String fileName) {
 		try {
@@ -31,7 +37,7 @@ public class FrameworkAbstraction {
 			System.out.println(wscfe.toString());
 		}
 
-		LogManager.getInstance();
+		//LogManager.getInstance();
 		InputManager.getInstance();
 		OutputManager.getInstance();
 		SubsystemContainer.getInstance().init();
@@ -41,9 +47,13 @@ public class FrameworkAbstraction {
 		//this is unneeded if using an Ethernet camera (or no camera)
 		try
 		{
-			CameraServer.getInstance().setQuality(50); //the percent quality of the image
-			CameraServer.getInstance().setSize(1);
-			CameraServer.getInstance().startAutomaticCapture("cam0"); //the camera name, found in the webdashboard
+	        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+	        // the camera name (ex "cam0") can be found through the roborio web interface
+	        session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+	        NIVision.IMAQdxConfigureGrab(session);
+
+	        NIVision.IMAQdxStartAcquisition(session);
 		}
 		catch(Exception e){}
 	}
@@ -58,19 +68,19 @@ public class FrameworkAbstraction {
 
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
-		LogManager.getInstance().endLog();
+		//LogManager.getInstance().endLog();
 	}
 
 	public static void disabledPeriodic() {
 		InputManager.getInstance().updateOiData();
-		LogManager.getInstance().queueCurrentLogsForSending();
+		//LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void autonomousInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance().startCurrentProgram();
-		LogManager.getInstance().startLog();
+		//LogManager.getInstance().startLog();
 	}
 
 	public static void autonomousPeriodic() {
@@ -79,13 +89,13 @@ public class FrameworkAbstraction {
 		AutonomousManager.getInstance().update();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
-		LogManager.getInstance().queueCurrentLogsForSending();
+		//LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void teleopInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
-		LogManager.getInstance().startLog();
+		//LogManager.getInstance().startLog();
 	}
 
 	public static void teleopPeriodic() {
@@ -95,7 +105,14 @@ public class FrameworkAbstraction {
 		InputManager.getInstance().updateSensorData();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
-		LogManager.getInstance().queueCurrentLogsForSending();
+		//LogManager.getInstance().queueCurrentLogsForSending();
+
+        try {
+            NIVision.IMAQdxGrab(session, frame, 1);
+            CameraServer.getInstance().setImage(frame);
+        }
+        catch(Exception e){}
+        
 		long cycleEndTime = System.currentTimeMillis();
 		long cycleLength = cycleEndTime - cycleStartTime;
 		System.out.println("Cycle time: " + cycleLength);
