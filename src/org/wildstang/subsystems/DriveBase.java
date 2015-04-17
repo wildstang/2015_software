@@ -123,6 +123,7 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static DoubleConfigFileParameter DRIVE_OFFSET_config;
 	private static DoubleConfigFileParameter QUICK_TURN_CAP_config;
 	private static DoubleConfigFileParameter QUICK_TURN_ANTITURBO_config;
+	private static DoubleConfigFileParameter DRIVE_BIAS_config;
 	private static BooleanConfigFileParameter USE_LEFT_SIDE_FOR_OFFSET_config;
 	private static DoubleConfigFileParameter SUPER_ANTITURBO_FACTOR_config;
 	private static BooleanConfigFileParameter ACCELERATION_ENABLED_config;
@@ -160,6 +161,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		SUPER_ANTITURBO_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "super_antiturbo_factor", 0.5);
 		ACCELERATION_ENABLED_config = new BooleanConfigFileParameter(this.getClass().getName(), "acceleration_enabled", false);
 		OUTPUT_SCALE_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "output_scale_factor", 1.0);
+		DRIVE_BIAS_config = new DoubleConfigFileParameter(this.getClass().getName(), "drive_bias", 0.95);
 
 		// Anti-Turbo button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_8);
@@ -643,19 +645,9 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		// Update Output Facade.
 		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
-		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed));
+		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed*DRIVE_BIAS_config.getValue()));
 		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
 		
-		// true is "h retracted"; default to that
-		boolean hPistonState = true;
-		if(Math.abs(strafeMotorSpeed) > 0.05) {
-			hPistonState = false;
-		} else {
-			hPistonState = true;
-		}
-		
-		//getOutput(OutputManager.H_PISTON_INDEX).set(new Boolean(hPistonState));
-		SmartDashboard.putBoolean("H piston enaged", !hPistonState);
 	}
 
 	public void checkAutoQuickTurn() {

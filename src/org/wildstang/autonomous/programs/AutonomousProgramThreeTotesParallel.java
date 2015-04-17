@@ -28,18 +28,21 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 	
 	protected final IntegerConfigFileParameter TIME_TO_SECOND_TOTE = new IntegerConfigFileParameter(this.getClass().getName(), "time_to_second_tote", 3000);
 	protected final IntegerConfigFileParameter TIME_TO_THIRD_TOTE = new IntegerConfigFileParameter(this.getClass().getName(), "time_to_third_tote", 2500);
-	
+
 	protected final IntegerConfigFileParameter INTAKE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Intake_Duration", 800);
+	protected final IntegerConfigFileParameter INIT_INTAKE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Init_Intake_Duration", 800);
 
 	protected final IntegerConfigFileParameter SCORE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Score_Duration", 3000);
 	protected final DoubleConfigFileParameter SCORE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Score_Speed", 0.75);
 
-	protected final IntegerConfigFileParameter BACK_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Back_Duration", 1000);
 	protected final DoubleConfigFileParameter BACKUP_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Back_Speed", -0.5);
-
+	protected final DoubleConfigFileParameter BACKUP_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Distance", 42);
+	protected final DoubleConfigFileParameter BACKUP_COUNTER_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Counter_Speed", -0.4);
+	
+	protected final DoubleConfigFileParameter COUNTER_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Counter_Speed", 0.3);
 	protected final DoubleConfigFileParameter TOTES_DISTANCE_A = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_A", 35);
 	protected final DoubleConfigFileParameter TOTES_DISTANCE_B = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_B", 40);
-	protected final DoubleConfigFileParameter BACKUP_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Distance", 42);
+	
 	@Override
 	protected void defineSteps() {
 		// picks up first bin
@@ -49,7 +52,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		intakeTote1.addStep(new AutonomousStepSetIntakeIn());
 		intakeTote1.addStep(new AutonomousStepSetIntakePistonsState(true));
 		addStep(intakeTote1);
-		addStep(new AutonomousStepDelay(500));
+		addStep(new AutonomousStepDelay(INIT_INTAKE_TIME.getValue()));
 		// stops spinning intake and opens
 		AutonomousParallelStepGroup openIntakeTote1 = new AutonomousParallelStepGroup("Open and stop intake for Tote1");
 		openIntakeTote1.addStep(new AutonomousStepSetIntakePistonsState(false));
@@ -77,7 +80,6 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		AutonomousParallelStepGroup intake2ndTote = new AutonomousParallelStepGroup("Intake 2nd Tote");
 		// stops driving closes intake and spins intake in
 		intake2ndTote.addStep(new AutonomousStepSetIntakeIn());
-		////addStep(new AutonomousStepDriveManual(0.0, 0));
 		intake2ndTote.addStep(new AutonomousStepSetIntakePistonsState(true));
 		addStep(intake2ndTote);
 		addStep(new AutonomousStepDelay(800));
@@ -107,17 +109,19 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		// opens intake (attempt to knock bins)
 		AutonomousParallelStepGroup push2ndBinAndDrive = new AutonomousParallelStepGroup("Push 2nd bin and drive");
 		push2ndBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(false));
-		push2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
+		push2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue() + 7.5, DRIVE_SPEED.getValue()));
+		push2ndBinAndDrive.addStep(new AutonomousStepStrafe(COUNTER_SPEED.getValue()));
 		addStep(push2ndBinAndDrive);
+		push2ndBinAndDrive.addStep(new AutonomousStepStrafe(0));
 		
 		AutonomousParallelStepGroup intake3rdTote = new AutonomousParallelStepGroup("Intake 3rd Tote");
 		// stops driving closes intake and spins intake in
 		intake3rdTote.addStep(new AutonomousStepSetIntakeIn());
-		////addStep(new AutonomousStepDriveManual(0.0, 0));
 		intake3rdTote.addStep(new AutonomousStepSetIntakePistonsState(true));
 		addStep(intake3rdTote);
 		addStep(new AutonomousStepDelay(800));
 		// opens intake stops spinning
+		addStep(new AutonomousStepSetIntakePistonsState(false));
 		addStep(new AutonomousStepSetIntakeOff());
 		// picks up tote
 		addStep(new AutonomousStepSetLiftBottom());
@@ -129,20 +133,17 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		AutonomousParallelStepGroup strafe = new AutonomousParallelStepGroup("strafe");
 		// stops driving closes intake and spins intake in
 		strafe.addStep(new AutonomousStepStrafe(SCORE_SPEED.getValue()));
-		////addStep(new AutonomousStepDriveManual(0.0, 0));
+		strafe.addStep(new AutonomousStepDriveManual(BACKUP_COUNTER_SPEED.getValue(), 0));
 		strafe.addStep(new AutonomousStepDelay(SCORE_TIME.getValue()));
 		strafe.addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
-		strafe.addStep(new AutonomousStepDriveDistanceAtSpeed(SCORE_TIME.getValue(), -0.2));
 		addStep(strafe);
 		addStep(new AutonomousStepStrafe(0.0));
+		strafe.addStep(new AutonomousStepDriveManual(0, 0));
 		// sets down totes (may be unneeded, just dragging totes)
 		addStep(new AutonomousStepSetLiftBottom());
 		addStep(new AutonomousStepDelay(2000));
 		// backs off of totes
-		addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue()));
-		////addStep(new AutonomousStepDriveManual(BACK_SPEED.getValue(), 0));
-		////addStep(new AutonomousStepDelay(BACKUP_TIME.getValue()));
-		////addStep(new AutonomousStepDriveManual(0.0, 0));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue())); 
 
 		addStep(new AutonomousStepIntakeEndAuto());
 	}

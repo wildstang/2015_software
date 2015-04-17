@@ -86,7 +86,6 @@ public class OutputManager {
 	public static final int INTAKE_PISTONS_INDEX = 8;
 	public static final int PAWL_RELEASE_INDEX = 9;
 	public static final int TOP_CONTAINMENT_INDEX = 10;
-	public static final int H_PISTON_INDEX = 14;
 	public static final int BIN_GRABBER_INDEX = 13;
 	
 	/**
@@ -112,7 +111,6 @@ public class OutputManager {
 		outputs.put(PAWL_RELEASE_INDEX, new WsSolenoid("Pawl Release", 2));
 		outputs.put(INTAKE_PISTONS_INDEX, new WsSolenoid("Intake Pistons", 4));
 		outputs.put(TOP_CONTAINMENT_INDEX, new WsSolenoid("Top Containment", 6));
-		//outputs.put(H_PISTON_INDEX, new WsSolenoid("H Piston", 3));
 		outputs.put(BIN_GRABBER_INDEX, new WsDoubleSolenoid("Bin Grabbers", 3, 5));
 	}
 }
