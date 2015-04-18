@@ -42,8 +42,9 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 	protected final DoubleConfigFileParameter COUNTER_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Counter_Speed", 0.3);
 	protected final DoubleConfigFileParameter TOTES_DISTANCE_A = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_A", 35);
 	protected final DoubleConfigFileParameter TOTES_DISTANCE_B = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_B", 40);
-	protected final DoubleConfigFileParameter TOTE_BUFFER = new DoubleConfigFileParameter(this.getClass().getName(), "3_Tote_Buffer", 10);
-
+	protected final DoubleConfigFileParameter TOTES_DISTANCE_A_2 = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_A_2", 35);
+	protected final DoubleConfigFileParameter TOTES_DISTANCE_B_2 = new DoubleConfigFileParameter(this.getClass().getName(), "Tote_Distance_B_2", 40);
+	
 	protected final IntegerConfigFileParameter RISE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Rise_Time", 2000);
 	protected final IntegerConfigFileParameter DROP_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Drop_Time", 1500);
 	
@@ -113,13 +114,13 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		AutonomousParallelStepGroup kick2ndBinAndDrive = new AutonomousParallelStepGroup("Kick 2nd Bin and Drive");
 		kick2ndBinAndDrive.addStep(new AutonomousStepSpinIntakeLeft());
 		kick2ndBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(true));
-		kick2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue() + TOTE_BUFFER.getValue(), DRIVE_SPEED_LOW.getValue()));
+		kick2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A_2.getValue(), DRIVE_SPEED_LOW.getValue()));
 		addStep(kick2ndBinAndDrive);
 		
 		//opens intake, starts driving to next tote, and counters the bin push with strafe
 		AutonomousParallelStepGroup push2ndBinAndDrive = new AutonomousParallelStepGroup("Push 2nd bin and drive");
 		push2ndBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(false));
-		push2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
+		push2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B_2.getValue(), DRIVE_SPEED.getValue()));
 		push2ndBinAndDrive.addStep(new AutonomousStepStrafe(COUNTER_SPEED.getValue()));
 		addStep(push2ndBinAndDrive);
 		
