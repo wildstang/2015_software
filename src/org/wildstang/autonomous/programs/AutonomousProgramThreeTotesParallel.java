@@ -33,6 +33,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 	protected final IntegerConfigFileParameter INIT_INTAKE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Init_Intake_Duration", 800);
 
 	protected final IntegerConfigFileParameter SCORE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Score_Duration", 3000);
+	protected final IntegerConfigFileParameter TURN_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Turn_Duration", 0750);
 	protected final DoubleConfigFileParameter SCORE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Score_Speed", 0.75);
 
 	protected final DoubleConfigFileParameter BACKUP_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Back_Speed", -0.5);
@@ -151,11 +152,13 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 
 		//strafes to the autozone with a counter
 		AutonomousParallelStepGroup strafe = new AutonomousParallelStepGroup("strafe");
-		strafe.addStep(new AutonomousStepStrafe(SCORE_SPEED.getValue()));
-		strafe.addStep(new AutonomousStepDriveManual(BACKUP_COUNTER_SPEED.getValue(), 0));
-		strafe.addStep(new AutonomousStepDelay(SCORE_TIME.getValue()));
-		strafe.addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
+		//strafe.addStep(new AutonomousStepStrafe(SCORE_SPEED.getValue()));
+		strafe.addStep(new AutonomousStepDriveManual(0, .75));
+		strafe.addStep(new AutonomousStepDelay(TURN_TIME.getValue()));
 		addStep(strafe);
+		
+		addStep(new AutonomousStepDriveManual(1, 0));
+		addStep(new AutonomousStepDelay(SCORE_TIME.getValue()));
 		
 		//stops strafing and countering and drops lift
 		AutonomousParallelStepGroup finish = new AutonomousParallelStepGroup("Finshing");
@@ -169,6 +172,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 
 		//resets the auto flag for intake
 		addStep(new AutonomousStepIntakeEndAuto());
+		strafe.addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
 	}
 
 	@Override
