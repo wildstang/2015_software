@@ -54,6 +54,7 @@ public class FrameworkAbstraction {
 
 	        // the camera name (ex "cam0") can be found through the roborio web interface
 	        session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+	        CameraServer.getInstance().setQuality(25);
 	        NIVision.IMAQdxConfigureGrab(session);
 
 	        NIVision.IMAQdxStartAcquisition(session);
@@ -111,10 +112,6 @@ public class FrameworkAbstraction {
 		//LogManager.getInstance().queueCurrentLogsForSending();
 
         NIVision.IMAQdxGrab(session, frame, 1);
-        /*NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
-        NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-        NIVision.imaqDrawLineOnImage(frame, frame, DrawMode.DRAW_VALUE, new NIVision.Point(0, 50), new NIVision.Point(100, 50), 0.0f);
-        NIVision.imaqDrawLineOnImage(frame, frame, DrawMode.DRAW_VALUE, new NIVision.Point(50, 0), new NIVision.Point(50, 100), 0.0f);*/
         CameraServer.getInstance().setImage(frame);
        
 		long cycleEndTime = System.currentTimeMillis();

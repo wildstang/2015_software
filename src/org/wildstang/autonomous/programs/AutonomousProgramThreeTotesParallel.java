@@ -22,19 +22,14 @@ import org.wildstang.config.IntegerConfigFileParameter;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
-	protected final IntegerConfigFileParameter BETWEEN_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Between_Duration", 2750);
 	protected final DoubleConfigFileParameter DRIVE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed", 0.5);
 	protected final DoubleConfigFileParameter DRIVE_SPEED_LOW = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed_low", 0.5);
-	
-	protected final IntegerConfigFileParameter TIME_TO_SECOND_TOTE = new IntegerConfigFileParameter(this.getClass().getName(), "time_to_second_tote", 3000);
-	protected final IntegerConfigFileParameter TIME_TO_THIRD_TOTE = new IntegerConfigFileParameter(this.getClass().getName(), "time_to_third_tote", 2500);
 
 	protected final IntegerConfigFileParameter INTAKE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Intake_Duration", 800);
 	protected final IntegerConfigFileParameter INIT_INTAKE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Init_Intake_Duration", 800);
 
-	protected final IntegerConfigFileParameter SCORE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Score_Duration", 3000);
 	protected final IntegerConfigFileParameter TURN_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Turn_Duration", 0750);
-	protected final DoubleConfigFileParameter SCORE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Score_Speed", 0.75);
+	protected final DoubleConfigFileParameter ZONE_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Zone_Distance", 50);
 
 	protected final DoubleConfigFileParameter BACKUP_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Back_Speed", -0.5);
 	protected final DoubleConfigFileParameter BACKUP_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Distance", 42);
@@ -157,12 +152,10 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		strafe.addStep(new AutonomousStepDelay(TURN_TIME.getValue()));
 		addStep(strafe);
 		
-		addStep(new AutonomousStepDriveManual(1, 0));
-		addStep(new AutonomousStepDelay(SCORE_TIME.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(ZONE_DISTANCE.getValue(), DRIVE_SPEED.getValue()));
 		
 		//stops strafing and countering and drops lift
 		AutonomousParallelStepGroup finish = new AutonomousParallelStepGroup("Finshing");
-		finish.addStep(new AutonomousStepStrafe(0.0));
 		finish.addStep(new AutonomousStepDriveManual(0, 0));
 		finish.addStep(new AutonomousStepSetLiftBottom());
 		addStep(finish);
