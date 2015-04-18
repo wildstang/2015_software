@@ -144,7 +144,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		addStep(strafe);
 
 		AutonomousParallelStepGroup score = new AutonomousParallelStepGroup("score");
-		score.addStep(new AutonomousStepOverrideContainment(false));
+		score.addStep(new AutonomousStepOverrideContainment());
 		score.addStep(new AutonomousStepSetIntakePistonsState(false));
 		score.addStep(new AutonomousStepDriveManual(0, 0));
 		score.addStep(new AutonomousStepDriveDistanceAtSpeed(ZONE_DISTANCE.getValue(), 1, true));

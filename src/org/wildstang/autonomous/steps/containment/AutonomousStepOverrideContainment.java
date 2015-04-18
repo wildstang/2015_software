@@ -7,15 +7,9 @@ import org.wildstang.subsystems.base.SubsystemContainer;
 
 public class AutonomousStepOverrideContainment extends AutonomousStep {
 
-	boolean engaged;
-	
-	public AutonomousStepOverrideContainment(boolean engaged)
-	{
-		this.engaged = engaged;
-	}
 	
 	public void initialize() {
-		((Containment) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).override(engaged);
+		((Containment) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).override();
 		finished = true;
 	}
 

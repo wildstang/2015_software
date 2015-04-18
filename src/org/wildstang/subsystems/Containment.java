@@ -86,8 +86,9 @@ public class Containment extends Subsystem implements IObserver {
 		}
 	}
 	
-	public void override(Boolean engaged)
+	public void override()
 	{
-		this.engaged = engaged;
+		manipulatorRequestedToggle = true;
+		overrideEnabled = true;
 	}
 }
