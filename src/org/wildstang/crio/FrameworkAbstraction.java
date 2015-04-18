@@ -48,7 +48,7 @@ public class FrameworkAbstraction {
 		AutonomousManager.getInstance();
 		//sets up the USB camera for streaming to the smartdashboard
 		//this is unneeded if using an Ethernet camera (or no camera)
-		try
+		/*try
 		{
 	        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
@@ -59,7 +59,7 @@ public class FrameworkAbstraction {
 
 	        NIVision.IMAQdxStartAcquisition(session);
 		}
-		catch(Exception e){}
+		catch(Exception e){}*/
 	}
 
 	public static void disabledInit() {
@@ -111,8 +111,12 @@ public class FrameworkAbstraction {
 		OutputManager.getInstance().update();
 		LogManager.getInstance().queueCurrentLogsForSending();
 
-        NIVision.IMAQdxGrab(session, frame, 1);
-        CameraServer.getInstance().setImage(frame);
+		/*try
+		{
+	        NIVision.IMAQdxGrab(session, frame, 1);
+	        CameraServer.getInstance().setImage(frame);
+		}
+		catch(Exception e){}*/
        
 		long cycleEndTime = System.currentTimeMillis();
 		long cycleLength = cycleEndTime - cycleStartTime;

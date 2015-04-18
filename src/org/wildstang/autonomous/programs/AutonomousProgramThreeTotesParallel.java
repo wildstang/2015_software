@@ -3,6 +3,7 @@ package org.wildstang.autonomous.programs;
 import org.wildstang.autonomous.AutonomousProgram;
 import org.wildstang.autonomous.steps.AutonomousParallelStepGroup;
 import org.wildstang.autonomous.steps.AutonomousSerialStepGroup;
+import org.wildstang.autonomous.steps.containment.AutonomousStepOverrideContainment;
 import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveDistanceAtSpeed;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveManual;
@@ -143,6 +144,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		addStep(strafe);
 
 		AutonomousParallelStepGroup score = new AutonomousParallelStepGroup("score");
+		score.addStep(new AutonomousStepOverrideContainment(false));
 		score.addStep(new AutonomousStepSetIntakePistonsState(false));
 		score.addStep(new AutonomousStepDriveManual(0, 0));
 		score.addStep(new AutonomousStepDriveDistanceAtSpeed(ZONE_DISTANCE.getValue(), 1, true));

@@ -85,4 +85,9 @@ public class Containment extends Subsystem implements IObserver {
 			overrideEnabled = ((BooleanSubject) subjectThatCaused).getValue();
 		}
 	}
+	
+	public void override(Boolean engaged)
+	{
+		this.engaged = engaged;
+	}
 }
