@@ -2,6 +2,7 @@ package org.wildstang.autonomous.programs;
 
 import org.wildstang.autonomous.AutonomousProgram;
 import org.wildstang.autonomous.steps.AutonomousParallelStepGroup;
+import org.wildstang.autonomous.steps.AutonomousSerialStepGroup;
 import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveDistanceAtSpeed;
 import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveManual;
@@ -10,6 +11,7 @@ import org.wildstang.autonomous.steps.drivebase.AutonomousStepStrafe;
 import org.wildstang.autonomous.steps.intake.AutonomousStepIntakeEndAuto;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakeIn;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakeOff;
+import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakeOut;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSetIntakePistonsState;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSpinIntakeLeft;
 import org.wildstang.autonomous.steps.intake.AutonomousStepSpinIntakeRight;
@@ -31,7 +33,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 	protected final IntegerConfigFileParameter TURN_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Turn_Duration", 0750);
 	protected final DoubleConfigFileParameter ZONE_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Zone_Distance", 50);
 
-	protected final DoubleConfigFileParameter BACKUP_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Back_Speed", -0.5);
+	protected final DoubleConfigFileParameter BACKUP_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Speed", -0.5);
 	protected final DoubleConfigFileParameter BACKUP_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Distance", 42);
 	protected final DoubleConfigFileParameter BACKUP_COUNTER_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "Backup_Counter_Speed", -0.4);
 	
@@ -70,13 +72,13 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		AutonomousParallelStepGroup kick1stBinAndDrive = new AutonomousParallelStepGroup("Kick First Bin and Drive");
 		kick1stBinAndDrive.addStep(new AutonomousStepSpinIntakeLeft());
 		kick1stBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(true));
-		kick1stBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue()));
+		kick1stBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		addStep(kick1stBinAndDrive);
 		
 		//opens intake and starts driving to next tote
 		AutonomousParallelStepGroup push1stBinAndDrive = new AutonomousParallelStepGroup("Push 1st bin and drive");
 		push1stBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(false));
-		push1stBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
+		push1stBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue(), true));
 		addStep(push1stBinAndDrive);
 		
 		//spins intake in and closes
@@ -85,8 +87,6 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		intake2ndTote.addStep(new AutonomousStepSetIntakePistonsState(true));
 		intake2ndTote.addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
 		addStep(intake2ndTote);
-		
-		
 		
 		//opens intake and stops spinning
 		AutonomousParallelStepGroup openIntakeTote2 = new AutonomousParallelStepGroup("Open and stop intake for Tote2");
@@ -110,14 +110,14 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		AutonomousParallelStepGroup kick2ndBinAndDrive = new AutonomousParallelStepGroup("Kick 2nd Bin and Drive");
 		kick2ndBinAndDrive.addStep(new AutonomousStepSpinIntakeLeft());
 		kick2ndBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(true));
-		kick2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A_2.getValue(), DRIVE_SPEED_LOW.getValue()));
+		kick2ndBinAndDrive.addStep(new AutonomousStepStrafe(COUNTER_SPEED.getValue()));
+		kick2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A_2.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		addStep(kick2ndBinAndDrive);
 		
 		//opens intake, starts driving to next tote, and counters the bin push with strafe
 		AutonomousParallelStepGroup push2ndBinAndDrive = new AutonomousParallelStepGroup("Push 2nd bin and drive");
 		push2ndBinAndDrive.addStep(new AutonomousStepSetIntakePistonsState(false));
-		push2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B_2.getValue(), DRIVE_SPEED.getValue()));
-		push2ndBinAndDrive.addStep(new AutonomousStepStrafe(COUNTER_SPEED.getValue()));
+		push2ndBinAndDrive.addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B_2.getValue(), DRIVE_SPEED.getValue(), true));
 		addStep(push2ndBinAndDrive);
 		
 		//stops strafing
@@ -127,45 +127,39 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		AutonomousParallelStepGroup intake3rdTote = new AutonomousParallelStepGroup("Intake 3rd Tote");
 		intake3rdTote.addStep(new AutonomousStepSetIntakeIn());
 		intake3rdTote.addStep(new AutonomousStepSetIntakePistonsState(true));
+		intake3rdTote.addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
 		addStep(intake3rdTote);
 		
-		addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
-
-		//stops spinning and opens intake
-		AutonomousParallelStepGroup stopIntake = new AutonomousParallelStepGroup("Reset intake");
-		stopIntake.addStep(new AutonomousStepSetIntakePistonsState(false));
-		stopIntake.addStep(new AutonomousStepSetIntakeOff());
-		addStep(stopIntake);
-		
-		//picks up tote
-		AutonomousParallelStepGroup grabTote3 = new AutonomousParallelStepGroup("Lowers lift under 3rd tote");
-		grabTote3.addStep(new AutonomousStepSetLiftBottom());
-		grabTote3.addStep(new AutonomousStepDelay(DROP_TIME.getValue()));
-		addStep(grabTote3);
-
-		addStep(new AutonomousStepLiftManualControl(0.2, 700));
 
 		//strafes to the autozone with a counter
 		AutonomousParallelStepGroup strafe = new AutonomousParallelStepGroup("strafe");
-		//strafe.addStep(new AutonomousStepStrafe(SCORE_SPEED.getValue()));
+		strafe.addStep(new AutonomousStepSetIntakeOff());
 		strafe.addStep(new AutonomousStepDriveManual(0, .75));
 		strafe.addStep(new AutonomousStepDelay(TURN_TIME.getValue()));
+		AutonomousSerialStepGroup delay = new AutonomousSerialStepGroup("delay");
+		delay.addStep(new AutonomousStepDelay(250));
+		delay.addStep(new AutonomousStepSetLiftBottom());
+		strafe.addStep(delay);
 		addStep(strafe);
-		
-		addStep(new AutonomousStepDriveDistanceAtSpeed(ZONE_DISTANCE.getValue(), DRIVE_SPEED.getValue()));
+
+		AutonomousParallelStepGroup score = new AutonomousParallelStepGroup("score");
+		score.addStep(new AutonomousStepSetIntakePistonsState(false));
+		score.addStep(new AutonomousStepDriveManual(0, 0));
+		score.addStep(new AutonomousStepDriveDistanceAtSpeed(ZONE_DISTANCE.getValue(), 1, true));
+		addStep(score);
 		
 		//stops strafing and countering and drops lift
 		AutonomousParallelStepGroup finish = new AutonomousParallelStepGroup("Finshing");
-		finish.addStep(new AutonomousStepDriveManual(0, 0));
-		finish.addStep(new AutonomousStepSetLiftBottom());
+		finish.addStep(new AutonomousStepSetIntakePistonsState(true));
+		finish.addStep(new AutonomousStepSetIntakeOut());
+		finish.addStep(new AutonomousStepDelay(1000));
 		addStep(finish);
 		
 		// backs off of totes
-		addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue())); 
-
+		//addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue(), false)); 
+		
 		//resets the auto flag for intake
-		addStep(new AutonomousStepIntakeEndAuto());
-		strafe.addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
+		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
 	}
 
 	@Override

@@ -18,7 +18,7 @@ public class AutonomousProgramDriveAtSpeedForTime extends AutonomousProgram {
 	protected void defineSteps() {
 		// Shift into high gear
 		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kForward));
-		addStep(new AutonomousStepDriveDistanceAtSpeed(TIME_CONFIG.getValue(), SPEED_CONFIG.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TIME_CONFIG.getValue(), SPEED_CONFIG.getValue(), false));
 	}
 
 	public String toString() {

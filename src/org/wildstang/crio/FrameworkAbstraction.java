@@ -40,7 +40,7 @@ public class FrameworkAbstraction {
 			System.out.println(wscfe.toString());
 		}
 
-		//LogManager.getInstance();
+		LogManager.getInstance();
 		InputManager.getInstance();
 		OutputManager.getInstance();
 		SubsystemContainer.getInstance().init();
@@ -54,7 +54,7 @@ public class FrameworkAbstraction {
 
 	        // the camera name (ex "cam0") can be found through the roborio web interface
 	        session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-	        CameraServer.getInstance().setQuality(25);
+	        CameraServer.getInstance().setQuality(1);
 	        NIVision.IMAQdxConfigureGrab(session);
 
 	        NIVision.IMAQdxStartAcquisition(session);
@@ -72,19 +72,19 @@ public class FrameworkAbstraction {
 
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
-		//LogManager.getInstance().endLog();
+		LogManager.getInstance().endLog();
 	}
 
 	public static void disabledPeriodic() {
 		InputManager.getInstance().updateOiData();
-		//LogManager.getInstance().queueCurrentLogsForSending();
+		LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void autonomousInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance().startCurrentProgram();
-		//LogManager.getInstance().startLog();
+		LogManager.getInstance().startLog();
 	}
 
 	public static void autonomousPeriodic() {
@@ -93,13 +93,13 @@ public class FrameworkAbstraction {
 		AutonomousManager.getInstance().update();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
-		//LogManager.getInstance().queueCurrentLogsForSending();
+		LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void teleopInit() {
 		SubsystemContainer.getInstance().init();
 		Logger.getLogger().readConfig();
-		//LogManager.getInstance().startLog();
+		LogManager.getInstance().startLog();
 	}
 
 	public static void teleopPeriodic() {
@@ -109,7 +109,7 @@ public class FrameworkAbstraction {
 		InputManager.getInstance().updateSensorData();
 		SubsystemContainer.getInstance().update();
 		OutputManager.getInstance().update();
-		//LogManager.getInstance().queueCurrentLogsForSending();
+		LogManager.getInstance().queueCurrentLogsForSending();
 
         NIVision.IMAQdxGrab(session, frame, 1);
         CameraServer.getInstance().setImage(frame);

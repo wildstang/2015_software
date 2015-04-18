@@ -61,13 +61,13 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 		// closes intake starts spinning left
 		addStep(new AutonomousStepSpinIntakeLeft());
 		addStep(new AutonomousStepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		////addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// opens intake (attempt to knock bins)
 		addStep(new AutonomousStepDelay(250));
 		addStep(new AutonomousStepSetIntakePistonsState(false));
 		addStep(new AutonomousStepDelay(500));
-		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue(), false));
 		// stops driving closes intake and spins intake in
 		addStep(new AutonomousStepSetIntakeIn());
 		////addStep(new AutonomousStepDriveManual(0.0, 0));
@@ -88,13 +88,13 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 		// closes intake starts spinning left
 		addStep(new AutonomousStepSpinIntakeLeft());
 		addStep(new AutonomousStepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		////addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// opens intake (attempt to knock bins)
 		addStep(new AutonomousStepDelay(250));
 		addStep(new AutonomousStepSetIntakePistonsState(false));
 		addStep(new AutonomousStepDelay(500));
-		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue(), false));
 		// stops driving closes intake and spins intake in
 		addStep(new AutonomousStepSetIntakeIn());
 		////addStep(new AutonomousStepDriveManual(0.0, 0));
@@ -118,7 +118,7 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 		addStep(new AutonomousStepSetLiftBottom());
 		addStep(new AutonomousStepDelay(2000));
 		// backs off of totes
-		addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue()));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue(), false));
 		////addStep(new AutonomousStepDriveManual(BACK_SPEED.getValue(), 0));
 		////addStep(new AutonomousStepDelay(BACKUP_TIME.getValue()));
 		////addStep(new AutonomousStepDriveManual(0.0, 0));

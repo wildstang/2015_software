@@ -10,28 +10,38 @@ import java.util.Map;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+import org.wildstang.config.BooleanConfigFileParameter;
+import org.wildstang.config.IntegerConfigFileParameter;
+
 /**
- * This is the robot component of the WildLog system. It is responsible for receiving logs from robot code, storing
- * them, and eventually sending them to an offboard processor for storage.
+ * This is the robot component of the WildLog system. It is responsible for
+ * receiving logs from robot code, storing them, and eventually sending them to
+ * an offboard processor for storage.
  * 
  * USAGE
  * 
- * The LogManager is a singleton; to obtain an instance; call LogManager.getInstance().
+ * The LogManager is a singleton; to obtain an instance; call
+ * LogManager.getInstance().
  * 
- * The LogManager will send data as discrete bundles (Maps, specifically). Each of those bundles contains the timestamp
- * of when the bundle was sent and any logged data that was added since the last bundle was sent out. A typical pattern
- * for this is to log, once per robot cycle, all the things you want to keep track of, and then send out the bundle at
- * the end of the cycle.
+ * The LogManager will send data as discrete bundles (Maps, specifically). Each
+ * of those bundles contains the timestamp of when the bundle was sent and any
+ * logged data that was added since the last bundle was sent out. A typical
+ * pattern for this is to log, once per robot cycle, all the things you want to
+ * keep track of, and then send out the bundle at the end of the cycle.
  * 
- * To log a piece of data; call addObject(). That method accepts two parameters. The first is a key that can later be
- * used to identify the piece of data you just logged. Note that this key should be unique for each map of data sent
- * out. The second is a Java object that will be associated with the key. This can be any Java object that you want,
- * although usually it will be a Double, String, or a Boolean (The WildLog data visualizer has built-in support for
+ * To log a piece of data; call addObject(). That method accepts two parameters.
+ * The first is a key that can later be used to identify the piece of data you
+ * just logged. Note that this key should be unique for each map of data sent
+ * out. The second is a Java object that will be associated with the key. This
+ * can be any Java object that you want, although usually it will be a Double,
+ * String, or a Boolean (The WildLog data visualizer has built-in support for
  * those data types).
  * 
- * To queue the current logs for sending, call the (aptly-named) method queueCurrentLogsForSending(). This will send all
- * the current logs to a background thread, which will queue them to be sent over to the offboard processor. To avoid
- * any issues with running out of memory, the queue is limited to storing 20 objects at any given time.
+ * To queue the current logs for sending, call the (aptly-named) method
+ * queueCurrentLogsForSending(). This will send all the current logs to a
+ * background thread, which will queue them to be sent over to the offboard
+ * processor. To avoid any issues with running out of memory, the queue is
+ * limited to storing 20 objects at any given time.
  * 
  * @author Nathan
  *
@@ -42,6 +52,9 @@ public class LogManager {
 	private long startTime = System.currentTimeMillis();
 	private LogSender logDataSender;
 
+	protected final BooleanConfigFileParameter LOGGER_ENABLED = new BooleanConfigFileParameter(
+			this.getClass().getName(), "Logger_Enabled", false);
+
 	public static LogManager getInstance() {
 		if (instance == null) {
 			instance = new LogManager();
@@ -51,37 +64,47 @@ public class LogManager {
 	}
 
 	private void init() {
-		new Thread(logDataSender = new LogSender("beaglebone.local", 1111)).start();
+		if (LOGGER_ENABLED.getValue()) {
+			new Thread(logDataSender = new LogSender("beaglebone.local", 1111))
+					.start();
+		}
 	}
 
 	/**
-	 * Queues the current accumulated data to be sent to the offboard processor. Once the logs have been added to the
-	 * queue, the list of logs is cleared. This should be called once all the data you want in the outgoing bundle has
-	 * been added via one of the add methods.
+	 * Queues the current accumulated data to be sent to the offboard processor.
+	 * Once the logs have been added to the queue, the list of logs is cleared.
+	 * This should be called once all the data you want in the outgoing bundle
+	 * has been added via one of the add methods.
 	 */
 	public void queueCurrentLogsForSending() {
+		if (LOGGER_ENABLED.getValue()) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("Timestamp", System.currentTimeMillis() - startTime);
+			for (LogObject object : objects) {
+				map.put(object.getName(), object.getObject());
+			}
+			logDataSender.addLogToQueue(map);
 
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("Timestamp", System.currentTimeMillis() - startTime);
-		for (LogObject object : objects) {
-			map.put(object.getName(), object.getObject());
+			objects.clear();
 		}
-		logDataSender.addLogToQueue(map);
-
-		objects.clear();
-
 	}
 
 	public void addLog(String name, Object obj) {
-		objects.add(new LogObject(name, obj));
+		if (LOGGER_ENABLED.getValue()) {
+			objects.add(new LogObject(name, obj));
+		}
 	}
 
 	public void startLog() {
-		logDataSender.addCommandToQueue("startlog");
+		if (LOGGER_ENABLED.getValue()) {
+			logDataSender.addCommandToQueue("startlog");
+		}
 	}
 
 	public void endLog() {
-		logDataSender.addCommandToQueue("endlog");
+		if (LOGGER_ENABLED.getValue()) {
+			logDataSender.addCommandToQueue("endlog");
+		}
 	}
 
 	/**
@@ -94,9 +117,12 @@ public class LogManager {
 		private static final int QUEUE_MAX_SIZE = 20;
 		private Socket socket;
 		private ObjectOutputStream outputStream;
-		// Limit queue to 20 objects; if we don't we'll run out of memory after a while.
-		private BlockingDeque<Object> logQueue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
-		private BlockingDeque<Object> commandQueue = new LinkedBlockingDeque<>(QUEUE_MAX_SIZE);
+		// Limit queue to 20 objects; if we don't we'll run out of memory after
+		// a while.
+		private BlockingDeque<Object> logQueue = new LinkedBlockingDeque<>(
+				QUEUE_MAX_SIZE);
+		private BlockingDeque<Object> commandQueue = new LinkedBlockingDeque<>(
+				QUEUE_MAX_SIZE);
 		private String host;
 		private int port;
 
@@ -122,11 +148,13 @@ public class LogManager {
 		@Override
 		public void run() {
 			while (true) {
-				// If we lose connection or the connection attempt times out, continually retry.
+				// If we lose connection or the connection attempt times out,
+				// continually retry.
 
 				try {
 					socket = new Socket(host, port);
-					outputStream = new ObjectOutputStream(socket.getOutputStream());
+					outputStream = new ObjectOutputStream(
+							socket.getOutputStream());
 
 					while (true) {
 						Object o;
@@ -139,12 +167,13 @@ public class LogManager {
 						while ((o = logQueue.pollLast()) != null) {
 							outputStream.writeObject(o);
 						}
-						//this fixed the memory leak
-						outputStream.flush();
+						// this fixed the memory leak
+						outputStream.close();
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.out.println("Unable to open socket. Retrying in a few seconds.");
+					System.out
+							.println("Unable to open socket. Retrying in a few seconds.");
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException ex) {
