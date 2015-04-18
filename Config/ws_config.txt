@@ -127,7 +127,7 @@ org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.time_to_se
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.time_to_third_tote=2500
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.drive_speed=.5
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.drive_speed_low=.5
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Intake_Duration=1000
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Intake_Duration=800
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Init_Intake_Duration=450
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Score_Duration=3000
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Score_Speed=0.75
@@ -135,10 +135,13 @@ org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Back_Durat
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Back_Speed=-0.5
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Counter_Speed=0
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Counter_Speed=0.5
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_A=35
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_A=30
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B=25
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.3_Tote_Buffer=15
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Distance=-30
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Speed=-0.5
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Rise_Time=1750
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Drop_Time=1500
 
 // Knock over bin
 org.wildstang.autonomous.programs.AutonomousProgramKnockOverBin.drive_duration=500

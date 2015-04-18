@@ -14,7 +14,10 @@ import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
 import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
+import com.ni.vision.NIVision.FlipAxis;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
@@ -107,12 +110,13 @@ public class FrameworkAbstraction {
 		OutputManager.getInstance().update();
 		//LogManager.getInstance().queueCurrentLogsForSending();
 
-        try {
-            NIVision.IMAQdxGrab(session, frame, 1);
-            CameraServer.getInstance().setImage(frame);
-        }
-        catch(Exception e){}
-        
+        NIVision.IMAQdxGrab(session, frame, 1);
+        /*NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
+        NIVision.imaqDrawShapeOnImage(frame, frame, rect, DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
+        NIVision.imaqDrawLineOnImage(frame, frame, DrawMode.DRAW_VALUE, new NIVision.Point(0, 50), new NIVision.Point(100, 50), 0.0f);
+        NIVision.imaqDrawLineOnImage(frame, frame, DrawMode.DRAW_VALUE, new NIVision.Point(50, 0), new NIVision.Point(50, 100), 0.0f);*/
+        CameraServer.getInstance().setImage(frame);
+       
 		long cycleEndTime = System.currentTimeMillis();
 		long cycleLength = cycleEndTime - cycleStartTime;
 		System.out.println("Cycle time: " + cycleLength);

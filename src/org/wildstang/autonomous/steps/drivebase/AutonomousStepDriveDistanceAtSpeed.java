@@ -13,13 +13,17 @@ public class AutonomousStepDriveDistanceAtSpeed extends AutonomousStep {
 	
 	public AutonomousStepDriveDistanceAtSpeed(double distanceInInches, double speed) {
 		this.distance = distanceInInches;
-		this.speed = speed;
+		this.speed = Math.abs(speed);
 	}
 
 	public void initialize() {
 		driveBase = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX));
 		driveBase.resetLeftEncoder();
 		driveBase.overrideThrottleValue(speed);
+		double actualSpeed;
+		if (distance < 0) {
+			speed = -speed;
+		}
 	}
 
 	public void update() {
