@@ -46,6 +46,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 	
 	protected final IntegerConfigFileParameter RISE_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Rise_Time", 2000);
 	protected final IntegerConfigFileParameter DROP_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Drop_Time", 1500);
+	protected final IntegerConfigFileParameter DROP_DELAY = new IntegerConfigFileParameter(this.getClass().getName(), "Drop_Delay", 250);
 	
 	@Override
 	protected void defineSteps() {
@@ -138,7 +139,7 @@ public class AutonomousProgramThreeTotesParallel extends AutonomousProgram {
 		strafe.addStep(new AutonomousStepDriveManual(0, .75));
 		strafe.addStep(new AutonomousStepDelay(TURN_TIME.getValue()));
 		AutonomousSerialStepGroup delay = new AutonomousSerialStepGroup("delay");
-		delay.addStep(new AutonomousStepDelay(250));
+		delay.addStep(new AutonomousStepDelay(DROP_DELAY.getValue()));
 		delay.addStep(new AutonomousStepSetLiftBottom());
 		strafe.addStep(delay);
 		addStep(strafe);

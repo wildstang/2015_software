@@ -124,22 +124,23 @@ org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Tote_Dista
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.Backup_Distance=30
 
 // Three tote parallel
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.drive_speed=.75
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.drive_speed_low=.65
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.drive_speed=.7
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.drive_speed_low=.55
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Intake_Duration=800
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Init_Intake_Duration=450
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Turn_Duration=1000
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Zone_Distance=70
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Zone_Distance=45
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Counter_Speed=0.0
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Counter_Speed=-0.6
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_A=32
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B=26
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_A_2=36
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B_2=32
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B_2=33
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Distance=-30
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Speed=-1
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Rise_Time=1500
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Drop_Time=1250
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Drop_Delay=300
 
 // Knock over bin
 org.wildstang.autonomous.programs.AutonomousProgramKnockOverBin.drive_duration=500
