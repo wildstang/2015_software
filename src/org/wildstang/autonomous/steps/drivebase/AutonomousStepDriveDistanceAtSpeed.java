@@ -1,10 +1,17 @@
 package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
+import org.wildstang.config.BooleanConfigFileParameter;
+import org.wildstang.config.DoubleConfigFileParameter;
 import org.wildstang.subsystems.DriveBase;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class AutonomousStepDriveDistanceAtSpeed extends AutonomousStep {
+
+	private final DoubleConfigFileParameter DRIFTING_COMPENSATION_FACTOR_CONFIG;
+	private final BooleanConfigFileParameter USE_DRIFTING_COMPENSATION_FACTOR_CONFIG;
 
 	private static final long MILLIS_TO_REVERSE = 200;
 
@@ -16,17 +23,19 @@ public class AutonomousStepDriveDistanceAtSpeed extends AutonomousStep {
 
 	private DriveBase driveBase;
 
-	public AutonomousStepDriveDistanceAtSpeed(double distanceInInches,
-			double speed, boolean shouldHardStop) {
+	public AutonomousStepDriveDistanceAtSpeed(double distanceInInches, double speed, boolean shouldHardStop) {
 		this.distance = distanceInInches;
 		this.speed = Math.abs(speed);
 		this.shouldHardStop = shouldHardStop;
+		DRIFTING_COMPENSATION_FACTOR_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "drifting_compensation_factor", 0.05);
+		USE_DRIFTING_COMPENSATION_FACTOR_CONFIG = new BooleanConfigFileParameter(this.getClass().getName(), "use_comp", false);
+		SmartDashboard.putBoolean("Using comp factor", USE_DRIFTING_COMPENSATION_FACTOR_CONFIG.getValue());
 	}
 
 	public void initialize() {
-		driveBase = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(
-				SubsystemContainer.DRIVE_BASE_INDEX));
+		driveBase = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX));
 		driveBase.resetLeftEncoder();
+		driveBase.resetRightEncoder();
 		if (distance < 0) {
 			speed = -speed;
 		}
@@ -35,16 +44,30 @@ public class AutonomousStepDriveDistanceAtSpeed extends AutonomousStep {
 	}
 
 	public void update() {
+		double leftDistance = driveBase.getLeftDistance();
+		double rightDistance = driveBase.getRightDistance();
 		if (!hasReachedTarget) {
-			if (Math.abs(driveBase.getLeftDistance()) > Math.abs(distance)) {
+			if (Math.abs(leftDistance) > Math.abs(distance) || Math.abs(rightDistance) > Math.abs(distance)) {
 				hasReachedTarget = true;
 				timeWhenTargetReached = System.currentTimeMillis();
+			} else {
+				if (USE_DRIFTING_COMPENSATION_FACTOR_CONFIG.getValue()) {
+					SmartDashboard.putBoolean("Using comp factor NOW", USE_DRIFTING_COMPENSATION_FACTOR_CONFIG.getValue());
+					// Still need to reach target. Try to compensate for drifting by applying a heading.
+					double distanceDifference = rightDistance - leftDistance;
+					if (distance > 0) {
+						// We're driving forward
+						driveBase.overrideHeadingValue(distanceDifference * DRIFTING_COMPENSATION_FACTOR_CONFIG.getValue());
+					} else {
+						// We're driving backwards. Heading compensation is reversed.
+						driveBase.overrideHeadingValue(distanceDifference * DRIFTING_COMPENSATION_FACTOR_CONFIG.getValue() * -1);
+					}
+				}
 			}
 		}
 
 		if (hasReachedTarget && shouldHardStop) {
-			if (System.currentTimeMillis() < timeWhenTargetReached
-					+ MILLIS_TO_REVERSE) {
+			if (System.currentTimeMillis() < timeWhenTargetReached + MILLIS_TO_REVERSE) {
 				driveBase.overrideThrottleValue(-speed);
 			} else {
 				driveBase.disableDriveOverride();

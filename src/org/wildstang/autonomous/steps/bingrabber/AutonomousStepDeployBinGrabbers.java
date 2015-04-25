@@ -5,10 +5,10 @@ import org.wildstang.subsystems.BinGrabber;
 import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.base.SubsystemContainer;
 
-public class AutonomousStepReleaseBinGrabbers extends AutonomousStep {
+public class AutonomousStepDeployBinGrabbers extends AutonomousStep {
 
 	public void initialize() {
-		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).releaseBinGrabber();
+		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).deployBinGrabbers();
 		finished = true;
 	}
 

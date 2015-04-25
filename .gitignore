@@ -18,6 +18,18 @@ sysProps.xml
 /bin/
 /bin/
 /bin/
+<<<<<<< HEAD
 
 # Build File
 build.xml
+=======
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+>>>>>>> branch 'bingrabbers' of https://nwalters512@bitbucket.org/wildstang/2015_software.git

@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * @author Joey
  */
 public class AutonomousStepSetShifter extends AutonomousStep {
-	protected DoubleSolenoid.Value state;
+	protected boolean highGear;;
 
-	public AutonomousStepSetShifter(DoubleSolenoid.Value state) {
-		this.state = state;
+	public AutonomousStepSetShifter(boolean highGear) {
+		this.highGear = highGear;
 	}
 
 	public void initialize() {
-		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).setShifter(state);
+		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).setShifter(highGear);
 		this.finished = true;
 	}
 

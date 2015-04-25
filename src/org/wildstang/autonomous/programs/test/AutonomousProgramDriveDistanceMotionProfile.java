@@ -29,7 +29,7 @@ public class AutonomousProgramDriveDistanceMotionProfile extends AutonomousProgr
 	public void defineSteps() {
 		distance = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".distance", 10.0);
 		heading = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".heading", 0.0);
-		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
+		addStep(new AutonomousStepSetShifter(true));
 		addStep(new AutonomousStepStartDriveUsingMotionProfileAndHeading(distance.getValue(), 0.0, heading.getValue()));
 		addStep(new AutonomousStepWaitForDriveMotionProfile());
 		addStep(new AutonomousStepStopDriveUsingMotionProfile());

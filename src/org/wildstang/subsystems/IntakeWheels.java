@@ -27,7 +27,7 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	private static boolean auto = false;
 
-	boolean intakePistonsOut = false;
+	boolean intakePistonsOut;
 
 	public IntakeWheels(String name) {
 		super(name);
@@ -40,7 +40,8 @@ public class IntakeWheels extends Subsystem implements IObserver {
 	}
 
 	public void init() {
-		intakePistonsOut = false;
+		// Sketchy... on the comp bot, true is false and false is true
+		intakePistonsOut = true;
 		auto = false;
 
 		INTAKE_TURN_SCALE_FACTOR = INTAKE_TURN_SCALE_FACTOR_CONFIG.getValue();
@@ -80,7 +81,8 @@ public class IntakeWheels extends Subsystem implements IObserver {
 			SmartDashboard.putNumber("Intake Wheel Right", rightMotorSpeed);
 			SmartDashboard.putNumber("Intake Wheel Left", leftMotorSpeed);
 		}
-		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(intakePistonsOut));
+		// Backwards on the comp bot
+		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(!intakePistonsOut));
 		SmartDashboard.putBoolean("Intake Pistons Out", intakePistonsOut);
 		LogManager.getInstance().addLog("Intake Pistons", intakePistonsOut);
 	}
