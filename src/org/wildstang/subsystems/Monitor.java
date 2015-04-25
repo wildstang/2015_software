@@ -10,6 +10,7 @@ import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -48,12 +49,19 @@ public class Monitor extends Subsystem implements IObserver {
 		DriverJoystick driverJoystick = ((DriverJoystick) InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX));
 		ManipulatorJoystick manipulatorJoystick = ((ManipulatorJoystick) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX));
 
+		boolean isRobotEnabled = DriverStation.getInstance().isEnabled();
+		boolean isRobotTeleop = DriverStation.getInstance().isOperatorControl();
+		boolean isRobotAuton = DriverStation.getInstance().isAutonomous();
+		
 		// Log joystick values
 		logManager.addLog(JoystickAxisEnum.DRIVER_THROTTLE.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_THROTTLE).getValueAsObject()));
 		logManager.addLog(JoystickAxisEnum.DRIVER_HEADING.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_HEADING).getValueAsObject()));
 		logManager.addLog(JoystickAxisEnum.DRIVER_STRAFE.toString(), ((Double) driverJoystick.getSubject(JoystickAxisEnum.DRIVER_STRAFE).getValueAsObject()));
 		logManager.addLog(JoystickAxisEnum.MANIPULATOR_LIFT.toString(), ((Double) manipulatorJoystick.getSubject(JoystickAxisEnum.MANIPULATOR_LIFT).getValueAsObject()));
-
+		logManager.addLog("Enabled", isRobotEnabled);
+		logManager.addLog("Teleop", isRobotTeleop);
+		logManager.addLog("Auto", isRobotAuton);
+		
 		// Log button presses
 		for (int i = 0; i < 12; i++) {
 			logManager.addLog("Driver Button " + (i + 1), ((Boolean) driverJoystick.getSubject(JoystickButtonEnum.getEnumFromIndex(true, i)).getValueAsObject()));
