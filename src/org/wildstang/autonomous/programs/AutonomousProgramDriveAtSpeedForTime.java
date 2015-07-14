@@ -12,16 +12,16 @@ import org.wildstang.config.IntegerConfigFileParameter;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class AutonomousProgramDriveAtSpeedForTime extends AutonomousProgram {
-	protected final IntegerConfigFileParameter TIME_CONFIG = new IntegerConfigFileParameter(this.getClass().getName(), "Duration", 2000);
+	protected final IntegerConfigFileParameter DISTANCE_CONFIG = new IntegerConfigFileParameter(this.getClass().getName(), "Distance", 40);
 	protected final DoubleConfigFileParameter SPEED_CONFIG = new DoubleConfigFileParameter(this.getClass().getName(), "Speed", .5);
 
 	protected void defineSteps() {
 		// Shift into high gear
-		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kForward));
-		addStep(new AutonomousStepDriveDistanceAtSpeed(TIME_CONFIG.getValue(), SPEED_CONFIG.getValue(), false));
+		addStep(new AutonomousStepSetShifter(true));
+		addStep(new AutonomousStepDriveDistanceAtSpeed(DISTANCE_CONFIG.getValue(), SPEED_CONFIG.getValue(), false));
 	}
 
 	public String toString() {
-		return "Drive For Two Seconds";
+		return "Drive Distance at Speed";
 	}
 }

@@ -8,7 +8,7 @@ import org.wildstang.subsystems.base.SubsystemContainer;
 public class AutonomousStepRetractBinGrabbers extends AutonomousStep {
 
 	public void initialize() {
-		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).retractBinGrabber();
+		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).retractBinGrabbers();
 		finished = true;
 	}
 

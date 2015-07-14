@@ -62,7 +62,8 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static boolean superAntiTurboFlag = false;
 	private static boolean strafeReverseDirectionFlag = false;
 	private static boolean turboFlag = false;
-	private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
+	private static boolean highGearFlag = false; // default to low gear
+	// private static DoubleSolenoid.Value shifterFlag = DoubleSolenoid.Value.kForward; // Default to low gear
 	private static boolean quickTurnFlag = false;
 	private static Encoder leftDriveEncoder;
 	private static Encoder rightDriveEncoder;
@@ -123,7 +124,8 @@ public class DriveBase extends Subsystem implements IObserver {
 	private static DoubleConfigFileParameter DRIVE_OFFSET_config;
 	private static DoubleConfigFileParameter QUICK_TURN_CAP_config;
 	private static DoubleConfigFileParameter QUICK_TURN_ANTITURBO_config;
-	private static DoubleConfigFileParameter DRIVE_BIAS_config;
+	private static DoubleConfigFileParameter RIGHT_DRIVE_BIAS_config;
+	private static DoubleConfigFileParameter LEFT_DRIVE_BIAS_config;
 	private static BooleanConfigFileParameter USE_LEFT_SIDE_FOR_OFFSET_config;
 	private static DoubleConfigFileParameter SUPER_ANTITURBO_FACTOR_config;
 	private static BooleanConfigFileParameter ACCELERATION_ENABLED_config;
@@ -161,7 +163,8 @@ public class DriveBase extends Subsystem implements IObserver {
 		SUPER_ANTITURBO_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "super_antiturbo_factor", 0.5);
 		ACCELERATION_ENABLED_config = new BooleanConfigFileParameter(this.getClass().getName(), "acceleration_enabled", false);
 		OUTPUT_SCALE_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "output_scale_factor", 1.0);
-		DRIVE_BIAS_config = new DoubleConfigFileParameter(this.getClass().getName(), "drive_bias", 0.95);
+		RIGHT_DRIVE_BIAS_config = new DoubleConfigFileParameter(this.getClass().getName(), "right_drive_bias", 1.0);
+		LEFT_DRIVE_BIAS_config = new DoubleConfigFileParameter(this.getClass().getName(), "left_drive_bias", 1.0);
 
 		// Anti-Turbo button
 		registerForJoystickButtonNotification(JoystickButtonEnum.DRIVER_BUTTON_8);
@@ -199,7 +202,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		turboFlag = false;
 		strafeReverseDirectionFlag = false;
 		// Default to low gear
-		shifterFlag = DoubleSolenoid.Value.kReverse;
+		highGearFlag = false;
 		quickTurnFlag = false;
 		motionProfileActive = false;
 		previousTime = Timer.getFPGATimestamp();
@@ -305,13 +308,12 @@ public class DriveBase extends Subsystem implements IObserver {
 
 			SmartDashboard.putNumber("Throttle Value", driveBaseThrottleValue);
 			SmartDashboard.putNumber("Heading Value", driveBaseHeadingValue);
-			SmartDashboard.putBoolean("High Gear", shifterFlag.equals(DoubleSolenoid.Value.kForward));
+			SmartDashboard.putBoolean("High Gear", highGearFlag);
 			SmartDashboard.putBoolean("Anti-Turbo Flag", antiTurboFlag);
 			SmartDashboard.putBoolean("Quickturn", quickTurnFlag);
 
-			
 			// Set gear shift output
-			getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(shifterFlag.value));
+			getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(highGearFlag == true ? DoubleSolenoid.Value.kReverse.value : DoubleSolenoid.Value.kForward.value));
 		}
 
 		SmartDashboard.putNumber("Left encoder count: ", this.getLeftEncoderValue());
@@ -414,7 +416,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			}
 		}
 
-		if (shifterFlag == DoubleSolenoid.Value.kReverse) {
+		if (highGearFlag) {
 			// We are in high gear, see if the turbo button is pressed
 			if (turboFlag == true) {
 				// We are in turbo mode, don't cap the output
@@ -435,10 +437,10 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		if (ACCELERATION_ENABLED) {
 			// Use the acceleration factor based on the current shifter state
-			if (shifterFlag == DoubleSolenoid.Value.kForward) {
+			if (!highGearFlag) {
 				// We are in low gear, use that acceleration factor
 				driveBaseThrottleValue = driveBaseThrottleValue + (new_throttle - driveBaseThrottleValue) * THROTTLE_LOW_GEAR_ACCEL_FACTOR;
-			} else if (shifterFlag == DoubleSolenoid.Value.kReverse) {
+			} else if (highGearFlag) {
 				// We are in high gear, use that acceleration factor
 				driveBaseThrottleValue = driveBaseThrottleValue + (new_throttle - driveBaseThrottleValue) * THROTTLE_HIGH_GEAR_ACCEL_FACTOR;
 			} else {
@@ -476,10 +478,10 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		if (ACCELERATION_ENABLED) {
 			// Use the acceleration factor based on the current shifter state
-			if (shifterFlag == DoubleSolenoid.Value.kForward) {
+			if (!highGearFlag) {
 				// We are in low gear, use that acceleration factor
 				driveBaseStrafeValue = driveBaseStrafeValue + (newStrafe - driveBaseStrafeValue) * STRAFE_ACCEL_FACTOR;
-			} else if (shifterFlag == DoubleSolenoid.Value.kReverse) {
+			} else if (highGearFlag) {
 				// We are in high gear, use that acceleration factor
 				driveBaseStrafeValue = driveBaseStrafeValue + (newStrafe - driveBaseStrafeValue) * STRAFE_ACCEL_FACTOR;
 			}
@@ -512,10 +514,10 @@ public class DriveBase extends Subsystem implements IObserver {
 
 		if (ACCELERATION_ENABLED) {
 			// Use the acceleration factor based on the current shifter state
-			if (shifterFlag == DoubleSolenoid.Value.kForward) {
+			if (!highGearFlag) {
 				// We are in low gear, use that acceleration factor
 				driveBaseHeadingValue = driveBaseHeadingValue + (new_heading - driveBaseHeadingValue) * HEADING_LOW_GEAR_ACCEL_FACTOR;
-			} else if (shifterFlag == DoubleSolenoid.Value.kReverse) {
+			} else if (highGearFlag) {
 				// We are in high gear, use that acceleration factor
 				driveBaseHeadingValue = driveBaseHeadingValue + (new_heading - driveBaseHeadingValue) * HEADING_HIGH_GEAR_ACCEL_FACTOR;
 			} else {
@@ -644,10 +646,10 @@ public class DriveBase extends Subsystem implements IObserver {
 		SmartDashboard.putNumber("StrafeDriveSpeed", strafeMotorSpeed);
 
 		// Update Output Facade.
-		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed));
-		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed*DRIVE_BIAS_config.getValue()));
+		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed * LEFT_DRIVE_BIAS_config.getValue()));
+		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed * RIGHT_DRIVE_BIAS_config.getValue()));
 		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
-		
+
 	}
 
 	public void checkAutoQuickTurn() {
@@ -808,7 +810,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			antiTurboFlag = ((BooleanSubject) subjectThatCaused).getValue();
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_6) {
 			if (((BooleanSubject) subjectThatCaused).getValue() == true) {
-				shifterFlag = shifterFlag.equals(DoubleSolenoid.Value.kForward) ? DoubleSolenoid.Value.kReverse : DoubleSolenoid.Value.kForward;
+				highGearFlag = !highGearFlag;
 			}
 		} else if (subjectThatCaused.getType() == JoystickButtonEnum.DRIVER_BUTTON_7) {
 			strafeReverseDirectionFlag = ((BooleanSubject) subjectThatCaused).getValue();
@@ -835,7 +837,7 @@ public class DriveBase extends Subsystem implements IObserver {
 		}
 	}
 
-	public void setShifter(DoubleSolenoid.Value state) {
-		shifterFlag = state;
+	public void setShifter(boolean highGear) {
+		highGearFlag = highGear;
 	}
 }

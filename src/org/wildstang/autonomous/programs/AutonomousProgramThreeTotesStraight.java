@@ -57,7 +57,7 @@ public class AutonomousProgramThreeTotesStraight extends AutonomousProgram {
 
 		// picks up second bin
 		// shifts into high gear and begins driving
-		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kForward));
+		addStep(new AutonomousStepSetShifter(true));
 		// closes intake starts spinning left
 		addStep(new AutonomousStepSpinIntakeLeft());
 		addStep(new AutonomousStepSetIntakePistonsState(true));

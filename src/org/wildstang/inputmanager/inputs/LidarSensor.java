@@ -28,7 +28,7 @@ public class LidarSensor implements PIDSource {
 
 	// Distance in cm
 	public int getDistance() {
-		return (int) Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
+		return 0; //(int) Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
 	}
 
 	// Returns average of the last 5 readings

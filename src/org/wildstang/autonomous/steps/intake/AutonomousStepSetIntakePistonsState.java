@@ -12,7 +12,7 @@ public class AutonomousStepSetIntakePistonsState extends AutonomousStep {
 	}
 
 	public void initialize() {
-		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setPistons(open);
+		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).setPistons(!open);
 		finished = true;
 	}
 

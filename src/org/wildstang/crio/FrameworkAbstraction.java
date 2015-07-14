@@ -82,8 +82,8 @@ public class FrameworkAbstraction {
 
 	public static void autonomousInit() {
 		SubsystemContainer.getInstance().init();
-		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance().startCurrentProgram();
+		Logger.getLogger().readConfig();
 		LogManager.getInstance().startLog();
 	}
 

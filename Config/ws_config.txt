@@ -18,10 +18,10 @@ org.wildstang.subsystems.IntakeWheels.intake_deadband=0.53
 
 //Lift and lift presets
 //Normal Setup Stuff
-org.wildstang.subsystems.Lift.pot_top_voltage=4.490
-org.wildstang.subsystems.Lift.pot_bottom_voltage=2.915
-org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=4.600
-org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=2.900
+org.wildstang.subsystems.Lift.pot_top_voltage=4.02
+org.wildstang.subsystems.Lift.pot_bottom_voltage=2.54
+org.wildstang.subsystems.lift.LiftPreset.top.wanted_voltage=4.02
+org.wildstang.subsystems.lift.LiftPreset.bottom.wanted_voltage=2.54
 org.wildstang.subsystems.lift.LiftPreset.level_four.wanted_voltage=4.120
 //
 org.wildstang.subsystems.Lift.top_slow_down_radius=0.2
@@ -44,7 +44,8 @@ org.wildstang.subsystems.lift.LiftPreset.one_bin.wanted_voltage=2.000
 
 //Drive Base
 org.wildstang.subsystems.DriveBase.wheel_diameter=6.0
-org.wildstang.subsystems.DriveBase.drive_bias=1.0
+org.wildstang.subsystems.DriveBase.right_drive_bias=1.0
+org.wildstang.subsystems.DriveBase.left_drive_bias=0.87
 org.wildstang.subsystems.DriveBase.ticks_per_rotation=360.0
 org.wildstang.subsystems.DriveBase.throttle_low_gear_accel_factor=0.7
 org.wildstang.subsystems.DriveBase.heading_low_gear_accel_factor=0.6
@@ -68,7 +69,7 @@ org.wildstang.subsystems.DriveBase.quick_turn_antiturbo=10.0
 org.wildstang.subsystems.DriveBase.super_antiturbo_factor=0.30
 org.wildstang.subsystems.DriveBase.acceleration_enabled=true
 // 0.75 for proto, 0.5 for real robot
-org.wildstang.subsystems.DriveBase.output_scale_factor=1.00
+org.wildstang.subsystems.DriveBase.output_scale_factor=0.75
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.p=0.0
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.i=0.0
 org.wildstang.pid.controller.base.SpeedPidController.DriveBaseSpeedPid.d=0.0
@@ -105,8 +106,12 @@ org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfi
 org.wildstang.autonomous.programs.test.AutonomousProgramDriveDistanceMotionProfile.ForceStopAtStep=0
 
 // Drive
-org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Duration=81
+org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Distance=200
 org.wildstang.autonomous.programs.AutonomousProgramDriveAtSpeedForTime.Speed=0.5
+
+// DRIVE_CONFIGURATIONN
+org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveDistanceAtSpeed.drifting_compensation_factor=0.05
+org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveDistanceAtSpeed.use_comp=false
 
 // Three Tote
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesStraight.time_to_second_tote=2250
@@ -133,14 +138,19 @@ org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Zone_Dista
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Counter_Speed=0.0
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Counter_Speed=-0.6
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_A=32
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B=26
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B=29
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_A_2=36
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B_2=33
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Tote_Distance_B_2=39
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Distance=-30
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Backup_Speed=-1
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Rise_Time=1500
 org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Drop_Time=1250
-org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Drop_Delay=300
+org.wildstang.autonomous.programs.AutonomousProgramThreeTotesParallel.Drop_Delay=600
+
+// Grab bins from step
+org.wildstang.autonomous.programs.AutonomousProgramBinGrabber.drive_distance=70
+org.wildstang.autonomous.programs.AutonomousProgramBinGrabber.drive_speed=1
+org.wildstang.autonomous.programs.AutonomousProgramBinGrabber.deploy_delay=150
 
 // Knock over bin
 org.wildstang.autonomous.programs.AutonomousProgramKnockOverBin.drive_duration=500

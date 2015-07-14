@@ -143,16 +143,13 @@ public class AutonomousManager implements IObserver {
 		addProgram(new AutonomousProgramSleeper()); // Always leave Sleeper as
 													// 0. Other parts of the
 													// code assume 0 is Sleeper.
-		//addProgram(new AutonomousProgramDriveDistanceMotionProfile());
-		// addProgram(new AutonomousProgramDrivePatterns());
-		// addProgram(new AutonomousProgramTestParallel());
-		// addProgram(new AutonomousProgramThreeTotesStrafe());
+
 		addProgram(new AutonomousProgramThreeTotesStraight());
-		//addProgram(new AutonomousProgramTestParallel());
-		// addProgram(new AutonomousProgramDrive());
 		addProgram(new AutonomousProgramDriveAtSpeedForTime());
 		addProgram(new AutonomousProgramKnockOverBin());
 		addProgram(new AutonomousProgramThreeTotesParallel());
+		addProgram(new AutonomousProgramBinGrabber());
+		addProgram(new AutonomousProgramSuperFastBinGrabbers());
 	}
 
 	private void addProgram(AutonomousProgram program) {

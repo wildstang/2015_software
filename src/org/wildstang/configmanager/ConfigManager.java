@@ -97,7 +97,6 @@ public class ConfigManager {
 		for (DataElement e : config) {
 			System.out.println(e.getKey() + ":" + e.getValue());
 		}
-
 	}
 
 	/**

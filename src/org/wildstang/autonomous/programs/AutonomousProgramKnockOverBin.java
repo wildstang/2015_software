@@ -17,7 +17,7 @@ public class AutonomousProgramKnockOverBin extends AutonomousProgram {
 	@Override
 	protected void defineSteps() {
 		// Shift into high gear and begins driving
-		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
+		addStep(new AutonomousStepSetShifter(true));
 		addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		addStep(new AutonomousStepDelay(DRIVE_DURATION.getValue()));
 		// Stop

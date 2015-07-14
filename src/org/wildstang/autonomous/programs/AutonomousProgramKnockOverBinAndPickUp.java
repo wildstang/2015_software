@@ -21,7 +21,7 @@ public class AutonomousProgramKnockOverBinAndPickUp extends AutonomousProgram {
 	@Override
 	protected void defineSteps() {
 		// Shift into high gear and begins driving
-		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kReverse));
+		addStep(new AutonomousStepSetShifter(true));
 		addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		addStep(new AutonomousStepDelay(DRIVE_DURATION.getValue()));
 		// Stop
@@ -42,7 +42,7 @@ public class AutonomousProgramKnockOverBinAndPickUp extends AutonomousProgram {
 		// Allow things to settle
 		addStep(new AutonomousStepDelay(300));
 		// Shift into low gear and drive forward slowly to pick up the bin
-		addStep(new AutonomousStepSetShifter(DoubleSolenoid.Value.kForward));
+		addStep(new AutonomousStepSetShifter(false));
 		addStep(new AutonomousStepDriveManual(0.2, 0.0));
 		// Begin running intake
 		addStep(new AutonomousStepSetIntakeIn());

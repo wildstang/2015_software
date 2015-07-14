@@ -31,7 +31,7 @@ public class WsSolenoid implements IOutput {
 
 	public void set(IOutputEnum key, Object value) {
 		subject.setValue(((Boolean) value).booleanValue());
-
+		System.out.println("solenoid set: " + subject.getName() + " to " + value);
 	}
 
 	public Subject getSubject(ISubjectEnum subjectEnum) {
