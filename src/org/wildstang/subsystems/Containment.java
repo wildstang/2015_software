@@ -7,6 +7,7 @@ import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -50,7 +51,7 @@ public class Containment extends Subsystem implements IObserver {
 		manipulatorRequestedToggle = false;
 		newStateRequested = false;
 
-		getOutput(OutputManager.TOP_CONTAINMENT_INDEX).set(new Boolean(engaged));
+		getOutput(Robot.TOP_CONTAINMENT).set(new Boolean(engaged));
 		SmartDashboard.putBoolean("Containment Engaged", engaged);
 		LogManager.getInstance().addLog("Containment Engaged", engaged);
 	}

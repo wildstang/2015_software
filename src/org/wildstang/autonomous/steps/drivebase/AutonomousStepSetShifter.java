@@ -6,7 +6,8 @@ package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -22,7 +23,7 @@ public class AutonomousStepSetShifter extends AutonomousStep {
 	}
 
 	public void initialize() {
-		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).setShifter(highGear);
+		((DriveBase) SubsystemManager.getInstance().getSubsystem(Robot.DRIVE_BASE)).setShifter(highGear);
 		this.finished = true;
 	}
 

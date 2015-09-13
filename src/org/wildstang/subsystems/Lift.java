@@ -12,8 +12,9 @@ import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.IntegerSubject;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
 import org.wildstang.subsystems.lift.LiftPreset;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -92,7 +93,7 @@ public class Lift extends Subsystem implements IObserver {
 		LIFT_DOWN_ACCELERATION_FACTOR = LIFT_DOWN_ACCELERATION_FACTOR_CONFIG.getValue();
 		PAWL_ENABLE_DEADBAND = LIFT_PAWL_ENABLE_DEADBAND_CONFIG.getValue();
 
-		registerForSensorNotification(InputManager.HALL_EFFECT_INDEX);
+		registerForSensorNotification(Robot.HALL_EFFECT);
 
 		SmartDashboard.putString("lift", "started");
 		// Manual override
@@ -129,7 +130,7 @@ public class Lift extends Subsystem implements IObserver {
 	}
 
 	public void update() {
-		potVoltage = (double) getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
+		potVoltage = (double) getSensorInput(Robot.LIFT_POT).getSubject().getValueAsObject();
 
 		double winchJoystickValue = ((Double) (getJoystickValue(JoystickAxisEnum.MANIPULATOR_LIFT))).doubleValue();
 		double newWinchSpeed = 0;
@@ -173,7 +174,7 @@ public class Lift extends Subsystem implements IObserver {
 					lastPawlStateChange = System.currentTimeMillis();
 					pawlEngaged = true;
 					// Engage containment
-					((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).requestContainmentEngaged();
+					((Containment) getSubsystem(Robot.TOP_CONTAINMENT)).requestContainmentEngaged();
 				}
 			} else {
 				// Winch is still moving, reset cycle count
@@ -198,7 +199,7 @@ public class Lift extends Subsystem implements IObserver {
 				pawlState = PawlState.PAWL_DISENGAGING;
 				lastPawlStateChange = System.currentTimeMillis();
 				// Disengage containment
-				((Containment) getSubsystem(SubsystemContainer.TOP_CONTAINMENT_INDEX)).requestContainmentDisengaged();
+				((Containment) getSubsystem(Robot.TOP_CONTAINMENT)).requestContainmentDisengaged();
 			}
 			// Disable the winch until the pawl is disengaged
 			newWinchSpeed = 0;
@@ -275,12 +276,12 @@ public class Lift extends Subsystem implements IObserver {
 		winchSpeed = scaledMotorSpeed;
 
 		// Invert the output so we go in the right direction
-		getOutput(OutputManager.LIFT_A_INDEX).set(new Double(scaledMotorSpeed * -1));
-		getOutput(OutputManager.LIFT_B_INDEX).set(new Double(scaledMotorSpeed * -1));
+		getOutput(Robot.LIFT_A).set(new Double(scaledMotorSpeed * -1));
+		getOutput(Robot.LIFT_B).set(new Double(scaledMotorSpeed * -1));
 
 		// The pawl is engaged when the solenoid is false (piston retracted =
 		// pawl engaged)
-		getOutput(OutputManager.PAWL_RELEASE_INDEX).set(new Boolean(!pawlEngaged));
+		getOutput(Robot.PAWL_RELEASE).set(new Boolean(!pawlEngaged));
 
 		LogManager.getInstance().addLog("Winch", scaledMotorSpeed);
 		LogManager.getInstance().addLog("Lift Pot", potVoltage);
@@ -294,7 +295,7 @@ public class Lift extends Subsystem implements IObserver {
 
 	@Override
 	public void acceptNotification(Subject subjectThatCaused) {
-		if (subjectThatCaused.equals(getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject())) {
+		if (subjectThatCaused.equals(getSensorInput(Robot.HALL_EFFECT).getSubject())) {
 			// Update from the arduino for the hall effect
 			selectedHallEffectSensor = ((IntegerSubject) subjectThatCaused).getValue();
 			System.out.println("active hall effect: " + selectedHallEffectSensor);
@@ -356,7 +357,7 @@ public class Lift extends Subsystem implements IObserver {
 			initiallyBelowTarget = false;
 			// Note the current preset
 			currentPreset = preset;
-			double initialPotVoltage = (double) Subsystem.getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
+			double initialPotVoltage = (double) Subsystem.getSensorInput(Robot.LIFT_POT).getSubject().getValueAsObject();
 			if (initialPotVoltage > preset.getWantedVoltage()) {
 				initiallyAboveTarget = true;
 			} else if (initialPotVoltage < preset.getWantedVoltage()) {
@@ -371,8 +372,8 @@ public class Lift extends Subsystem implements IObserver {
 				currentWinchMotorSpeed = 0.0;
 				return;
 			}
-			double potVoltage = (double) Subsystem.getSensorInput(InputManager.LIFT_POT_INDEX).getSubject().getValueAsObject();
-			int activeHallEffect = (int) Subsystem.getSensorInput(InputManager.HALL_EFFECT_INDEX).getSubject().getValueAsObject();
+			double potVoltage = (double) Subsystem.getSensorInput(Robot.LIFT_POT).getSubject().getValueAsObject();
+			int activeHallEffect = (int) Subsystem.getSensorInput(Robot.HALL_EFFECT).getSubject().getValueAsObject();
 			double winchMotorSpeed = 0.0;
 			System.out.println("Active hall effect: " + activeHallEffect + "; target he: " + currentPreset.getHallEffectIndex());
 			System.out.println("Current preset state: " + currentState.name());

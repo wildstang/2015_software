@@ -6,7 +6,8 @@ package org.wildstang.pid.outputs;
 
 import org.wildstang.pid.outputs.base.IPidOutput;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 /**
  *
@@ -19,6 +20,6 @@ public class DriveBaseSpeedPidOutput implements IPidOutput {
 	}
 
 	public void pidWrite(double output) {
-		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).setPidSpeedValue(output);
+		((DriveBase) SubsystemManager.getInstance().getSubsystem(Robot.DRIVE_BASE)).setPidSpeedValue(output);
 	}
 }

@@ -9,6 +9,7 @@ import org.wildstang.logger.sender.LogManager;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -46,8 +47,8 @@ public class Monitor extends Subsystem implements IObserver {
 		logManager.addLog("Temperature", pdpTemp);
 		SmartDashboard.putNumber("Temperature", pdpTemp);
 
-		DriverJoystick driverJoystick = ((DriverJoystick) InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX));
-		ManipulatorJoystick manipulatorJoystick = ((ManipulatorJoystick) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX));
+		DriverJoystick driverJoystick = ((DriverJoystick) InputManager.getInstance().getOiInput(Robot.DRIVER_JOYSTICK));
+		ManipulatorJoystick manipulatorJoystick = ((ManipulatorJoystick) InputManager.getInstance().getOiInput(Robot.MANIPULATOR_JOYSTICK));
 
 		boolean isRobotEnabled = DriverStation.getInstance().isEnabled();
 		boolean isRobotTeleop = DriverStation.getInstance().isOperatorControl();

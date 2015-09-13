@@ -2,12 +2,13 @@ package org.wildstang.autonomous.steps.intake;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.subsystems.IntakeWheels;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 public class AutonomousStepIntakeEndAuto extends AutonomousStep {
 
 	public void initialize() {
-		((IntakeWheels) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.INTAKE_WHEELS_INDEX)).endAuto();
+		((IntakeWheels) SubsystemManager.getInstance().getSubsystem(Robot.INTAKE_WHEELS)).endAuto();
 		finished = true;
 	}
 

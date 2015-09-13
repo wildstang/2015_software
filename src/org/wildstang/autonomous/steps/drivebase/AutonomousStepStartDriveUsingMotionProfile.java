@@ -6,7 +6,8 @@ package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 /**
  *
@@ -23,7 +24,7 @@ public class AutonomousStepStartDriveUsingMotionProfile extends AutonomousStep {
 	}
 
 	public void initialize() {
-		((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).startStraightMoveWithMotionProfile(distance, goal_velocity);
+		((DriveBase) SubsystemManager.getInstance().getSubsystem(Robot.DRIVE_BASE)).startStraightMoveWithMotionProfile(distance, goal_velocity);
 		finished = true;
 	}
 

@@ -17,6 +17,7 @@ import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -209,15 +210,15 @@ public class DriveBase extends Subsystem implements IObserver {
 		currentProfileX = 0.0;
 		continuousAccelerationFilter = new ContinuousAccelFilter(0, 0, 0);
 		// Zero out all motor values left over from autonomous
-		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(0.0));
-		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(0.0));
-		OutputManager.getInstance().getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(0.0));
-		OutputManager.getInstance().getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).update();
-		OutputManager.getInstance().getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).update();
-		OutputManager.getInstance().getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).update();
-		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_THROTTLE, new Double(0.0));
-		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).set(JoystickAxisEnum.DRIVER_HEADING, new Double(0.0));
-		InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX).update();
+		OutputManager.getInstance().getOutput(Robot.LEFT_DRIVE_SPEED).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(Robot.RIGHT_DRIVE_SPEED).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(Robot.STRAFE_DRIVE_SPEED).set(new Double(0.0));
+		OutputManager.getInstance().getOutput(Robot.STRAFE_DRIVE_SPEED).update();
+		OutputManager.getInstance().getOutput(Robot.LEFT_DRIVE_SPEED).update();
+		OutputManager.getInstance().getOutput(Robot.RIGHT_DRIVE_SPEED).update();
+		InputManager.getInstance().getOiInput(Robot.DRIVER_JOYSTICK).set(JoystickAxisEnum.DRIVER_THROTTLE, new Double(0.0));
+		InputManager.getInstance().getOiInput(Robot.DRIVER_JOYSTICK).set(JoystickAxisEnum.DRIVER_HEADING, new Double(0.0));
+		InputManager.getInstance().getOiInput(Robot.DRIVER_JOYSTICK).update();
 		notifyConfigChange();
 
 		// Clear encoders
@@ -313,7 +314,7 @@ public class DriveBase extends Subsystem implements IObserver {
 			SmartDashboard.putBoolean("Quickturn", quickTurnFlag);
 
 			// Set gear shift output
-			getOutput(OutputManager.SHIFTER_INDEX).set(new Integer(highGearFlag == true ? DoubleSolenoid.Value.kReverse.value : DoubleSolenoid.Value.kForward.value));
+			getOutput(Robot.SHIFTER).set(new Integer(highGearFlag == true ? DoubleSolenoid.Value.kReverse.value : DoubleSolenoid.Value.kForward.value));
 		}
 
 		SmartDashboard.putNumber("Left encoder count: ", this.getLeftEncoderValue());
@@ -646,9 +647,9 @@ public class DriveBase extends Subsystem implements IObserver {
 		SmartDashboard.putNumber("StrafeDriveSpeed", strafeMotorSpeed);
 
 		// Update Output Facade.
-		getOutput(OutputManager.LEFT_DRIVE_SPEED_INDEX).set(new Double(leftMotorSpeed * LEFT_DRIVE_BIAS_config.getValue()));
-		getOutput(OutputManager.RIGHT_DRIVE_SPEED_INDEX).set(new Double(rightMotorSpeed * RIGHT_DRIVE_BIAS_config.getValue()));
-		getOutput(OutputManager.STRAFE_DRIVE_SPEED_INDEX).set(new Double(strafeMotorSpeed));
+		getOutput(Robot.LEFT_DRIVE_SPEED).set(new Double(leftMotorSpeed * LEFT_DRIVE_BIAS_config.getValue()));
+		getOutput(Robot.RIGHT_DRIVE_SPEED).set(new Double(rightMotorSpeed * RIGHT_DRIVE_BIAS_config.getValue()));
+		getOutput(Robot.STRAFE_DRIVE_SPEED).set(new Double(strafeMotorSpeed));
 
 	}
 

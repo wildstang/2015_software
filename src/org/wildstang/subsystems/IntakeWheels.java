@@ -11,6 +11,7 @@ import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -74,15 +75,15 @@ public class IntakeWheels extends Subsystem implements IObserver {
 				leftMotorSpeed = intakeValue;
 			}
 
-			getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(leftMotorSpeed));
-			getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(rightMotorSpeed));
+			getOutput(Robot.INTAKE_WHEEL_LEFT).set(new Double(leftMotorSpeed));
+			getOutput(Robot.INTAKE_WHEEL_RIGHT).set(new Double(rightMotorSpeed));
 			LogManager.getInstance().addLog("Intake Wheel Right", rightMotorSpeed);
 			LogManager.getInstance().addLog("Intake Wheel Left", leftMotorSpeed);
 			SmartDashboard.putNumber("Intake Wheel Right", rightMotorSpeed);
 			SmartDashboard.putNumber("Intake Wheel Left", leftMotorSpeed);
 		}
 		// Backwards on the comp bot
-		getOutput(OutputManager.INTAKE_PISTONS_INDEX).set(new Boolean(!intakePistonsOut));
+		getOutput(Robot.INTAKE_PISTONS).set(new Boolean(!intakePistonsOut));
 		SmartDashboard.putBoolean("Intake Pistons Out", intakePistonsOut);
 		LogManager.getInstance().addLog("Intake Pistons", intakePistonsOut);
 	}
@@ -107,14 +108,14 @@ public class IntakeWheels extends Subsystem implements IObserver {
 
 	public void setWheels(double speed) {
 		auto = true;
-		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(-speed));
-		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(-speed));
+		getOutput(Robot.INTAKE_WHEEL_LEFT).set(new Double(-speed));
+		getOutput(Robot.INTAKE_WHEEL_RIGHT).set(new Double(-speed));
 	}
 
 	public void setWheels(double rightSpeed, double leftSpeed) {
 		auto = true;
-		getOutput(OutputManager.INTAKE_WHEEL_LEFT_INDEX).set(new Double(-leftSpeed));
-		getOutput(OutputManager.INTAKE_WHEEL_RIGHT_INDEX).set(new Double(-rightSpeed));
+		getOutput(Robot.INTAKE_WHEEL_LEFT).set(new Double(-leftSpeed));
+		getOutput(Robot.INTAKE_WHEEL_RIGHT).set(new Double(-rightSpeed));
 	}
 
 	@Override

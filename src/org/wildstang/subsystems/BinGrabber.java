@@ -7,6 +7,7 @@ import org.wildstang.subjects.base.BooleanSubject;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,7 +34,7 @@ public class BinGrabber extends Subsystem implements IObserver {
 		} else {
 			state = DoubleSolenoid.Value.kForward_val;
 		}
-		getOutput(OutputManager.BIN_GRABBER_INDEX).set(new Integer(state));
+		getOutput(Robot.BIN_GRABBER).set(new Integer(state));
 		SmartDashboard.putBoolean("Bin Grabber deployed", deployed);
 		LogManager.getInstance().addLog("Bin Grabber deployed", deployed);
 	}

@@ -2,7 +2,8 @@ package org.wildstang.autonomous.steps.drivebase;
 
 import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.subsystems.DriveBase;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 public class AutonomousStepWaitForDriveDistance extends AutonomousStep {
 
@@ -13,8 +14,8 @@ public class AutonomousStepWaitForDriveDistance extends AutonomousStep {
 	}
 
 	public void update() {
-		double distanceRemaining = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).getDistanceRemaining();
-		double velocity = ((DriveBase) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.DRIVE_BASE_INDEX)).getVelocity();
+		double distanceRemaining = ((DriveBase) SubsystemManager.getInstance().getSubsystem(Robot.DRIVE_BASE)).getDistanceRemaining();
+		double velocity = ((DriveBase) SubsystemManager.getInstance().getSubsystem(Robot.DRIVE_BASE)).getVelocity();
 		if ((distanceRemaining < 0.01) && (distanceRemaining > -0.01)) {
 			finished = true;
 		}

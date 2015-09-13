@@ -6,7 +6,8 @@ import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.inputmanager.inputs.joystick.manipulator.ManipulatorJoystick;
 import org.wildstang.subjects.base.DoubleSubject;
 import org.wildstang.subsystems.Lift;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 public class AutonomousStepLiftManualControl extends AutonomousStep {
 	
@@ -21,7 +22,7 @@ public class AutonomousStepLiftManualControl extends AutonomousStep {
 	}
 
 	public void initialize() {
-		liftJoystickSubject = (DoubleSubject) ((ManipulatorJoystick) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX)).getSubject(JoystickAxisEnum.MANIPULATOR_LIFT);
+		liftJoystickSubject = (DoubleSubject) ((ManipulatorJoystick) InputManager.getInstance().getOiInput(Robot.MANIPULATOR_JOYSTICK)).getSubject(JoystickAxisEnum.MANIPULATOR_LIFT);
 		liftJoystickSubject.setValue(new Double(speed));
 		startTime = System.currentTimeMillis();
 	}

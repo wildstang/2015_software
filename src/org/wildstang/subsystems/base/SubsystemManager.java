@@ -10,6 +10,8 @@ import org.wildstang.subsystems.IntakeWheels;
 import org.wildstang.subsystems.Lift;
 import org.wildstang.subsystems.Monitor;
 import org.wildstang.subsystems.Test;
+import org.wildstang.outputmanager.base.OutputManager;
+import org.wildstang.inputmanager.base.InputManager;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,14 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Nathan
  */
-public class SubsystemContainer {
+public class SubsystemManager {
 
-	private static SubsystemContainer instance = null;
+	private static SubsystemManager instance = null;
 	private static Map<Integer, Subsystem> subsystems = new HashMap<Integer, Subsystem>();
+	public InputManager inputManager = null;
+	public OutputManager outputManager = null;
 
-	public static SubsystemContainer getInstance() {
+	public static SubsystemManager getInstance() {
 		if (instance == null) {
-			instance = new SubsystemContainer();
+			instance = new SubsystemManager();
 		}
 		return instance;
 	}
@@ -74,22 +78,16 @@ public class SubsystemContainer {
 		}
 	}
 
-	// Subsystem keys - must add a new key for each subsystem.
-	public static final String DRIVE_BASE = "DriveBase";
-	public static final String WS_COMPRESSOR = "WsCompressor";
-	public static final String LED = "LED";
-	public static final String AUTO_MOVEMENT_CONTROLLER = "AutoMovementController";
-
-	public static final int DRIVE_BASE_INDEX = 0;
-	public static final int LED_INDEX = 1;
-	public static final int AUTO_MOVEMENT_CONTROLLER_INDEX = 2;
-	public static final int MONITOR_INDEX = 3;
-	public static final int LIFT_INDEX = 4;
-	public static final int TEST_INDEX = 5;
-	public static final int INTAKE_WHEELS_INDEX = 6;
-	public static final int ARMS_INDEX = 7;
-	public static final int TOP_CONTAINMENT_INDEX = 8;
-	public static final int BIN_GRABBER_INDEX = 9;
+	
+	
+	public void addSubsystem(int index, Subsystem ssystem) {
+		subsystems.put(index, ssystem);
+	}
+	
+	public void setManagers(InputManager im, OutputManager om) {
+		inputManager = im;
+		outputManager = om;
+	}
 
 	/*
 	 * Constructor for the subsystem container.
@@ -97,15 +95,7 @@ public class SubsystemContainer {
 	 * Each new subsystem must be added here. This is where they are instantiated as well as placed in the subsystem
 	 * container.
 	 */
-	protected SubsystemContainer() {
-		subsystems.put(DRIVE_BASE_INDEX, new DriveBase(DRIVE_BASE));
-		// subsystems.put(LED_INDEX, new LED(LED));
-		// subsystems.put(AUTO_MOVEMENT_CONTROLLER_INDEX, new AutoMovementControl(AUTO_MOVEMENT_CONTROLLER));
-		// subsystems.put(TEST_INDEX, new Test());
-		subsystems.put(LIFT_INDEX, new Lift("Lift"));
-		subsystems.put(MONITOR_INDEX, new Monitor("Monitor"));
-		subsystems.put(INTAKE_WHEELS_INDEX, new IntakeWheels("Intake"));
-		subsystems.put(BIN_GRABBER_INDEX, new BinGrabber("Bin Grabber"));
-		subsystems.put(TOP_CONTAINMENT_INDEX, new Containment("Bin Gripper"));
+	protected SubsystemManager() {
+		
 	}
 }

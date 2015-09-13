@@ -3,12 +3,13 @@ package org.wildstang.autonomous.steps.bingrabber;
 import org.wildstang.autonomous.steps.AutonomousStep;
 import org.wildstang.subsystems.BinGrabber;
 import org.wildstang.subsystems.IntakeWheels;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 public class AutonomousStepRetractBinGrabbers extends AutonomousStep {
 
 	public void initialize() {
-		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).retractBinGrabbers();
+		((BinGrabber) SubsystemManager.getInstance().getSubsystem(Robot.BIN_GRABBER)).retractBinGrabbers();
 		finished = true;
 	}
 

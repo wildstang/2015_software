@@ -1,6 +1,7 @@
 package org.wildstang.autonomous.programs;
 
 import org.wildstang.autonomous.AutonomousProgram;
+
 import org.wildstang.autonomous.steps.AutonomousParallelStepGroup;
 import org.wildstang.autonomous.steps.bingrabber.AutonomousStepRetractBinGrabbers;
 import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
@@ -11,7 +12,8 @@ import org.wildstang.config.DoubleConfigFileParameter;
 import org.wildstang.config.IntegerConfigFileParameter;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subsystems.BinGrabber;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 public class AutonomousProgramSuperFastBinGrabbers extends AutonomousProgram {
 	
@@ -25,9 +27,9 @@ public class AutonomousProgramSuperFastBinGrabbers extends AutonomousProgram {
 		// We manually deploy the bin grabbers immediately so that we save time
 		// Otherwise, it could take a cycle or two (20-40ms) to deploy them
 		// We manually update the subsystem and specific output to save valuable milliseconds
-		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).deployBinGrabbers();
-		((BinGrabber) SubsystemContainer.getInstance().getSubsystem(SubsystemContainer.BIN_GRABBER_INDEX)).update();
-		OutputManager.getInstance().getOutput(OutputManager.BIN_GRABBER_INDEX).update();
+		((BinGrabber) SubsystemManager.getInstance().getSubsystem(Robot.BIN_GRABBER)).deployBinGrabbers();
+		((BinGrabber) SubsystemManager.getInstance().getSubsystem(Robot.BIN_GRABBER)).update();
+		OutputManager.getInstance().getOutput(Robot.BIN_GRABBER).update();
 		
 		// Now that that's out of the way, carry on as we normally would.
 		super.initialize();

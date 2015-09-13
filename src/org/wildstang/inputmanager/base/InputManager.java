@@ -16,6 +16,7 @@ import org.wildstang.inputmanager.inputs.no.NoInput;
 import org.wildstang.logger.Logger;
 import org.wildstang.subjects.base.IObserver;
 import org.wildstang.subjects.base.Subject;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 
@@ -109,7 +110,7 @@ public class InputManager {
 	 */
 	public IInput getOiInput(int index) {
 		IInput in = oiInputs.get(index);
-		return in == null ? (IInput) oiInputs.get(UNKNOWN_INDEX) : in;
+		return in == null ? (IInput) oiInputs.get(Robot.UNKNOWN_INDEX) : in;
 	}
 
 	/**
@@ -121,12 +122,12 @@ public class InputManager {
 	 */
 	public IInput getSensorInput(int index) {
 		IInput in = sensorInputs.get(index);
-		return in == null ? (IInput) sensorInputs.get(UNKNOWN_INDEX) : in;
+		return in == null ? (IInput) sensorInputs.get(Robot.UNKNOWN_INDEX) : in;
 	}
 
 	final public void attachJoystickButton(IInputEnum button, IObserver observer) {
 		if (button instanceof JoystickButtonEnum) {
-			Subject subject = InputManager.getInstance().getOiInput(((JoystickButtonEnum) button).isDriver() ? InputManager.DRIVER_JOYSTICK_INDEX : InputManager.MANIPULATOR_JOYSTICK_INDEX)
+			Subject subject = InputManager.getInstance().getOiInput(((JoystickButtonEnum) button).isDriver() ? Robot.DRIVER_JOYSTICK : Robot.MANIPULATOR_JOYSTICK)
 					.getSubject(button);
 			subject.attach(observer);
 		} else {
@@ -134,38 +135,20 @@ public class InputManager {
 		}
 	}
 
-	/**
-	 * Keys to represent OI Inputs
-	 */
-	public static final int UNKNOWN_INDEX = 0;
-	public static final int DRIVER_JOYSTICK_INDEX = 1;
-	public static final int MANIPULATOR_JOYSTICK_INDEX = 2;
-	public static final int AUTO_PROGRAM_SELECTOR_INDEX = 3;
-	public static final int LOCK_IN_SWITCH_INDEX = 4;
-	public static final int START_POSITION_SELECTOR_INDEX = 5;
-	// Sensor Inputs
-	public static final int LIDAR_INDEX = 12;
-	public static final int LIFT_POT_INDEX = 12;
-	public static final int HALL_EFFECT_INDEX = 17;
-
+	public void addSensorInput(int index, IInput input) {
+		sensorInputs.put(index, input);
+	}
+	
+	public void addOiInput(int index, IInput input) {
+		oiInputs.put(index, input);
+	}
+	
 	/**
 	 * Constructor for the InputManager.
 	 *
 	 * Each new data element to be added to the facade must be added here and have keys added above.
 	 */
 	protected InputManager() {
-		// Add the facade data elements
-		sensorInputs.put(UNKNOWN_INDEX, new NoInput());
-		sensorInputs.put(LIDAR_INDEX, new WsLIDAR());
-		sensorInputs.put(LIFT_POT_INDEX, new WsAnalogInput(0));
-		sensorInputs.put(HALL_EFFECT_INDEX, new WsHallEffectInput(Port.kMXP, 0x10));
-
-		oiInputs.put(UNKNOWN_INDEX, new NoInput());
-		oiInputs.put(DRIVER_JOYSTICK_INDEX, new DriverJoystick());
-		oiInputs.put(MANIPULATOR_JOYSTICK_INDEX, new ManipulatorJoystick());
-		oiInputs.put(AUTO_PROGRAM_SELECTOR_INDEX, new WsDSAnalogInput(1));
-		oiInputs.put(LOCK_IN_SWITCH_INDEX, new WsDSDigitalInput(1));
-		oiInputs.put(START_POSITION_SELECTOR_INDEX, new WsDSAnalogInput(2));
 
 	}
 }

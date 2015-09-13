@@ -5,13 +5,15 @@
 package org.wildstang.crio;
 
 import org.wildstang.autonomous.AutonomousManager;
+
 import org.wildstang.configmanager.ConfigManager;
 import org.wildstang.configmanager.ConfigManagerException;
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.logger.Logger;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.outputmanager.base.OutputManager;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.yearly.robot.Robot;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;
@@ -40,12 +42,16 @@ public class FrameworkAbstraction {
 			System.out.println(wscfe.toString());
 		}
 
+		//Instantiate all the singletons.
 		LogManager.getInstance();
 		InputManager.getInstance();
 		OutputManager.getInstance();
-		SubsystemContainer.getInstance().init();
+		SubsystemManager.getInstance().init();
+		SubsystemManager.getInstance().setManagers(InputManager.getInstance(), OutputManager.getInstance());
 		Logger.getLogger().readConfig();
 		AutonomousManager.getInstance();
+		Robot.getInstance();
+		
 		//sets up the USB camera for streaming to the smartdashboard
 		//this is unneeded if using an Ethernet camera (or no camera)
 		/*try
@@ -70,7 +76,7 @@ public class FrameworkAbstraction {
 			System.out.println(e.getMessage());
 		}
 
-		SubsystemContainer.getInstance().init();
+		SubsystemManager.getInstance().init();
 		Logger.getLogger().readConfig();
 		LogManager.getInstance().endLog();
 	}
@@ -81,7 +87,7 @@ public class FrameworkAbstraction {
 	}
 
 	public static void autonomousInit() {
-		SubsystemContainer.getInstance().init();
+		SubsystemManager.getInstance().init();
 		AutonomousManager.getInstance().startCurrentProgram();
 		Logger.getLogger().readConfig();
 		LogManager.getInstance().startLog();
@@ -91,13 +97,13 @@ public class FrameworkAbstraction {
 		InputManager.getInstance().updateOiDataAutonomous();
 		InputManager.getInstance().updateSensorData();
 		AutonomousManager.getInstance().update();
-		SubsystemContainer.getInstance().update();
+		SubsystemManager.getInstance().update();
 		OutputManager.getInstance().update();
 		LogManager.getInstance().queueCurrentLogsForSending();
 	}
 
 	public static void teleopInit() {
-		SubsystemContainer.getInstance().init();
+		SubsystemManager.getInstance().init();
 		Logger.getLogger().readConfig();
 		LogManager.getInstance().startLog();
 	}
@@ -107,7 +113,7 @@ public class FrameworkAbstraction {
 		System.out.println("Cycle separation time: " + (cycleStartTime - lastCycleTime));
 		InputManager.getInstance().updateOiData();
 		InputManager.getInstance().updateSensorData();
-		SubsystemContainer.getInstance().update();
+		SubsystemManager.getInstance().update();
 		OutputManager.getInstance().update();
 		LogManager.getInstance().queueCurrentLogsForSending();
 

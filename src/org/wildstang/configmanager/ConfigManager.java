@@ -12,7 +12,7 @@ import org.wildstang.configmanager.impl.ConfigManagerImplException;
 import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.logger.Logger;
 import org.wildstang.outputmanager.base.OutputManager;
-import org.wildstang.subsystems.base.SubsystemContainer;
+import org.wildstang.subsystems.base.SubsystemManager;
 import org.wildstang.types.DataElement;
 
 /**
@@ -92,7 +92,7 @@ public class ConfigManager {
 		// Update all the facades
 		InputManager.getInstance().notifyConfigChange();
 		OutputManager.getInstance().notifyConfigChange();
-		SubsystemContainer.getInstance().notifyConfigChange();
+		SubsystemManager.getInstance().notifyConfigChange();
 		// Dump everything to sout
 		for (DataElement e : config) {
 			System.out.println(e.getKey() + ":" + e.getValue());

@@ -12,6 +12,7 @@ import org.wildstang.logger.Logger;
 import org.wildstang.outputmanager.base.IOutput;
 import org.wildstang.outputmanager.base.OutputManager;
 import org.wildstang.subjects.base.IObserver;
+import org.wildstang.yearly.robot.Robot;
 
 /**
  *
@@ -81,9 +82,9 @@ public abstract class Subsystem {
 
 		JoystickAxisEnum axis = (JoystickAxisEnum) key;
 		if (axis.isDriver()) {
-			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.DRIVER_JOYSTICK_INDEX))).get(key)).doubleValue();
+			return ((Double) ((InputManager.getInstance().getOiInput(Robot.DRIVER_JOYSTICK))).get(key)).doubleValue();
 		} else {
-			return ((Double) ((InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX))).get(key)).doubleValue();
+			return ((Double) ((InputManager.getInstance().getOiInput(Robot.MANIPULATOR_JOYSTICK))).get(key)).doubleValue();
 		}
 	}
 
@@ -96,6 +97,6 @@ public abstract class Subsystem {
 	}
 
 	public static Subsystem getSubsystem(int index) {
-		return SubsystemContainer.getInstance().getSubsystem(index);
+		return SubsystemManager.getInstance().getSubsystem(index);
 	}
 }

@@ -4,6 +4,7 @@ import org.wildstang.inputmanager.base.InputManager;
 import org.wildstang.inputmanager.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.logger.sender.LogManager;
 import org.wildstang.subsystems.base.Subsystem;
+import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,7 +27,7 @@ public class Test extends Subsystem {
 		int numAxes = 6;
 		for (int i = 0; i < numAxes; i++) {
 			JoystickAxisEnum joyEnum = new JoystickAxisEnum(false, i, "Axis" + i);
-			double axisValue = ((Double) InputManager.getInstance().getOiInput(InputManager.MANIPULATOR_JOYSTICK_INDEX).get(joyEnum)).doubleValue();
+			double axisValue = ((Double) InputManager.getInstance().getOiInput(Robot.MANIPULATOR_JOYSTICK).get(joyEnum)).doubleValue();
 			SmartDashboard.putNumber("JostickAxis" + i, axisValue);
 		}
 
