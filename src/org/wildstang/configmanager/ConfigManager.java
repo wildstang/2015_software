@@ -7,12 +7,10 @@ package org.wildstang.configmanager;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wildstang.configmanager.impl.ConfigManagerImpl;
-import org.wildstang.configmanager.impl.ConfigManagerImplException;
-import org.wildstang.inputmanager.base.InputManager;
+import org.wildstang.inputmanager.InputManager;
 import org.wildstang.logger.Logger;
-import org.wildstang.outputmanager.base.OutputManager;
-import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.outputmanager.OutputManager;
+import org.wildstang.subsystemmanager.SubsystemManager;
 import org.wildstang.types.DataElement;
 
 /**

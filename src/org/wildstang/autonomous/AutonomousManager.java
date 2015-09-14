@@ -5,8 +5,15 @@ import java.util.List;
 
 import org.wildstang.autonomous.programs.*;
 import org.wildstang.logger.Logger;
-import org.wildstang.subjects.base.IObserver;
-import org.wildstang.subjects.base.Subject;
+import org.wildstang.subject.IObserver;
+import org.wildstang.subject.Subject;
+import org.wildstang.yearly.auto.programs.AutonomousProgramBinGrabber;
+import org.wildstang.yearly.auto.programs.AutonomousProgramDriveAtSpeedForTime;
+import org.wildstang.yearly.auto.programs.AutonomousProgramKnockOverBin;
+import org.wildstang.yearly.auto.programs.AutonomousProgramSleeper;
+import org.wildstang.yearly.auto.programs.AutonomousProgramSuperFastBinGrabbers;
+import org.wildstang.yearly.auto.programs.AutonomousProgramThreeTotesParallel;
+import org.wildstang.yearly.auto.programs.AutonomousProgramThreeTotesStraight;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

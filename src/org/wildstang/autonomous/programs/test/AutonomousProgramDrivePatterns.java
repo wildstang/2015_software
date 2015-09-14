@@ -6,11 +6,11 @@ package org.wildstang.autonomous.programs.test;
 
 import org.wildstang.autonomous.AutonomousManager;
 import org.wildstang.autonomous.AutonomousProgram;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepQuickTurn;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepStartDriveUsingMotionProfile;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepStopDriveUsingMotionProfile;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepWaitForDriveMotionProfile;
 import org.wildstang.config.DoubleConfigFileParameter;
+import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepQuickTurn;
+import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepStartDriveUsingMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepStopDriveUsingMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepWaitForDriveMotionProfile;
 
 /**
  *

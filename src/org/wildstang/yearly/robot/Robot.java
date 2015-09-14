@@ -1,22 +1,27 @@
 package org.wildstang.yearly.robot;
 
-import org.wildstang.inputmanager.base.InputManager;
-import org.wildstang.inputmanager.inputs.WsAnalogInput;
-import org.wildstang.inputmanager.inputs.WsHallEffectInput;
-import org.wildstang.inputmanager.inputs.WsLIDAR;
-import org.wildstang.inputmanager.inputs.driverstation.WsDSAnalogInput;
-import org.wildstang.inputmanager.inputs.driverstation.WsDSDigitalInput;
-import org.wildstang.inputmanager.inputs.joystick.driver.DriverJoystick;
-import org.wildstang.inputmanager.inputs.joystick.manipulator.ManipulatorJoystick;
-import org.wildstang.inputmanager.inputs.no.NoInput;
-import org.wildstang.outputmanager.base.OutputManager;
-import org.wildstang.outputmanager.outputs.WsDoubleSolenoid;
-import org.wildstang.outputmanager.outputs.WsDriveSpeed;
-import org.wildstang.outputmanager.outputs.WsSolenoid;
-import org.wildstang.outputmanager.outputs.WsVictor;
-import org.wildstang.outputmanager.outputs.no.NoOutput;
-import org.wildstang.subsystems.*;
-import org.wildstang.subsystems.base.SubsystemManager;
+import org.wildstang.inputmanager.InputManager;
+import org.wildstang.inputs.NoInput;
+import org.wildstang.inputs.WsAnalogInput;
+import org.wildstang.inputs.WsHallEffectInput;
+import org.wildstang.inputs.WsLIDAR;
+import org.wildstang.inputs.driverstation.WsDSAnalogInput;
+import org.wildstang.inputs.driverstation.WsDSDigitalInput;
+import org.wildstang.inputs.joystick.DriverJoystick;
+import org.wildstang.inputs.joystick.ManipulatorJoystick;
+import org.wildstang.nooutput.NoOutput;
+import org.wildstang.outputmanager.OutputManager;
+import org.wildstang.outputs.WsDoubleSolenoid;
+import org.wildstang.outputs.WsDriveSpeed;
+import org.wildstang.outputs.WsSolenoid;
+import org.wildstang.outputs.WsVictor;
+import org.wildstang.subsystemmanager.*;
+import org.wildstang.yearly.subsystems.BinGrabber;
+import org.wildstang.yearly.subsystems.Containment;
+import org.wildstang.yearly.subsystems.DriveBase;
+import org.wildstang.yearly.subsystems.IntakeWheels;
+import org.wildstang.yearly.subsystems.Lift;
+import org.wildstang.yearly.subsystems.Monitor;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 

@@ -6,7 +6,7 @@ package org.wildstang.autonomous.programs.test;
 
 import org.wildstang.autonomous.AutonomousProgram;
 import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
-import org.wildstang.autonomous.steps.drivebase.AutonomousStepDriveManual;
+import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepDriveManual;
 
 /**
  *
