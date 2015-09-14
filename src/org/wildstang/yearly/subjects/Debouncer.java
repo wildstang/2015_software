@@ -4,7 +4,7 @@
  */
 package org.wildstang.yearly.subjects;
 
-import org.wildstang.subject.Subject;
+import org.wildstang.fw.subject.Subject;
 
 /**
  *

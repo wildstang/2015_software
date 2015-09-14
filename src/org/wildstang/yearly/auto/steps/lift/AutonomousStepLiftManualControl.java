@@ -1,11 +1,11 @@
 package org.wildstang.yearly.auto.steps.lift;
 
-import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.inputs.joystick.JoystickAxisEnum;
-import org.wildstang.inputs.joystick.ManipulatorJoystick;
-import org.wildstang.subject.DoubleSubject;
-import org.wildstang.subsystemmanager.SubsystemManager;
+import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.fw.inputs.joystick.ManipulatorJoystick;
+import org.wildstang.fw.subject.DoubleSubject;
+import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.Lift;
 

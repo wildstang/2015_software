@@ -1,9 +1,9 @@
 package org.wildstang.yearly.subsystems;
 
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.inputs.joystick.JoystickAxisEnum;
-import org.wildstang.logger.sender.LogManager;
-import org.wildstang.subsystemmanager.Subsystem;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.fw.logger.LogManager;
+import org.wildstang.fw.subsystemmanager.Subsystem;
 import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;

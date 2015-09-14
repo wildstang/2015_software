@@ -4,14 +4,14 @@
  */
 package org.wildstang.yearly.robot;
 
-import org.wildstang.autonomous.AutonomousManager;
-import org.wildstang.configmanager.ConfigManager;
-import org.wildstang.configmanager.ConfigManagerException;
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.logger.Logger;
-import org.wildstang.logger.sender.LogManager;
-import org.wildstang.outputmanager.OutputManager;
-import org.wildstang.subsystemmanager.SubsystemManager;
+import org.wildstang.fw.auto.AutonomousManager;
+import org.wildstang.fw.configmanager.ConfigManager;
+import org.wildstang.fw.configmanager.ConfigManagerException;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.logger.LogManager;
+import org.wildstang.fw.logger.Logger;
+import org.wildstang.fw.outputmanager.OutputManager;
+import org.wildstang.fw.subsystemmanager.SubsystemManager;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.DrawMode;

@@ -6,8 +6,8 @@
 /*----------------------------------------------------------------------------*/
 package org.wildstang.yearly.robot;
 
-import org.wildstang.logger.Logger;
-import org.wildstang.profile.ProfilingTimer;
+import org.wildstang.fw.logger.Logger;
+import org.wildstang.fw.profiling.ProfilingTimer;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 

@@ -4,10 +4,10 @@
  */
 package org.wildstang.yearly.auto.steps.drivebase;
 
-import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.inputs.joystick.JoystickAxisEnum;
-import org.wildstang.subsystemmanager.SubsystemManager;
+import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;
 

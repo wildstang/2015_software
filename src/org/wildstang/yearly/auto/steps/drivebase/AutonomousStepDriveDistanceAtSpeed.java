@@ -1,9 +1,9 @@
 package org.wildstang.yearly.auto.steps.drivebase;
 
-import org.wildstang.autonomous.steps.AutonomousStep;
-import org.wildstang.config.BooleanConfigFileParameter;
-import org.wildstang.config.DoubleConfigFileParameter;
-import org.wildstang.subsystemmanager.SubsystemManager;
+import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.config.BooleanConfigFileParameter;
+import org.wildstang.fw.config.DoubleConfigFileParameter;
+import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;
 

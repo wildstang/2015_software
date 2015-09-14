@@ -4,8 +4,8 @@
  */
 package org.wildstang.yearly.pid.inputs;
 
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.pid.input.IPidInput;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.pid.input.IPidInput;
 
 /**
  *

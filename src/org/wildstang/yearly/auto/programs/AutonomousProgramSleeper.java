@@ -4,8 +4,8 @@
  */
 package org.wildstang.yearly.auto.programs;
 
-import org.wildstang.autonomous.AutonomousProgram;
-import org.wildstang.autonomous.steps.control.AutonomousStepStopAutonomous;
+import org.wildstang.fw.auto.AutonomousProgram;
+import org.wildstang.fw.auto.steps.control.AutonomousStepStopAutonomous;
 
 /**
  *

@@ -4,8 +4,8 @@
  */
 package org.wildstang.yearly.pid.outputs;
 
-import org.wildstang.pid.output.IPidOutput;
-import org.wildstang.subsystemmanager.SubsystemManager;
+import org.wildstang.fw.pid.output.IPidOutput;
+import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;
 

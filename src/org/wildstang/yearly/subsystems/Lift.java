@@ -1,18 +1,18 @@
 package org.wildstang.yearly.subsystems;
 
-import org.wildstang.config.DoubleConfigFileParameter;
-import org.wildstang.config.IntegerConfigFileParameter;
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.inputs.joystick.JoystickAxisEnum;
-import org.wildstang.inputs.joystick.JoystickButtonEnum;
-import org.wildstang.logger.sender.LogManager;
-import org.wildstang.outputmanager.OutputManager;
-import org.wildstang.subject.BooleanSubject;
-import org.wildstang.subject.IObserver;
-import org.wildstang.subject.IntegerSubject;
-import org.wildstang.subject.Subject;
-import org.wildstang.subsystemmanager.Subsystem;
-import org.wildstang.subsystemmanager.SubsystemManager;
+import org.wildstang.fw.config.DoubleConfigFileParameter;
+import org.wildstang.fw.config.IntegerConfigFileParameter;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.inputs.joystick.JoystickAxisEnum;
+import org.wildstang.fw.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.fw.logger.LogManager;
+import org.wildstang.fw.outputmanager.OutputManager;
+import org.wildstang.fw.subject.BooleanSubject;
+import org.wildstang.fw.subject.IObserver;
+import org.wildstang.fw.subject.IntegerSubject;
+import org.wildstang.fw.subject.Subject;
+import org.wildstang.fw.subsystemmanager.Subsystem;
+import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.lift.LiftPreset;
 

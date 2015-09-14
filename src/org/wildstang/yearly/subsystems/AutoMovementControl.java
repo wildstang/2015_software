@@ -1,10 +1,10 @@
 package org.wildstang.yearly.subsystems;
 
-import org.wildstang.logger.Logger;
-import org.wildstang.subject.IObserver;
-import org.wildstang.subject.Subject;
-import org.wildstang.subsystemmanager.AutoMovement;
-import org.wildstang.subsystemmanager.Subsystem;
+import org.wildstang.fw.logger.Logger;
+import org.wildstang.fw.subject.IObserver;
+import org.wildstang.fw.subject.Subject;
+import org.wildstang.fw.subsystemmanager.AutoMovement;
+import org.wildstang.fw.subsystemmanager.Subsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 

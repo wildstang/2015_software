@@ -1,21 +1,23 @@
 package org.wildstang.yearly.robot;
 
-import org.wildstang.inputmanager.InputManager;
-import org.wildstang.inputs.NoInput;
-import org.wildstang.inputs.WsAnalogInput;
-import org.wildstang.inputs.WsHallEffectInput;
-import org.wildstang.inputs.WsLIDAR;
-import org.wildstang.inputs.driverstation.WsDSAnalogInput;
-import org.wildstang.inputs.driverstation.WsDSDigitalInput;
-import org.wildstang.inputs.joystick.DriverJoystick;
-import org.wildstang.inputs.joystick.ManipulatorJoystick;
-import org.wildstang.nooutput.NoOutput;
-import org.wildstang.outputmanager.OutputManager;
-import org.wildstang.outputs.WsDoubleSolenoid;
-import org.wildstang.outputs.WsDriveSpeed;
-import org.wildstang.outputs.WsSolenoid;
-import org.wildstang.outputs.WsVictor;
-import org.wildstang.subsystemmanager.*;
+import org.wildstang.fw.auto.AutonomousManager;
+import org.wildstang.fw.inputmanager.InputManager;
+import org.wildstang.fw.inputs.NoInput;
+import org.wildstang.fw.inputs.WsAnalogInput;
+import org.wildstang.fw.inputs.WsHallEffectInput;
+import org.wildstang.fw.inputs.WsLIDAR;
+import org.wildstang.fw.inputs.driverstation.WsDSAnalogInput;
+import org.wildstang.fw.inputs.driverstation.WsDSDigitalInput;
+import org.wildstang.fw.inputs.joystick.DriverJoystick;
+import org.wildstang.fw.inputs.joystick.ManipulatorJoystick;
+import org.wildstang.fw.outputmanager.OutputManager;
+import org.wildstang.fw.outputs.NoOutput;
+import org.wildstang.fw.outputs.WsDoubleSolenoid;
+import org.wildstang.fw.outputs.WsDriveSpeed;
+import org.wildstang.fw.outputs.WsSolenoid;
+import org.wildstang.fw.outputs.WsVictor;
+import org.wildstang.fw.subsystemmanager.*;
+import org.wildstang.yearly.auto.programs.*;
 import org.wildstang.yearly.subsystems.BinGrabber;
 import org.wildstang.yearly.subsystems.Containment;
 import org.wildstang.yearly.subsystems.DriveBase;
@@ -86,6 +88,7 @@ public class Robot {
 		SubsystemManager smm = SubsystemManager.getInstance();
 		InputManager im = InputManager.getInstance();
 		OutputManager om = OutputManager.getInstance();
+		AutonomousManager am = AutonomousManager.getInstance();
 		
 		smm.addSubsystem(DRIVE_BASE, new DriveBase("Driver Base"));
 		//smm.addSubsystem(LED_INDEX, new LED("LED"));
@@ -126,6 +129,15 @@ public class Robot {
 		im.addOiInput(AUTO_PROGRAM_SELECTOR, new WsDSAnalogInput(1));
 		im.addOiInput(LOCK_IN_SWITCH, new WsDSDigitalInput(1));
 		im.addOiInput(START_POSITION_SELECTOR, new WsDSAnalogInput(2));
+		
+		
+		//add auto programs.
+		am.addProgram(new AutonomousProgramThreeTotesStraight());
+		am.addProgram(new AutonomousProgramDriveAtSpeedForTime());
+		am.addProgram(new AutonomousProgramKnockOverBin());
+		am.addProgram(new AutonomousProgramThreeTotesParallel());
+		am.addProgram(new AutonomousProgramBinGrabber());
+		am.addProgram(new AutonomousProgramSuperFastBinGrabbers());
 		
 	}
 

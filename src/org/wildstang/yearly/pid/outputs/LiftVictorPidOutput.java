@@ -4,8 +4,8 @@
  */
 package org.wildstang.yearly.pid.outputs;
 
-import org.wildstang.outputmanager.OutputManager;
-import org.wildstang.pid.output.IPidOutput;
+import org.wildstang.fw.outputmanager.OutputManager;
+import org.wildstang.fw.pid.output.IPidOutput;
 
 /**
  *

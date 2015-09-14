@@ -1,7 +1,7 @@
 package org.wildstang.yearly.auto.programs;
 
-import org.wildstang.autonomous.AutonomousProgram;
-import org.wildstang.autonomous.steps.AutonomousSerialStepGroup;
+import org.wildstang.fw.auto.AutonomousProgram;
+import org.wildstang.fw.auto.steps.AutonomousSerialStepGroup;
 import org.wildstang.yearly.auto.steps.lift.AutonomousStepSetLiftBottom;
 import org.wildstang.yearly.auto.steps.lift.AutonomousStepSetLiftMiddle;
 

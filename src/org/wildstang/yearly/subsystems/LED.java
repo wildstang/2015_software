@@ -1,10 +1,10 @@
 package org.wildstang.yearly.subsystems;
 
-import org.wildstang.inputs.joystick.JoystickButtonEnum;
-import org.wildstang.subject.BooleanSubject;
-import org.wildstang.subject.IObserver;
-import org.wildstang.subject.Subject;
-import org.wildstang.subsystemmanager.Subsystem;
+import org.wildstang.fw.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.fw.subject.BooleanSubject;
+import org.wildstang.fw.subject.IObserver;
+import org.wildstang.fw.subject.Subject;
+import org.wildstang.fw.subsystemmanager.Subsystem;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;

@@ -1,12 +1,12 @@
 package org.wildstang.yearly.subsystems;
 
-import org.wildstang.inputs.joystick.JoystickButtonEnum;
-import org.wildstang.logger.sender.LogManager;
-import org.wildstang.outputmanager.OutputManager;
-import org.wildstang.subject.BooleanSubject;
-import org.wildstang.subject.IObserver;
-import org.wildstang.subject.Subject;
-import org.wildstang.subsystemmanager.Subsystem;
+import org.wildstang.fw.inputs.joystick.JoystickButtonEnum;
+import org.wildstang.fw.logger.LogManager;
+import org.wildstang.fw.outputmanager.OutputManager;
+import org.wildstang.fw.subject.BooleanSubject;
+import org.wildstang.fw.subject.IObserver;
+import org.wildstang.fw.subject.Subject;
+import org.wildstang.fw.subsystemmanager.Subsystem;
 import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;

@@ -1,7 +1,7 @@
 package org.wildstang.yearly.subsystems.lift;
 
-import org.wildstang.config.DoubleConfigFileParameter;
-import org.wildstang.config.IntegerConfigFileParameter;
+import org.wildstang.fw.config.DoubleConfigFileParameter;
+import org.wildstang.fw.config.IntegerConfigFileParameter;
 
 public class LiftPreset {
 

@@ -1,9 +1,9 @@
 package org.wildstang.yearly.auto.programs;
 
-import org.wildstang.autonomous.AutonomousProgram;
-import org.wildstang.autonomous.steps.control.AutonomousStepDelay;
-import org.wildstang.config.DoubleConfigFileParameter;
-import org.wildstang.config.IntegerConfigFileParameter;
+import org.wildstang.fw.auto.AutonomousProgram;
+import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
+import org.wildstang.fw.config.DoubleConfigFileParameter;
+import org.wildstang.fw.config.IntegerConfigFileParameter;
 import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepDriveManual;
 import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepSetShifter;
 
