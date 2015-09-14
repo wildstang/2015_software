@@ -7,10 +7,10 @@ package org.wildstang.fw.auto.testprograms;
 import org.wildstang.fw.auto.AutonomousManager;
 import org.wildstang.fw.auto.AutonomousProgram;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepQuickTurn;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepStartDriveUsingMotionProfile;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepStopDriveUsingMotionProfile;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepWaitForDriveMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.StepQuickTurn;
+import org.wildstang.yearly.auto.steps.drivebase.StepStartDriveUsingMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.StepStopDriveUsingMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.StepWaitForDriveMotionProfile;
 
 /**
  *
@@ -31,14 +31,14 @@ public class AutonomousProgramDrivePatterns extends AutonomousProgram {
 		secondDriveDistance = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".SecondDriveDistance", -30);
 		secondDriveVelocity = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".SecondDriveVelocity", 0.0);
 
-		addStep(new AutonomousStepStartDriveUsingMotionProfile(firstDriveDistance.getValue(), firstDriveVelocity.getValue()));
-		addStep(new AutonomousStepWaitForDriveMotionProfile());
-		addStep(new AutonomousStepStopDriveUsingMotionProfile());
-		addStep(new AutonomousStepQuickTurn(firstAngle.getValue()));
-		addStep(new AutonomousStepStartDriveUsingMotionProfile(secondDriveDistance.getValue(), secondDriveVelocity.getValue()));
-		addStep(new AutonomousStepWaitForDriveMotionProfile());
-		addStep(new AutonomousStepStopDriveUsingMotionProfile());
-		addStep(new AutonomousStepQuickTurn(secondAngle.getValue()));
+		addStep(new StepStartDriveUsingMotionProfile(firstDriveDistance.getValue(), firstDriveVelocity.getValue()));
+		addStep(new StepWaitForDriveMotionProfile());
+		addStep(new StepStopDriveUsingMotionProfile());
+		addStep(new StepQuickTurn(firstAngle.getValue()));
+		addStep(new StepStartDriveUsingMotionProfile(secondDriveDistance.getValue(), secondDriveVelocity.getValue()));
+		addStep(new StepWaitForDriveMotionProfile());
+		addStep(new StepStopDriveUsingMotionProfile());
+		addStep(new StepQuickTurn(secondAngle.getValue()));
 	}
 
 	public String toString() {

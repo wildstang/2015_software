@@ -7,10 +7,10 @@ package org.wildstang.fw.auto.testprograms;
 import org.wildstang.fw.auto.AutonomousManager;
 import org.wildstang.fw.auto.AutonomousProgram;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepSetShifter;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepStartDriveUsingMotionProfileAndHeading;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepStopDriveUsingMotionProfile;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepWaitForDriveMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.StepSetShifter;
+import org.wildstang.yearly.auto.steps.drivebase.StepStartDriveUsingMotionProfileAndHeading;
+import org.wildstang.yearly.auto.steps.drivebase.StepStopDriveUsingMotionProfile;
+import org.wildstang.yearly.auto.steps.drivebase.StepWaitForDriveMotionProfile;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -29,10 +29,10 @@ public class AutonomousProgramDriveDistanceMotionProfile extends AutonomousProgr
 	public void defineSteps() {
 		distance = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".distance", 10.0);
 		heading = new DoubleConfigFileParameter(this.getClass().getName(), AutonomousManager.getInstance().getStartPosition().toConfigString() + ".heading", 0.0);
-		addStep(new AutonomousStepSetShifter(true));
-		addStep(new AutonomousStepStartDriveUsingMotionProfileAndHeading(distance.getValue(), 0.0, heading.getValue()));
-		addStep(new AutonomousStepWaitForDriveMotionProfile());
-		addStep(new AutonomousStepStopDriveUsingMotionProfile());
+		addStep(new StepSetShifter(true));
+		addStep(new StepStartDriveUsingMotionProfileAndHeading(distance.getValue(), 0.0, heading.getValue()));
+		addStep(new StepWaitForDriveMotionProfile());
+		addStep(new StepStopDriveUsingMotionProfile());
 
 		// programSteps[3] = new AutonomousStepEnableDriveDistancePid();
 		// programSteps[4] = new

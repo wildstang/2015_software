@@ -3,16 +3,10 @@ package org.wildstang.fw.auto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.wildstang.fw.auto.program.Sleeper;
 import org.wildstang.fw.logger.Logger;
 import org.wildstang.fw.subject.IObserver;
 import org.wildstang.fw.subject.Subject;
-import org.wildstang.yearly.auto.programs.AutonomousProgramBinGrabber;
-import org.wildstang.yearly.auto.programs.AutonomousProgramDriveAtSpeedForTime;
-import org.wildstang.yearly.auto.programs.AutonomousProgramKnockOverBin;
-import org.wildstang.yearly.auto.programs.AutonomousProgramSleeper;
-import org.wildstang.yearly.auto.programs.AutonomousProgramSuperFastBinGrabbers;
-import org.wildstang.yearly.auto.programs.AutonomousProgramThreeTotesParallel;
-import org.wildstang.yearly.auto.programs.AutonomousProgramThreeTotesStraight;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -146,7 +140,7 @@ public class AutonomousManager implements IObserver {
 	}
 
 	private void definePrograms() {
-		addProgram(new AutonomousProgramSleeper()); // Always leave Sleeper as
+		addProgram(new Sleeper()); // Always leave Sleeper as
 													// 0. Other parts of the
 													// code assume 0 is Sleeper.
 

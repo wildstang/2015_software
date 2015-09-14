@@ -132,12 +132,13 @@ public class Robot {
 		
 		
 		//add auto programs.
-		am.addProgram(new AutonomousProgramThreeTotesStraight());
-		am.addProgram(new AutonomousProgramDriveAtSpeedForTime());
-		am.addProgram(new AutonomousProgramKnockOverBin());
-		am.addProgram(new AutonomousProgramThreeTotesParallel());
-		am.addProgram(new AutonomousProgramBinGrabber());
-		am.addProgram(new AutonomousProgramSuperFastBinGrabbers());
+		//Sleeper is added as part of the the framework class.
+		am.addProgram(new GrabThreeTotesStraight());
+		am.addProgram(new DriveAtSpeedForTime());
+		am.addProgram(new KnockOverBin());
+		am.addProgram(new GrabThreeTotesParallel());
+		am.addProgram(new GrabBin());
+		am.addProgram(new SuperFastBinGrab());
 		
 	}
 

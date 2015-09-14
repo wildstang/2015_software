@@ -6,7 +6,7 @@ package org.wildstang.fw.auto.testprograms;
 
 import org.wildstang.fw.auto.AutonomousProgram;
 import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepDriveManual;
+import org.wildstang.yearly.auto.steps.drivebase.StepDriveManual;
 
 /**
  *
@@ -18,9 +18,9 @@ import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepDriveManual;
 public class AutonomousProgramForwardsTest extends AutonomousProgram {
 
 	public void defineSteps() {
-		addStep(new AutonomousStepDriveManual(1.0, 0.0));
+		addStep(new StepDriveManual(1.0, 0.0));
 		addStep(new AutonomousStepDelay(500));
-		addStep(new AutonomousStepDriveManual(0.0, 0.0));
+		addStep(new StepDriveManual(0.0, 0.0));
 	}
 
 	public String toString() {

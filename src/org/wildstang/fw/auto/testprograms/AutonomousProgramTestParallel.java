@@ -7,7 +7,7 @@ package org.wildstang.fw.auto.testprograms;
 import org.wildstang.fw.auto.AutonomousProgram;
 import org.wildstang.fw.auto.steps.AutonomousParallelStepGroup;
 import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
-import org.wildstang.yearly.auto.steps.drivebase.AutonomousStepDriveManual;
+import org.wildstang.yearly.auto.steps.drivebase.StepDriveManual;
 
 /**
  *
@@ -20,11 +20,11 @@ public class AutonomousProgramTestParallel extends AutonomousProgram {
 
 	public void defineSteps() {
 		AutonomousParallelStepGroup parallelGroup = new AutonomousParallelStepGroup("Test parallel step group");
-		parallelGroup.addStep(new AutonomousStepDriveManual(AutonomousStepDriveManual.KEEP_PREVIOUS_STATE, 1.0));
+		parallelGroup.addStep(new StepDriveManual(StepDriveManual.KEEP_PREVIOUS_STATE, 1.0));
 		parallelGroup.addStep(new AutonomousStepDelay(250));
-		parallelGroup.addStep(new AutonomousStepDriveManual(1.0, AutonomousStepDriveManual.KEEP_PREVIOUS_STATE));
+		parallelGroup.addStep(new StepDriveManual(1.0, StepDriveManual.KEEP_PREVIOUS_STATE));
 		addStep(parallelGroup);
-		addStep(new AutonomousStepDriveManual(0.0, 0.0));
+		addStep(new StepDriveManual(0.0, 0.0));
 
 	}
 
