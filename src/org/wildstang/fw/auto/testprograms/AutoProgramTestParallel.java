@@ -4,9 +4,9 @@
  */
 package org.wildstang.fw.auto.testprograms;
 
-import org.wildstang.fw.auto.AutonomousProgram;
-import org.wildstang.fw.auto.steps.AutonomousParallelStepGroup;
-import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
+import org.wildstang.fw.auto.AutoProgram;
+import org.wildstang.fw.auto.steps.AutoParallelStepGroup;
+import org.wildstang.fw.auto.steps.control.AutoStepDelay;
 import org.wildstang.yearly.auto.steps.drivebase.StepDriveManual;
 
 /**
@@ -16,12 +16,12 @@ import org.wildstang.yearly.auto.steps.drivebase.StepDriveManual;
 /*
  * To change this template, choose Tools | Templates and open the template in the editor.
  */
-public class AutonomousProgramTestParallel extends AutonomousProgram {
+public class AutoProgramTestParallel extends AutoProgram {
 
 	public void defineSteps() {
-		AutonomousParallelStepGroup parallelGroup = new AutonomousParallelStepGroup("Test parallel step group");
+		AutoParallelStepGroup parallelGroup = new AutoParallelStepGroup("Test parallel step group");
 		parallelGroup.addStep(new StepDriveManual(StepDriveManual.KEEP_PREVIOUS_STATE, 1.0));
-		parallelGroup.addStep(new AutonomousStepDelay(250));
+		parallelGroup.addStep(new AutoStepDelay(250));
 		parallelGroup.addStep(new StepDriveManual(1.0, StepDriveManual.KEEP_PREVIOUS_STATE));
 		addStep(parallelGroup);
 		addStep(new StepDriveManual(0.0, 0.0));

@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.wildstang.yearly.pid.outputs;
+package org.wildstang.fw.pid.output;
 
-import org.wildstang.fw.pid.output.IPidOutput;
 import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;

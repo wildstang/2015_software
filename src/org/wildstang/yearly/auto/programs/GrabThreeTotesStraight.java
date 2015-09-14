@@ -1,7 +1,7 @@
 package org.wildstang.yearly.auto.programs;
 
-import org.wildstang.fw.auto.AutonomousProgram;
-import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
+import org.wildstang.fw.auto.AutoProgram;
+import org.wildstang.fw.auto.steps.control.AutoStepDelay;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
 import org.wildstang.fw.config.IntegerConfigFileParameter;
 import org.wildstang.yearly.auto.steps.drivebase.StepDriveDistanceAtSpeed;
@@ -20,7 +20,7 @@ import org.wildstang.yearly.auto.steps.lift.StepSetLiftTop;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class GrabThreeTotesStraight extends AutonomousProgram {
+public class GrabThreeTotesStraight extends AutoProgram {
 	protected final IntegerConfigFileParameter BETWEEN_TIME = new IntegerConfigFileParameter(this.getClass().getName(), "Between_Duration", 2750);
 	protected final DoubleConfigFileParameter DRIVE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed", 0.5);
 	protected final DoubleConfigFileParameter DRIVE_SPEED_LOW = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed_low", 0.5);
@@ -46,14 +46,14 @@ public class GrabThreeTotesStraight extends AutonomousProgram {
 		// sucks in tote all the way
 		addStep(new StepSetIntakeIn());
 		addStep(new StepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDelay(500));
+		addStep(new AutoStepDelay(500));
 		// stops spinning intake and opens
 		addStep(new StepSetIntakePistonsState(false));
 		addStep(new StepSetIntakeOff());
-		addStep(new AutonomousStepDelay(100));
+		addStep(new AutoStepDelay(100));
 		// lifts tote up
 		addStep(new StepSetLiftTop());
-		addStep(new AutonomousStepDelay(2000));
+		addStep(new AutoStepDelay(2000));
 
 		// picks up second bin
 		// shifts into high gear and begins driving
@@ -64,25 +64,25 @@ public class GrabThreeTotesStraight extends AutonomousProgram {
 		addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		////addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// opens intake (attempt to knock bins)
-		addStep(new AutonomousStepDelay(250));
+		addStep(new AutoStepDelay(250));
 		addStep(new StepSetIntakePistonsState(false));
-		addStep(new AutonomousStepDelay(500));
+		addStep(new AutoStepDelay(500));
 		addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue(), false));
 		// stops driving closes intake and spins intake in
 		addStep(new StepSetIntakeIn());
 		////addStep(new AutonomousStepDriveManual(0.0, 0));
 		addStep(new StepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
+		addStep(new AutoStepDelay(INTAKE_TIME.getValue()));
 		// opens intake stops spinning
 		addStep(new StepSetIntakePistonsState(false));
-		addStep(new AutonomousStepDelay(250));
+		addStep(new AutoStepDelay(250));
 		addStep(new StepSetIntakeOff());
 		// picks up tote
 		addStep(new StepSetLiftBottom());
-		addStep(new AutonomousStepDelay(1750));
+		addStep(new AutoStepDelay(1750));
 		// WHY ISN'T THIS WORKING
 		addStep(new StepSetLiftTop());
-		addStep(new AutonomousStepDelay(2000));
+		addStep(new AutoStepDelay(2000));
 
 		// picks up third tote
 		// closes intake starts spinning left
@@ -91,32 +91,32 @@ public class GrabThreeTotesStraight extends AutonomousProgram {
 		addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		////addStep(new AutonomousStepDriveManual(DRIVE_SPEED.getValue(), 0));
 		// opens intake (attempt to knock bins)
-		addStep(new AutonomousStepDelay(250));
+		addStep(new AutoStepDelay(250));
 		addStep(new StepSetIntakePistonsState(false));
-		addStep(new AutonomousStepDelay(500));
+		addStep(new AutoStepDelay(500));
 		addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue(), false));
 		// stops driving closes intake and spins intake in
 		addStep(new StepSetIntakeIn());
 		////addStep(new AutonomousStepDriveManual(0.0, 0));
 		addStep(new StepSetIntakePistonsState(true));
-		addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
+		addStep(new AutoStepDelay(INTAKE_TIME.getValue()));
 		// opens intake stops spinning
 		addStep(new StepSetIntakePistonsState(false));
-		addStep(new AutonomousStepDelay(250));
+		addStep(new AutoStepDelay(250));
 		addStep(new StepSetIntakeOff());
 		// picks up tote
 		addStep(new StepSetLiftBottom());
-		addStep(new AutonomousStepDelay(1500));
+		addStep(new AutoStepDelay(1500));
 		addStep(new StepLiftManualControl(0.2, 700));
 
 		// scores tote
 		// strafes over to scoring zone (doesn't work)
 		addStep(new StepStrafe(SCORE_SPEED.getValue()));
-		addStep(new AutonomousStepDelay(SCORE_TIME.getValue()));
+		addStep(new AutoStepDelay(SCORE_TIME.getValue()));
 		addStep(new StepStrafe(0.0));
 		// sets down totes (may be unneeded, just dragging totes)
 		addStep(new StepSetLiftBottom());
-		addStep(new AutonomousStepDelay(2000));
+		addStep(new AutoStepDelay(2000));
 		// backs off of totes
 		addStep(new StepDriveDistanceAtSpeed(BACKUP_DISTANCE.getValue(), BACKUP_SPEED.getValue(), false));
 		////addStep(new AutonomousStepDriveManual(BACK_SPEED.getValue(), 0));

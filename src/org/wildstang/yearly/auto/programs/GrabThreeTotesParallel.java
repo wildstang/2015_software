@@ -1,9 +1,9 @@
 package org.wildstang.yearly.auto.programs;
 
-import org.wildstang.fw.auto.AutonomousProgram;
-import org.wildstang.fw.auto.steps.AutonomousParallelStepGroup;
-import org.wildstang.fw.auto.steps.AutonomousSerialStepGroup;
-import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
+import org.wildstang.fw.auto.AutoProgram;
+import org.wildstang.fw.auto.steps.AutoParallelStepGroup;
+import org.wildstang.fw.auto.steps.AutoSerialStepGroup;
+import org.wildstang.fw.auto.steps.control.AutoStepDelay;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
 import org.wildstang.fw.config.IntegerConfigFileParameter;
 import org.wildstang.yearly.auto.steps.drivebase.StepDriveDistanceAtSpeed;
@@ -24,7 +24,7 @@ import org.wildstang.yearly.auto.steps.lift.StepSetLiftTop;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class GrabThreeTotesParallel extends AutonomousProgram {
+public class GrabThreeTotesParallel extends AutoProgram {
 	protected final DoubleConfigFileParameter DRIVE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed", 0.5);
 	protected final DoubleConfigFileParameter DRIVE_SPEED_LOW = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed_low", 0.5);
 
@@ -51,65 +51,65 @@ public class GrabThreeTotesParallel extends AutonomousProgram {
 	@Override
 	protected void defineSteps() {
 		//closes the intake and spins in
-		AutonomousParallelStepGroup intakeTote1 = new AutonomousParallelStepGroup("Intake Tote 1");
+		AutoParallelStepGroup intakeTote1 = new AutoParallelStepGroup("Intake Tote 1");
 		intakeTote1.addStep(new StepSetIntakeIn());
 		intakeTote1.addStep(new StepSetIntakePistonsState(true));
-		intakeTote1.addStep(new AutonomousStepDelay(INIT_INTAKE_TIME.getValue()));
+		intakeTote1.addStep(new AutoStepDelay(INIT_INTAKE_TIME.getValue()));
 		addStep(intakeTote1);
 		
 		// stops spinning intake, opens, and shifts into high gear
-		AutonomousParallelStepGroup openIntakeTote1 = new AutonomousParallelStepGroup("Open and stop intake for Tote 1");
+		AutoParallelStepGroup openIntakeTote1 = new AutoParallelStepGroup("Open and stop intake for Tote 1");
 		openIntakeTote1.addStep(new StepSetIntakePistonsState(false));
 		openIntakeTote1.addStep(new StepSetIntakeOff());
 		openIntakeTote1.addStep(new StepSetShifter(true));
 		addStep(openIntakeTote1);
 		
 		// lifts tote up
-		AutonomousParallelStepGroup raise1stTote = new AutonomousParallelStepGroup("Raise lift for Tote 1");
+		AutoParallelStepGroup raise1stTote = new AutoParallelStepGroup("Raise lift for Tote 1");
 		raise1stTote.addStep(new StepSetLiftTop());
-		raise1stTote.addStep(new AutonomousStepDelay(RISE_TIME.getValue()));
+		raise1stTote.addStep(new AutoStepDelay(RISE_TIME.getValue()));
 		addStep(raise1stTote);
 
 		//closes the intake, spins wheels left, and drives to opening point
-		AutonomousParallelStepGroup kick1stBinAndDrive = new AutonomousParallelStepGroup("Drive, run intake left");
+		AutoParallelStepGroup kick1stBinAndDrive = new AutoParallelStepGroup("Drive, run intake left");
 		kick1stBinAndDrive.addStep(new StepSpinIntakeLeft());
 		kick1stBinAndDrive.addStep(new StepSetIntakePistonsState(true));
 		kick1stBinAndDrive.addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_A.getValue(), DRIVE_SPEED_LOW.getValue(), false));
 		addStep(kick1stBinAndDrive);
 		
 		//opens intake and starts driving to next tote
-		AutonomousParallelStepGroup push1stBinAndDrive = new AutonomousParallelStepGroup("Kick bin 1, keep driving");
+		AutoParallelStepGroup push1stBinAndDrive = new AutoParallelStepGroup("Kick bin 1, keep driving");
 		push1stBinAndDrive.addStep(new StepSetIntakePistonsState(false));
 		push1stBinAndDrive.addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_B.getValue(), DRIVE_SPEED.getValue(), true));
 		addStep(push1stBinAndDrive);
 		
 		//intake tote 2
-		AutonomousParallelStepGroup intake2ndTote = new AutonomousParallelStepGroup("Intake Tote 2");
+		AutoParallelStepGroup intake2ndTote = new AutoParallelStepGroup("Intake Tote 2");
 		intake2ndTote.addStep(new StepSetIntakeIn());
 		intake2ndTote.addStep(new StepSetIntakePistonsState(true));
-		intake2ndTote.addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
+		intake2ndTote.addStep(new AutoStepDelay(INTAKE_TIME.getValue()));
 		addStep(intake2ndTote);
 		
 		//opens intake and stops spinning
-		AutonomousParallelStepGroup openIntakeTote2 = new AutonomousParallelStepGroup("Open and stop intake for Tote 2");
+		AutoParallelStepGroup openIntakeTote2 = new AutoParallelStepGroup("Open and stop intake for Tote 2");
 		openIntakeTote2.addStep(new StepSetIntakePistonsState(false));
 		openIntakeTote2.addStep(new StepSetIntakeOff());
 		addStep(openIntakeTote2);
 		
 		//lowers lift
-		AutonomousParallelStepGroup grabTote2 = new AutonomousParallelStepGroup("Lowers lift under 2nd tote");
+		AutoParallelStepGroup grabTote2 = new AutoParallelStepGroup("Lowers lift under 2nd tote");
 		grabTote2.addStep(new StepSetLiftBottom());
-		grabTote2.addStep(new AutonomousStepDelay(DROP_TIME.getValue()));
+		grabTote2.addStep(new AutoStepDelay(DROP_TIME.getValue()));
 		addStep(grabTote2);
 
 		//raises lift
-		AutonomousParallelStepGroup raiseTote2 = new AutonomousParallelStepGroup("Raise 2nd tote");
+		AutoParallelStepGroup raiseTote2 = new AutoParallelStepGroup("Raise 2nd tote");
 		raiseTote2.addStep(new StepSetLiftTop());
-		raiseTote2.addStep(new AutonomousStepDelay(RISE_TIME.getValue()));
+		raiseTote2.addStep(new AutoStepDelay(RISE_TIME.getValue()));
 		addStep(raiseTote2);
 
 		//closes intake, spins left, and starts driving to opening point
-		AutonomousParallelStepGroup kick2ndBinAndDrive = new AutonomousParallelStepGroup("Kick 2nd Bin and Drive");
+		AutoParallelStepGroup kick2ndBinAndDrive = new AutoParallelStepGroup("Kick 2nd Bin and Drive");
 		kick2ndBinAndDrive.addStep(new StepSpinIntakeLeft());
 		kick2ndBinAndDrive.addStep(new StepSetIntakePistonsState(true));
 		kick2ndBinAndDrive.addStep(new StepStrafe(COUNTER_SPEED.getValue()));
@@ -117,7 +117,7 @@ public class GrabThreeTotesParallel extends AutonomousProgram {
 		addStep(kick2ndBinAndDrive);
 		
 		//opens intake, starts driving to next tote, and counters the bin push with strafe
-		AutonomousParallelStepGroup push2ndBinAndDrive = new AutonomousParallelStepGroup("Push 2nd bin and drive");
+		AutoParallelStepGroup push2ndBinAndDrive = new AutoParallelStepGroup("Push 2nd bin and drive");
 		push2ndBinAndDrive.addStep(new StepSetIntakePistonsState(false));
 		push2ndBinAndDrive.addStep(new StepDriveDistanceAtSpeed(TOTES_DISTANCE_B_2.getValue(), DRIVE_SPEED.getValue(), true));
 		addStep(push2ndBinAndDrive);
@@ -126,24 +126,24 @@ public class GrabThreeTotesParallel extends AutonomousProgram {
 		addStep(new StepStrafe(0));
 		
 		//closes intake and spins in
-		AutonomousParallelStepGroup intake3rdTote = new AutonomousParallelStepGroup("Intake 3rd Tote");
+		AutoParallelStepGroup intake3rdTote = new AutoParallelStepGroup("Intake 3rd Tote");
 		intake3rdTote.addStep(new StepSetIntakeIn());
 		intake3rdTote.addStep(new StepSetIntakePistonsState(true));
-		intake3rdTote.addStep(new AutonomousStepDelay(INTAKE_TIME.getValue()));
+		intake3rdTote.addStep(new AutoStepDelay(INTAKE_TIME.getValue()));
 		addStep(intake3rdTote);
 		
 		//turn and drive to auto zone
-		AutonomousParallelStepGroup turnToZone = new AutonomousParallelStepGroup("Turn and lower lift");
+		AutoParallelStepGroup turnToZone = new AutoParallelStepGroup("Turn and lower lift");
 		turnToZone.addStep(new StepSetIntakeOff());
 		turnToZone.addStep(new StepDriveManual(0, .75));
-		turnToZone.addStep(new AutonomousStepDelay(TURN_TIME.getValue()));
-		AutonomousSerialStepGroup delay = new AutonomousSerialStepGroup("delay");
-		delay.addStep(new AutonomousStepDelay(DROP_DELAY.getValue()));
+		turnToZone.addStep(new AutoStepDelay(TURN_TIME.getValue()));
+		AutoSerialStepGroup delay = new AutoSerialStepGroup("delay");
+		delay.addStep(new AutoStepDelay(DROP_DELAY.getValue()));
 		delay.addStep(new StepSetLiftBottom());
 		turnToZone.addStep(delay);
 		addStep(turnToZone);
 
-		AutonomousParallelStepGroup score = new AutonomousParallelStepGroup("score");
+		AutoParallelStepGroup score = new AutoParallelStepGroup("score");
 		score.addStep(new StepOverrideContainment());
 		score.addStep(new StepSetIntakePistonsState(false));
 		score.addStep(new StepDriveManual(0, 0));
@@ -151,10 +151,10 @@ public class GrabThreeTotesParallel extends AutonomousProgram {
 		addStep(score);
 		
 		//stop, close intake, and run wheels out so spit out the totes
-		AutonomousParallelStepGroup finish = new AutonomousParallelStepGroup("Finshing");
+		AutoParallelStepGroup finish = new AutoParallelStepGroup("Finshing");
 		finish.addStep(new StepSetIntakePistonsState(true));
 		finish.addStep(new StepSetIntakeOut());
-		finish.addStep(new AutonomousStepDelay(1000));
+		finish.addStep(new AutoStepDelay(1000));
 		addStep(finish);
 		
 		//return to low gear

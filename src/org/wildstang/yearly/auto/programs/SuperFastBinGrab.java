@@ -1,8 +1,8 @@
 package org.wildstang.yearly.auto.programs;
 
-import org.wildstang.fw.auto.AutonomousProgram;
-import org.wildstang.fw.auto.steps.AutonomousParallelStepGroup;
-import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
+import org.wildstang.fw.auto.AutoProgram;
+import org.wildstang.fw.auto.steps.AutoParallelStepGroup;
+import org.wildstang.fw.auto.steps.control.AutoStepDelay;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
 import org.wildstang.fw.config.IntegerConfigFileParameter;
 import org.wildstang.fw.outputmanager.OutputManager;
@@ -14,7 +14,7 @@ import org.wildstang.yearly.auto.steps.lift.StepLiftManualControl;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.BinGrabber;
 
-public class SuperFastBinGrab extends AutonomousProgram {
+public class SuperFastBinGrab extends AutoProgram {
 	
 	protected final DoubleConfigFileParameter DRIVE_DISTANCE = new DoubleConfigFileParameter(this.getClass().getName(), "drive_distance", 50);
 	protected final DoubleConfigFileParameter DRIVE_SPEED = new DoubleConfigFileParameter(this.getClass().getName(), "drive_speed", 1.0);
@@ -36,15 +36,15 @@ public class SuperFastBinGrab extends AutonomousProgram {
 
 	@Override
 	protected void defineSteps() {
-		AutonomousParallelStepGroup shiftAndWait = new AutonomousParallelStepGroup("Shift and wait");
+		AutoParallelStepGroup shiftAndWait = new AutoParallelStepGroup("Shift and wait");
 		shiftAndWait.addStep(new StepSetShifter(true));
-		shiftAndWait.addStep(new AutonomousStepDelay(DEPLOY_DELAY.getValue()));
+		shiftAndWait.addStep(new AutoStepDelay(DEPLOY_DELAY.getValue()));
 		addStep(shiftAndWait);
-		AutonomousParallelStepGroup driveAndRaiseLift = new AutonomousParallelStepGroup();
+		AutoParallelStepGroup driveAndRaiseLift = new AutoParallelStepGroup();
 		driveAndRaiseLift.addStep(new StepDriveDistanceAtSpeed(DRIVE_DISTANCE.getValue(), DRIVE_SPEED.getValue(), false));
 		driveAndRaiseLift.addStep(new StepLiftManualControl(1, 1000));
 		addStep(driveAndRaiseLift);
-		addStep(new AutonomousStepDelay(1000));
+		addStep(new AutoStepDelay(1000));
 		addStep(new StepRetractBinGrabbers());
 	}
 

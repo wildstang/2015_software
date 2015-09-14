@@ -7,20 +7,20 @@ import java.util.List;
  *
  * @author coder65535
  */
-public class AutonomousSerialStepGroup extends AutonomousStep {
+public class AutoSerialStepGroup extends AutoStep {
 	// Serial groups execute all contained steps sequentially
 
-	final List<AutonomousStep> steps = new ArrayList<>();
+	final List<AutoStep> steps = new ArrayList<>();
 	int currentStep = 0;
 	boolean initialized = false;
 	String name = "";
 	private boolean finishedPreviousStep;
 
-	public AutonomousSerialStepGroup() {
+	public AutoSerialStepGroup() {
 		name = "";
 	}
 
-	public AutonomousSerialStepGroup(String name) {
+	public AutoSerialStepGroup(String name) {
 		this.name = name;
 	}
 
@@ -47,17 +47,17 @@ public class AutonomousSerialStepGroup extends AutonomousStep {
 				return;
 			} else {
 				steps.get(currentStep).initialize();
-				System.out.println("Starting step " + ((AutonomousStep) steps.get(currentStep)).toString());
+				System.out.println("Starting step " + ((AutoStep) steps.get(currentStep)).toString());
 			}
 		}
-		AutonomousStep step = steps.get(currentStep);
+		AutoStep step = steps.get(currentStep);
 		step.update();
 		if (step.isFinished()) {
 			finishedPreviousStep = true;
 		}
 	}
 
-	public void addStep(AutonomousStep step) {
+	public void addStep(AutoStep step) {
 		if (!initialized) {
 			steps.add(step);
 		}
@@ -67,11 +67,11 @@ public class AutonomousSerialStepGroup extends AutonomousStep {
 		return "Serial step group: " + name;
 	}
 
-	public AutonomousStep getCurrentStep() {
+	public AutoStep getCurrentStep() {
 		return steps.get(currentStep);
 	}
 
-	public AutonomousStep getNextStep() {
+	public AutoStep getNextStep() {
 		if (currentStep + 1 < steps.size()) {
 			return steps.get(currentStep + 1);
 		} else {

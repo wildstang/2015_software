@@ -8,9 +8,9 @@ package org.wildstang.fw.auto.steps;
  *
  * @author coder65535
  */
-public abstract class AutonomousStepStub extends AutonomousStep {
+public abstract class AutoStepStub extends AutoStep {
 
-	public AutonomousStepStub() {
+	public AutoStepStub() {
 	}
 
 	public final boolean isFinished() {

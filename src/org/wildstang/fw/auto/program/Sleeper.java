@@ -4,8 +4,8 @@
  */
 package org.wildstang.fw.auto.program;
 
-import org.wildstang.fw.auto.AutonomousProgram;
-import org.wildstang.fw.auto.steps.control.AutonomousStepStopAutonomous;
+import org.wildstang.fw.auto.AutoProgram;
+import org.wildstang.fw.auto.steps.control.AutoStepStopAutonomous;
 
 /**
  *
@@ -14,10 +14,10 @@ import org.wildstang.fw.auto.steps.control.AutonomousStepStopAutonomous;
 /*
  * To change this template, choose Tools | Templates and open the template in the editor.
  */
-public class Sleeper extends AutonomousProgram {
+public class Sleeper extends AutoProgram {
 
 	public void defineSteps() {
-		addStep(new AutonomousStepStopAutonomous());
+		addStep(new AutoStepStopAutonomous());
 	}
 
 	public String toString() {

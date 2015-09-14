@@ -4,15 +4,15 @@
  */
 package org.wildstang.fw.auto.parameters;
 
-import org.wildstang.fw.config.DoubleConfigFileParameter;
+import org.wildstang.fw.config.IntegerConfigFileParameter;
 
 /**
  *
  * @author chadschmidt
  */
-public class AutonomousDoubleConfigFileParameter extends DoubleConfigFileParameter {
+public class AutoIntegerConfigFileParameter extends IntegerConfigFileParameter {
 
-	public AutonomousDoubleConfigFileParameter(String pName, double defValue) {
+	public AutoIntegerConfigFileParameter(String pName, int defValue) {
 		super("org.wildstang.autonomous.parameters", pName, defValue);
 	}
 

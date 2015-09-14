@@ -1,6 +1,6 @@
 package org.wildstang.yearly.auto.steps.drivebase;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 import org.wildstang.fw.config.BooleanConfigFileParameter;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
 import org.wildstang.fw.subsystemmanager.SubsystemManager;
@@ -9,7 +9,7 @@ import org.wildstang.yearly.subsystems.DriveBase;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class StepDriveDistanceAtSpeed extends AutonomousStep {
+public class StepDriveDistanceAtSpeed extends AutoStep {
 
 	private final DoubleConfigFileParameter DRIFTING_COMPENSATION_FACTOR_CONFIG;
 	private final BooleanConfigFileParameter USE_DRIFTING_COMPENSATION_FACTOR_CONFIG;

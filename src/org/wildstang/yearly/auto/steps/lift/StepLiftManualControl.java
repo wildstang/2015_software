@@ -1,6 +1,6 @@
 package org.wildstang.yearly.auto.steps.lift;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 import org.wildstang.fw.inputmanager.InputManager;
 import org.wildstang.fw.inputs.joystick.JoystickAxisEnum;
 import org.wildstang.fw.inputs.joystick.ManipulatorJoystick;
@@ -9,7 +9,7 @@ import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.Lift;
 
-public class StepLiftManualControl extends AutonomousStep {
+public class StepLiftManualControl extends AutoStep {
 	
 	private double speed;
 	private long startTime;

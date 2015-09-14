@@ -4,7 +4,7 @@
  */
 package org.wildstang.yearly.auto.steps.drivebase;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  *
  * @author Joey
  */
-public class StepSetShifter extends AutonomousStep {
+public class StepSetShifter extends AutoStep {
 	protected boolean highGear;;
 
 	public StepSetShifter(boolean highGear) {

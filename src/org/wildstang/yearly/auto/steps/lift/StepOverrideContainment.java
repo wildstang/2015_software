@@ -1,12 +1,12 @@
 package org.wildstang.yearly.auto.steps.lift;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.BinGrabber;
 import org.wildstang.yearly.subsystems.Containment;
 
-public class StepOverrideContainment extends AutonomousStep {
+public class StepOverrideContainment extends AutoStep {
 
 	
 	public void initialize() {

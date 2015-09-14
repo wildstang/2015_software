@@ -4,15 +4,15 @@
  */
 package org.wildstang.fw.auto.steps.control;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 
 /**
  *
  * @author coder65535
  */
-public class AutonomousStepStopAutonomous extends AutonomousStep {
+public class AutoStepStopAutonomous extends AutoStep {
 
-	public AutonomousStepStopAutonomous() {
+	public AutoStepStopAutonomous() {
 		// Do nothing. This step does nothing, and never finishes, effectively
 		// halting autonomous operations.
 		// Note: If included in a parallel step group, it only halts operations

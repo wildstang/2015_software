@@ -1,7 +1,7 @@
 package org.wildstang.yearly.subsystems;
 
-import org.wildstang.fw.auto.parameters.AutonomousBooleanConfigFileParameter;
-import org.wildstang.fw.auto.parameters.AutonomousDoubleConfigFileParameter;
+import org.wildstang.fw.auto.parameters.AutoBooleanConfigFileParameter;
+import org.wildstang.fw.auto.parameters.AutoDoubleConfigFileParameter;
 import org.wildstang.fw.config.BooleanConfigFileParameter;
 import org.wildstang.fw.config.DoubleConfigFileParameter;
 import org.wildstang.fw.inputmanager.InputManager;
@@ -11,12 +11,12 @@ import org.wildstang.fw.logger.Logger;
 import org.wildstang.fw.motionprofile.ContinuousAccelFilter;
 import org.wildstang.fw.outputmanager.OutputManager;
 import org.wildstang.fw.pid.controller.SpeedPidController;
+import org.wildstang.fw.pid.input.DriveBaseSpeedPidInput;
+import org.wildstang.fw.pid.output.DriveBaseSpeedPidOutput;
 import org.wildstang.fw.subject.BooleanSubject;
 import org.wildstang.fw.subject.IObserver;
 import org.wildstang.fw.subject.Subject;
 import org.wildstang.fw.subsystemmanager.Subsystem;
-import org.wildstang.yearly.pid.inputs.DriveBaseSpeedPidInput;
-import org.wildstang.yearly.pid.outputs.DriveBaseSpeedPidOutput;
 import org.wildstang.yearly.robot.Robot;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
@@ -157,8 +157,8 @@ public class DriveBase extends Subsystem implements IObserver {
 		DECELERATION_VELOCITY_THRESHOLD_config = new DoubleConfigFileParameter(this.getClass().getName(), "deceleration_velocity_threshold", 48.0);
 		DECELERATION_MOTOR_SPEED_config = new DoubleConfigFileParameter(this.getClass().getName(), "deceleration_motor_speed", 0.3);
 		STOPPING_DISTANCE_AT_MAX_SPEED_LOWGEAR_config = new DoubleConfigFileParameter(this.getClass().getName(), "stopping_distance_at_max_speed_lowgear", 10.0);
-		DRIVE_OFFSET_config = new AutonomousDoubleConfigFileParameter("DriveOffset", 1.00);
-		USE_LEFT_SIDE_FOR_OFFSET_config = new AutonomousBooleanConfigFileParameter("UseLeftDriveForOffset", true);
+		DRIVE_OFFSET_config = new AutoDoubleConfigFileParameter("DriveOffset", 1.00);
+		USE_LEFT_SIDE_FOR_OFFSET_config = new AutoBooleanConfigFileParameter("UseLeftDriveForOffset", true);
 		QUICK_TURN_CAP_config = new DoubleConfigFileParameter(this.getClass().getName(), "quick_turn_cap", 10.0);
 		QUICK_TURN_ANTITURBO_config = new DoubleConfigFileParameter(this.getClass().getName(), "quick_turn_antiturbo", 10.0);
 		SUPER_ANTITURBO_FACTOR_config = new DoubleConfigFileParameter(this.getClass().getName(), "super_antiturbo_factor", 0.5);

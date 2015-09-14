@@ -11,29 +11,29 @@ import java.util.List;
  *
  * @author Joey
  */
-public class AutonomousParallelFinishedOnAnyStepGroup extends AutonomousStep {
+public class AutoParallelFinishedOnAnyStepGroup extends AutoStep {
 
 	private String name;
 	private boolean initialized = false;
-	private final List<AutonomousStep> steps = new ArrayList<>();
+	private final List<AutoStep> steps = new ArrayList<>();
 
-	public AutonomousParallelFinishedOnAnyStepGroup() {
+	public AutoParallelFinishedOnAnyStepGroup() {
 		name = "";
 	}
 
-	public AutonomousParallelFinishedOnAnyStepGroup(String name) {
+	public AutoParallelFinishedOnAnyStepGroup(String name) {
 		this.name = name;
 	}
 
 	public void initialize() {
 		initialized = true;
-		for (AutonomousStep step : steps) {
+		for (AutoStep step : steps) {
 			step.initialize();
 		}
 	}
 
 	public void update() {
-		for (AutonomousStep step : steps) {
+		for (AutoStep step : steps) {
 			step.update();
 			if (step.isFinished()) {
 				steps.clear();
@@ -45,7 +45,7 @@ public class AutonomousParallelFinishedOnAnyStepGroup extends AutonomousStep {
 		}
 	}
 
-	public void addStep(AutonomousStep step) {
+	public void addStep(AutoStep step) {
 		if (!initialized) {
 			steps.add(step);
 		}

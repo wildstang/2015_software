@@ -11,41 +11,41 @@ import java.util.List;
  *
  * @author coder65535
  */
-public class AutonomousParallelStepGroup extends AutonomousStep {
+public class AutoParallelStepGroup extends AutoStep {
 	// Parallel groups execute all contained steps in the same frame. Be
 	// careful!
 	// Note: a finished step is immediately removed from the list. update() is
 	// not called on any step that finishes.
 
-	final List<AutonomousStep> steps = new ArrayList<>();
+	final List<AutoStep> steps = new ArrayList<>();
 	boolean initialized = false;
 	String name = "";
 
-	public AutonomousParallelStepGroup() {
+	public AutoParallelStepGroup() {
 		name = "";
 	}
 
-	public AutonomousParallelStepGroup(String name) {
+	public AutoParallelStepGroup(String name) {
 		this.name = name;
 	}
 
 	public void initialize() {
-		for (AutonomousStep step : steps) {
+		for (AutoStep step : steps) {
 			step.initialize();
 		}
 		initialized = true;
 	}
 
 	public void update() {
-		List<AutonomousStep> toRemove = new ArrayList<>();
-		for (AutonomousStep step : steps) {
+		List<AutoStep> toRemove = new ArrayList<>();
+		for (AutoStep step : steps) {
 			step.update();
 			if (step.isFinished()) {
 				toRemove.add(step);
 			}
 		}
 		
-		for (AutonomousStep removeStep : toRemove) {
+		for (AutoStep removeStep : toRemove) {
 			steps.remove(removeStep);
 		}
 		
@@ -54,7 +54,7 @@ public class AutonomousParallelStepGroup extends AutonomousStep {
 		}
 	}
 
-	public void addStep(AutonomousStep step) {
+	public void addStep(AutoStep step) {
 		if (!initialized) {
 			steps.add(step);
 		}

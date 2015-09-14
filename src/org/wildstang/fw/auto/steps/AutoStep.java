@@ -8,11 +8,11 @@ package org.wildstang.fw.auto.steps;
  *
  * @author coder65535
  */
-public abstract class AutonomousStep {
+public abstract class AutoStep {
 
 	protected boolean finished;
 
-	public AutonomousStep() {
+	public AutoStep() {
 		// initialize variables
 		finished = false; // A step can't finish before it starts.
 	}

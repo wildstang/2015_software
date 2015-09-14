@@ -3,8 +3,8 @@ package org.wildstang.fw.auto;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
-import org.wildstang.fw.auto.steps.control.AutonomousStepStopAutonomous;
+import org.wildstang.fw.auto.steps.AutoStep;
+import org.wildstang.fw.auto.steps.control.AutoStepStopAutonomous;
 import org.wildstang.fw.config.IntegerConfigFileParameter;
 import org.wildstang.fw.logger.Logger;
 
@@ -12,9 +12,9 @@ import org.wildstang.fw.logger.Logger;
  *
  * @author Nathan
  */
-public abstract class AutonomousProgram {
+public abstract class AutoProgram {
 
-	protected final List<AutonomousStep> programSteps = new ArrayList<>();
+	protected final List<AutoStep> programSteps = new ArrayList<>();
 	protected int currentStep;
 	protected boolean finishedPreviousStep, finished;
 
@@ -31,7 +31,7 @@ public abstract class AutonomousProgram {
 		currentStep = 0;
 		finishedPreviousStep = false;
 		finished = false;
-		((AutonomousStep) programSteps.get(0)).initialize();
+		((AutoStep) programSteps.get(0)).initialize();
 		Logger.getLogger().debug("Auton", "Step Starting", programSteps.get(0).toString());
 	}
 
@@ -51,10 +51,10 @@ public abstract class AutonomousProgram {
 				return;
 			} else {
 				Logger.getLogger().debug("Auton", "Step Start", programSteps.get(currentStep).toString());
-				((AutonomousStep) programSteps.get(currentStep)).initialize();
+				((AutoStep) programSteps.get(currentStep)).initialize();
 			}
 		}
-		AutonomousStep step = (AutonomousStep) programSteps.get(currentStep); // Prevent
+		AutoStep step = (AutoStep) programSteps.get(currentStep); // Prevent
 																				// errors
 																				// caused
 																				// by
@@ -66,13 +66,13 @@ public abstract class AutonomousProgram {
 		}
 	}
 
-	public AutonomousStep getCurrentStep() {
-		return (AutonomousStep) programSteps.get(currentStep);
+	public AutoStep getCurrentStep() {
+		return (AutoStep) programSteps.get(currentStep);
 	}
 
-	public AutonomousStep getNextStep() {
+	public AutoStep getNextStep() {
 		if (currentStep + 1 < programSteps.size()) {
-			return (AutonomousStep) programSteps.get(currentStep + 1);
+			return (AutoStep) programSteps.get(currentStep + 1);
 		} else {
 			return null;
 		}
@@ -83,7 +83,7 @@ public abstract class AutonomousProgram {
 		if (forceStopAtStep.getValue() != 0) {
 			int forceStop = forceStopAtStep.getValue();
 			if ((forceStop <= programSteps.size()) && (forceStop > 0)) {
-				programSteps.set(forceStop, new AutonomousStepStopAutonomous());
+				programSteps.set(forceStop, new AutoStepStopAutonomous());
 				Logger.getLogger().always("Auton", "Force Stop", "Program is forced to stop at Step " + forceStop);
 			} else {
 				Logger.getLogger().error("Auton", "Force Stop", "Force stop value is outside of bounds. (0 to " + (programSteps.size() - 1));
@@ -95,7 +95,7 @@ public abstract class AutonomousProgram {
 		return finished;
 	}
 
-	protected void addStep(AutonomousStep newStep) {
+	protected void addStep(AutoStep newStep) {
 		programSteps.add(newStep);
 	}
 

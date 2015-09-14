@@ -15,18 +15,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author Nathan
  */
-public class AutonomousManager implements IObserver {
+public class AutoManager implements IObserver {
 
-	private List<AutonomousProgram> programs = new ArrayList<AutonomousProgram>();
-	private AutonomousProgram runningProgram;
+	private List<AutoProgram> programs = new ArrayList<AutoProgram>();
+	private AutoProgram runningProgram;
 	private boolean programFinished, programRunning;
-	private static AutonomousManager instance = null;
-	private AutonomousStartPositionEnum currentPosition;
+	private static AutoManager instance = null;
+	private AutoStartPositionEnum currentPosition;
 	private SendableChooser chooser;
 	private SendableChooser lockinChooser;
 
-	private AutonomousManager() {
-		currentPosition = AutonomousStartPositionEnum.UNKNOWN;
+	private AutoManager() {
+		currentPosition = AutoStartPositionEnum.UNKNOWN;
 		chooser = new SendableChooser();
 		lockinChooser = new SendableChooser();
 		lockinChooser.addDefault("Unlocked", false);
@@ -54,7 +54,7 @@ public class AutonomousManager implements IObserver {
 
 	public void startCurrentProgram() {
 		if ((Boolean) lockinChooser.getSelected()) {
-			runningProgram = (AutonomousProgram) chooser.getSelected();
+			runningProgram = (AutoProgram) chooser.getSelected();
 		} else {
 			runningProgram = programs.get(0);
 		}
@@ -74,16 +74,16 @@ public class AutonomousManager implements IObserver {
 		if (runningProgram != null) {
 			runningProgram.cleanup();
 		}
-		runningProgram = (AutonomousProgram) programs.get(0);
+		runningProgram = (AutoProgram) programs.get(0);
 		SmartDashboard.putString("Running Autonomous Program", "No Program Running");
 		SmartDashboard.putString("Current Start Position", currentPosition.toString());
 	}
 
-	public AutonomousProgram getRunningProgram() {
+	public AutoProgram getRunningProgram() {
 		if (programRunning) {
 			return runningProgram;
 		} else {
-			return (AutonomousProgram) null;
+			return (AutoProgram) null;
 		}
 	}
 
@@ -97,7 +97,7 @@ public class AutonomousManager implements IObserver {
 	 * public String getLockedProgramName() { return programs.get(lockedProgram).toString(); }
 	 */
 
-	public AutonomousStartPositionEnum getStartPosition() {
+	public AutoStartPositionEnum getStartPosition() {
 		return currentPosition;
 	}
 
@@ -120,11 +120,11 @@ public class AutonomousManager implements IObserver {
 		 */
 	}
 
-	public static AutonomousManager getInstance() {
-		if (AutonomousManager.instance == null) {
-			AutonomousManager.instance = new AutonomousManager();
+	public static AutoManager getInstance() {
+		if (AutoManager.instance == null) {
+			AutoManager.instance = new AutoManager();
 		}
-		return AutonomousManager.instance;
+		return AutoManager.instance;
 	}
 
 	/*
@@ -133,10 +133,10 @@ public class AutonomousManager implements IObserver {
 	 */
 
 	public void setPosition(int index) {
-		if (index >= AutonomousStartPositionEnum.POSITION_COUNT) {
+		if (index >= AutoStartPositionEnum.POSITION_COUNT) {
 			index = 0;
 		}
-		currentPosition = AutonomousStartPositionEnum.getEnumFromValue(index);
+		currentPosition = AutoStartPositionEnum.getEnumFromValue(index);
 	}
 
 	private void definePrograms() {
@@ -146,7 +146,7 @@ public class AutonomousManager implements IObserver {
 
 	}
 
-	public void addProgram(AutonomousProgram program) {
+	public void addProgram(AutoProgram program) {
 		programs.add(program);
 		chooser.addObject(program.toString(), program);
 	}

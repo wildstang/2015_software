@@ -1,6 +1,5 @@
-package org.wildstang.yearly.pid.inputs;
+package org.wildstang.fw.pid.input;
 
-import org.wildstang.fw.pid.input.IPidInput;
 import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;

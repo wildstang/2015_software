@@ -4,8 +4,8 @@
  */
 package org.wildstang.fw.auto.testprograms;
 
-import org.wildstang.fw.auto.AutonomousProgram;
-import org.wildstang.fw.auto.steps.control.AutonomousStepDelay;
+import org.wildstang.fw.auto.AutoProgram;
+import org.wildstang.fw.auto.steps.control.AutoStepDelay;
 import org.wildstang.yearly.auto.steps.drivebase.StepDriveManual;
 
 /**
@@ -15,11 +15,11 @@ import org.wildstang.yearly.auto.steps.drivebase.StepDriveManual;
 /*
  * To change this template, choose Tools | Templates and open the template in the editor.
  */
-public class AutonomousProgramForwardsTest extends AutonomousProgram {
+public class AutoProgramForwardsTest extends AutoProgram {
 
 	public void defineSteps() {
 		addStep(new StepDriveManual(1.0, 0.0));
-		addStep(new AutonomousStepDelay(500));
+		addStep(new AutoStepDelay(500));
 		addStep(new StepDriveManual(0.0, 0.0));
 	}
 

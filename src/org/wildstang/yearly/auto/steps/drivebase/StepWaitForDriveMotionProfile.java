@@ -4,7 +4,7 @@
  */
 package org.wildstang.yearly.auto.steps.drivebase;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 import org.wildstang.fw.subsystemmanager.SubsystemManager;
 import org.wildstang.yearly.robot.Robot;
 import org.wildstang.yearly.subsystems.DriveBase;
@@ -13,7 +13,7 @@ import org.wildstang.yearly.subsystems.DriveBase;
  *
  * @author Nathan
  */
-public class StepWaitForDriveMotionProfile extends AutonomousStep {
+public class StepWaitForDriveMotionProfile extends AutoStep {
 
 	public StepWaitForDriveMotionProfile() {
 	}

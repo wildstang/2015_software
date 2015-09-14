@@ -1,6 +1,6 @@
 package org.wildstang.yearly.robot;
 
-import org.wildstang.fw.auto.AutonomousManager;
+import org.wildstang.fw.auto.AutoManager;
 import org.wildstang.fw.inputmanager.InputManager;
 import org.wildstang.fw.inputs.NoInput;
 import org.wildstang.fw.inputs.WsAnalogInput;
@@ -88,7 +88,7 @@ public class Robot {
 		SubsystemManager smm = SubsystemManager.getInstance();
 		InputManager im = InputManager.getInstance();
 		OutputManager om = OutputManager.getInstance();
-		AutonomousManager am = AutonomousManager.getInstance();
+		AutoManager am = AutoManager.getInstance();
 		
 		smm.addSubsystem(DRIVE_BASE, new DriveBase("Driver Base"));
 		//smm.addSubsystem(LED_INDEX, new LED("LED"));

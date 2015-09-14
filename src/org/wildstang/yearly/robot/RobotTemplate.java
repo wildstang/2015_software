@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 package org.wildstang.yearly.robot;
 
-import org.wildstang.fw.auto.AutonomousManager;
+import org.wildstang.fw.auto.AutoManager;
 import org.wildstang.fw.configmanager.ConfigManager;
 import org.wildstang.fw.configmanager.ConfigManagerException;
 import org.wildstang.fw.inputmanager.InputManager;
@@ -51,7 +51,7 @@ public class RobotTemplate extends IterativeRobot {
 		SubsystemManager.getInstance().init();
 		SubsystemManager.getInstance().setManagers(InputManager.getInstance(), OutputManager.getInstance());
 		Logger.getLogger().readConfig();
-		AutonomousManager.getInstance();
+		AutoManager.getInstance();
 		Robot.getInstance();
 		
 		//sets up the USB camera for streaming to the smartdashboard
@@ -81,7 +81,7 @@ public class RobotTemplate extends IterativeRobot {
 
 	public void disabledInit() {
 		initTimer.startTimingSection();
-		AutonomousManager.getInstance().clear();
+		AutoManager.getInstance().clear();
 		try {
 			ConfigManager.getInstance().readConfig();
 		} catch (ConfigManagerException e) {
@@ -103,7 +103,7 @@ public class RobotTemplate extends IterativeRobot {
 
 	public void autonomousInit() {
 		SubsystemManager.getInstance().init();
-		AutonomousManager.getInstance().startCurrentProgram();
+		AutoManager.getInstance().startCurrentProgram();
 		Logger.getLogger().readConfig();
 		LogManager.getInstance().startLog();
 	}
@@ -114,7 +114,7 @@ public class RobotTemplate extends IterativeRobot {
 	public void autonomousPeriodic() {
 		InputManager.getInstance().updateOiDataAutonomous();
 		InputManager.getInstance().updateSensorData();
-		AutonomousManager.getInstance().update();
+		AutoManager.getInstance().update();
 		SubsystemManager.getInstance().update();
 		OutputManager.getInstance().update();
 		LogManager.getInstance().queueCurrentLogsForSending();

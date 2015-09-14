@@ -4,7 +4,7 @@
  */
 package org.wildstang.fw.auto.steps.control;
 
-import org.wildstang.fw.auto.steps.AutonomousStep;
+import org.wildstang.fw.auto.steps.AutoStep;
 import org.wildstang.fw.logger.Logger;
 import org.wildstang.fw.timer.WsTimer;
 
@@ -12,7 +12,7 @@ import org.wildstang.fw.timer.WsTimer;
  *
  * @author coder65535
  */
-public class AutonomousStepDelay extends AutonomousStep /*
+public class AutoStepDelay extends AutoStep /*
 														 * This step delays testing for the specified number of cycles.
 														 * Note: If used in a parallel step group, it insures that the
 														 * group waits for at least the specified number of cycles,
@@ -22,7 +22,7 @@ public class AutonomousStepDelay extends AutonomousStep /*
 	protected final double delay;
 	protected WsTimer timer;
 
-	public AutonomousStepDelay(int msDelay) {
+	public AutoStepDelay(int msDelay) {
 		this.delay = msDelay / 1000.0;
 		this.timer = new WsTimer();
 		if (msDelay < 0) {
